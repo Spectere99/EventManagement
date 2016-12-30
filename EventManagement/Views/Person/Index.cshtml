@@ -1,0 +1,38 @@
+﻿
+@{
+    Layout = null;
+
+    var person1 = new {firstName = "Robert", lastName = "Flowers"};
+
+    
+}
+
+@model IEnumerable<EventsModel.Person>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+<div>
+    Person List:
+    <table>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+        </tr>
+        @foreach (var person in Model)
+        {
+            <tr>
+                <td>@person.FirstName</td>
+                <td>@person.LastName</td>    
+            </tr>
+            
+        }
+    </table>
+</div>
+</body>
+</html>
