@@ -123,6 +123,12 @@
   <data name="DelEventType" xml:space="preserve">
     <value>delEventType</value>
   </data>
+  <data name="DelPersonType" xml:space="preserve">
+    <value>delPersonType</value>
+  </data>
+  <data name="DelUnitType" xml:space="preserve">
+    <value>delUnitType</value>
+  </data>
   <data name="GetContactInfo" xml:space="preserve">
     <value>selContactInfo</value>
   </data>
@@ -135,16 +141,40 @@
   <data name="GetEventTypeById" xml:space="preserve">
     <value>selEventTypeByID</value>
   </data>
+  <data name="GetPersonType" xml:space="preserve">
+    <value>selPersonType</value>
+  </data>
+  <data name="GetPersonTypeById" xml:space="preserve">
+    <value>selPersonTypeByID</value>
+  </data>
+  <data name="GetUnitType" xml:space="preserve">
+    <value>selUnitType</value>
+  </data>
+  <data name="GetUnitTypeById" xml:space="preserve">
+    <value>selUnitTypeByID</value>
+  </data>
   <data name="InsContactInfo" xml:space="preserve">
     <value>insContactInfo</value>
   </data>
   <data name="InsEventType" xml:space="preserve">
     <value>insEventType</value>
   </data>
+  <data name="InsPersonType" xml:space="preserve">
+    <value>insPersonType</value>
+  </data>
+  <data name="InsUnitType" xml:space="preserve">
+    <value>insUnitType</value>
+  </data>
   <data name="UpdContactInfo" xml:space="preserve">
     <value>updContactInfo</value>
   </data>
   <data name="UpdEventType" xml:space="preserve">
     <value>updEventType</value>
+  </data>
+  <data name="UpdPersonType" xml:space="preserve">
+    <value>updPersonType</value>
+  </data>
+  <data name="UpdUnitType" xml:space="preserve">
+    <value>updUnitType</value>
   </data>
 </root>

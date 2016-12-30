@@ -11,5 +11,12 @@ namespace Common
     {
         public int UnitTypeId { get; set; }
         public string Type { get; set; }
+
+        public UnitType()
+        {
+            UnitTypeId = IntNullValue;
+            Type = StringNullValue;
+            IsNew = true;
+        }
     }
 }

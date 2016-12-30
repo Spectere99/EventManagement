@@ -79,6 +79,24 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to delPersonType.
+        /// </summary>
+        internal static string DelPersonType {
+            get {
+                return ResourceManager.GetString("DelPersonType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to delUnitType.
+        /// </summary>
+        internal static string DelUnitType {
+            get {
+                return ResourceManager.GetString("DelUnitType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to selContactInfo.
         /// </summary>
         internal static string GetContactInfo {
@@ -115,6 +133,42 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to selPersonType.
+        /// </summary>
+        internal static string GetPersonType {
+            get {
+                return ResourceManager.GetString("GetPersonType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selPersonTypeByID.
+        /// </summary>
+        internal static string GetPersonTypeById {
+            get {
+                return ResourceManager.GetString("GetPersonTypeById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selUnitType.
+        /// </summary>
+        internal static string GetUnitType {
+            get {
+                return ResourceManager.GetString("GetUnitType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selUnitTypeByID.
+        /// </summary>
+        internal static string GetUnitTypeById {
+            get {
+                return ResourceManager.GetString("GetUnitTypeById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to insContactInfo.
         /// </summary>
         internal static string InsContactInfo {
@@ -133,6 +187,24 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to insPersonType.
+        /// </summary>
+        internal static string InsPersonType {
+            get {
+                return ResourceManager.GetString("InsPersonType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to insUnitType.
+        /// </summary>
+        internal static string InsUnitType {
+            get {
+                return ResourceManager.GetString("InsUnitType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to updContactInfo.
         /// </summary>
         internal static string UpdContactInfo {
@@ -147,6 +219,24 @@ namespace Common {
         internal static string UpdEventType {
             get {
                 return ResourceManager.GetString("UpdEventType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to updPersonType.
+        /// </summary>
+        internal static string UpdPersonType {
+            get {
+                return ResourceManager.GetString("UpdPersonType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to updUnitType.
+        /// </summary>
+        internal static string UpdUnitType {
+            get {
+                return ResourceManager.GetString("UpdUnitType", resourceCulture);
             }
         }
     }
