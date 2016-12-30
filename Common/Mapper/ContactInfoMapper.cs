@@ -39,7 +39,7 @@ namespace Common.Mapper
                 c.City = (DBNull.Value == record[_ordCity]) ? CommonBase.StringNullValue : (string)record[_ordCity];
                 c.State = (DBNull.Value == record[_ordState]) ? CommonBase.StringNullValue : (string)record[_ordState];
                 c.Zip = (DBNull.Value == record[_ordZip]) ? CommonBase.StringNullValue : (string)record[_ordZip];
-
+                c.IsNew = false;
                 return c;
             }
             catch (Exception)

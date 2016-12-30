@@ -8,9 +8,16 @@ using MySql.Data.MySqlClient;
 
 namespace Common.Abstract
 {
-    abstract class MySqlObjectReaderBase<T>
+    public abstract class MySqlObjectReaderBase<T>
     {
         protected abstract MapperBase<T> GetMapper();
+
+        public abstract List<T> GetList();
+        public abstract List<T> GetById(int id);
+
+        public abstract List<T> Save(List<T> objList);
+
+        public abstract void Remove(List<T> objList);
 
         protected string ConnectionString
         {
@@ -172,7 +179,7 @@ namespace Common.Abstract
             return parameter;
         }
 
-        protected List<T> Execute(ref MySqlCommand command)
+        protected List<T> Execute(MySqlCommand command)
         {
             try
             {
@@ -182,6 +189,7 @@ namespace Common.Abstract
                     try
                     {
                         MapperBase<T> mapper = GetMapper();
+                        
                         var resultList = mapper.MapAll(reader);
                         return resultList;
                     }
@@ -197,6 +205,45 @@ namespace Common.Abstract
 
 
                 }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                command.Connection.Close();
+            }
+        }
+
+        protected void ExecuteNoReader(MySqlCommand command)
+        {
+            try
+            {
+                command.Connection.Open();
+                command.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                command.Connection.Close();
+            }
+        }
+
+        protected int ExecuteScalar(MySqlCommand command)
+        {
+            try
+            {
+                command.Connection.Open();
+                var scalarValue = command.ExecuteScalar();
+
+                return (int)scalarValue;
 
             }
             catch (Exception)

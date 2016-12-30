@@ -16,6 +16,7 @@ namespace Common.Abstract
         {
             List<T> list = new List<T>();
 
+            BindOrdinals(reader);
             while (reader.Read())
             {
                 try
