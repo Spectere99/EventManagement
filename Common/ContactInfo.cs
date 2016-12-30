@@ -20,5 +20,21 @@ namespace Common
         public string City { get; set; }
         public string State { get; set; }
         public string Zip { get; set; }
+
+        public ContactInfo()
+        {
+            ContactInfoId = IntNullValue;
+            Name = StringNullValue;
+            HomePhone = StringNullValue;
+            BusinessPhone = StringNullValue;
+            CellPhone = StringNullValue;
+            Email = StringNullValue;
+            Address1 = StringNullValue;
+            Address2 = StringNullValue;
+            City = StringNullValue;
+            State = StringNullValue;
+            Zip = StringNullValue;
+            IsNew = true;
+        }
     }
 }
