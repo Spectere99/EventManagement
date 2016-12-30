@@ -120,16 +120,31 @@
   <data name="DelContactInfo" xml:space="preserve">
     <value>delContactInfo</value>
   </data>
+  <data name="DelEventType" xml:space="preserve">
+    <value>delEventType</value>
+  </data>
   <data name="GetContactInfo" xml:space="preserve">
     <value>selContactInfo</value>
   </data>
   <data name="GetContactInfoById" xml:space="preserve">
     <value>selContactInfoByID</value>
   </data>
+  <data name="GetEventType" xml:space="preserve">
+    <value>selEventTypes</value>
+  </data>
+  <data name="GetEventTypeById" xml:space="preserve">
+    <value>selEventTypeByID</value>
+  </data>
   <data name="InsContactInfo" xml:space="preserve">
     <value>insContactInfo</value>
   </data>
+  <data name="InsEventType" xml:space="preserve">
+    <value>insEventType</value>
+  </data>
   <data name="UpdContactInfo" xml:space="preserve">
     <value>updContactInfo</value>
+  </data>
+  <data name="UpdEventType" xml:space="preserve">
+    <value>updEventType</value>
   </data>
 </root>

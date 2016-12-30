@@ -57,10 +57,12 @@
     <Compile Include="EventType.cs" />
     <Compile Include="EventVolunteer.cs" />
     <Compile Include="Mapper\ContactInfoMapper.cs" />
+    <Compile Include="Mapper\EventTypeMapper.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="PersonType.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reader\EventTypeReader.cs" />
     <Compile Include="Reader\ContactInfoReader.cs" />
     <Compile Include="Registration.cs" />
     <Compile Include="Reservation.cs" />

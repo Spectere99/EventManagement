@@ -12,5 +12,12 @@ namespace Common
         public int EventTypeId { get; set; }
         public string Type { get; set; }
 
+        public EventType()
+        {
+            EventTypeId = IntNullValue;
+            Type = StringNullValue;
+            IsNew = true;
+
+        }
     }
 }

@@ -70,6 +70,15 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to delEventType.
+        /// </summary>
+        internal static string DelEventType {
+            get {
+                return ResourceManager.GetString("DelEventType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to selContactInfo.
         /// </summary>
         internal static string GetContactInfo {
@@ -88,6 +97,24 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to selEventTypes.
+        /// </summary>
+        internal static string GetEventType {
+            get {
+                return ResourceManager.GetString("GetEventType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selEventTypeByID.
+        /// </summary>
+        internal static string GetEventTypeById {
+            get {
+                return ResourceManager.GetString("GetEventTypeById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to insContactInfo.
         /// </summary>
         internal static string InsContactInfo {
@@ -97,11 +124,29 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to insEventType.
+        /// </summary>
+        internal static string InsEventType {
+            get {
+                return ResourceManager.GetString("InsEventType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to updContactInfo.
         /// </summary>
         internal static string UpdContactInfo {
             get {
                 return ResourceManager.GetString("UpdContactInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to updEventType.
+        /// </summary>
+        internal static string UpdEventType {
+            get {
+                return ResourceManager.GetString("UpdEventType", resourceCulture);
             }
         }
     }
