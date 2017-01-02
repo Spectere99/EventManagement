@@ -12,5 +12,12 @@ namespace Common
         public int PositionId { get; set; }
 
         public string PositionName { get; set; }
+
+        public Position()
+        {
+            PositionId = IntNullValue;
+            PositionName = StringNullValue;
+            IsNew = true;
+        }
     }
 }

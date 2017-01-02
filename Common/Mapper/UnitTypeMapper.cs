@@ -21,7 +21,7 @@ namespace Common.Mapper
                 UnitType e = new UnitType();
                 e.UnitTypeId = (DBNull.Value == record[_ordUnitTypeId]) ? CommonBase.IntNullValue : (int)record[_ordUnitTypeId];
                 e.Type = (DBNull.Value == record[_ordUnitType]) ? CommonBase.StringNullValue : (string)record[_ordUnitType];
-
+                e.IsNew = false;
                 return e;
             }
             catch (Exception)

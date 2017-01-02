@@ -126,8 +126,17 @@
   <data name="DelPersonType" xml:space="preserve">
     <value>delPersonType</value>
   </data>
+  <data name="DelPosition" xml:space="preserve">
+    <value>delPosition</value>
+  </data>
+  <data name="DelUnit" xml:space="preserve">
+    <value>delUnit</value>
+  </data>
   <data name="DelUnitType" xml:space="preserve">
     <value>delUnitType</value>
+  </data>
+  <data name="DelVenue" xml:space="preserve">
+    <value>delVenue</value>
   </data>
   <data name="GetContactInfo" xml:space="preserve">
     <value>selContactInfo</value>
@@ -147,11 +156,29 @@
   <data name="GetPersonTypeById" xml:space="preserve">
     <value>selPersonTypeByID</value>
   </data>
+  <data name="GetPosition" xml:space="preserve">
+    <value>selPositions</value>
+  </data>
+  <data name="GetPositionById" xml:space="preserve">
+    <value>selPositionByID</value>
+  </data>
+  <data name="GetUnitById" xml:space="preserve">
+    <value>selUnitByID</value>
+  </data>
+  <data name="GetUnits" xml:space="preserve">
+    <value>selUnits</value>
+  </data>
   <data name="GetUnitType" xml:space="preserve">
     <value>selUnitType</value>
   </data>
   <data name="GetUnitTypeById" xml:space="preserve">
     <value>selUnitTypeByID</value>
+  </data>
+  <data name="GetVenueById" xml:space="preserve">
+    <value>selVenueByID</value>
+  </data>
+  <data name="GetVenues" xml:space="preserve">
+    <value>selVenues</value>
   </data>
   <data name="InsContactInfo" xml:space="preserve">
     <value>insContactInfo</value>
@@ -162,8 +189,17 @@
   <data name="InsPersonType" xml:space="preserve">
     <value>insPersonType</value>
   </data>
+  <data name="InsPosition" xml:space="preserve">
+    <value>insPosition</value>
+  </data>
+  <data name="InsUnit" xml:space="preserve">
+    <value>insUnit</value>
+  </data>
   <data name="InsUnitType" xml:space="preserve">
     <value>insUnitType</value>
+  </data>
+  <data name="InsVenue" xml:space="preserve">
+    <value>insVenue</value>
   </data>
   <data name="UpdContactInfo" xml:space="preserve">
     <value>updContactInfo</value>
@@ -174,7 +210,31 @@
   <data name="UpdPersonType" xml:space="preserve">
     <value>updPersonType</value>
   </data>
+  <data name="UpdPosition" xml:space="preserve">
+    <value>updPosition</value>
+  </data>
+  <data name="UpdUnit" xml:space="preserve">
+    <value>updUnit</value>
+  </data>
   <data name="UpdUnitType" xml:space="preserve">
     <value>updUnitType</value>
+  </data>
+  <data name="UpdVenue" xml:space="preserve">
+    <value>updVenue</value>
+  </data>
+  <data name="DelEvent" xml:space="preserve">
+    <value>delEvent</value>
+  </data>
+  <data name="GetEventById" xml:space="preserve">
+    <value>selEventByID</value>
+  </data>
+  <data name="GetEvents" xml:space="preserve">
+    <value>selEvents</value>
+  </data>
+  <data name="InsEvent" xml:space="preserve">
+    <value>insEvent</value>
+  </data>
+  <data name="UpdEvent" xml:space="preserve">
+    <value>updEvent</value>
   </data>
 </root>

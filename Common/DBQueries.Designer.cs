@@ -70,6 +70,15 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to delEvent.
+        /// </summary>
+        internal static string DelEvent {
+            get {
+                return ResourceManager.GetString("DelEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to delEventType.
         /// </summary>
         internal static string DelEventType {
@@ -88,11 +97,38 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to delPosition.
+        /// </summary>
+        internal static string DelPosition {
+            get {
+                return ResourceManager.GetString("DelPosition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to delUnit.
+        /// </summary>
+        internal static string DelUnit {
+            get {
+                return ResourceManager.GetString("DelUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to delUnitType.
         /// </summary>
         internal static string DelUnitType {
             get {
                 return ResourceManager.GetString("DelUnitType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to delVenue.
+        /// </summary>
+        internal static string DelVenue {
+            get {
+                return ResourceManager.GetString("DelVenue", resourceCulture);
             }
         }
         
@@ -111,6 +147,24 @@ namespace Common {
         internal static string GetContactInfoById {
             get {
                 return ResourceManager.GetString("GetContactInfoById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selEventByID.
+        /// </summary>
+        internal static string GetEventById {
+            get {
+                return ResourceManager.GetString("GetEventById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selEvents.
+        /// </summary>
+        internal static string GetEvents {
+            get {
+                return ResourceManager.GetString("GetEvents", resourceCulture);
             }
         }
         
@@ -151,6 +205,42 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to selPositions.
+        /// </summary>
+        internal static string GetPosition {
+            get {
+                return ResourceManager.GetString("GetPosition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selPositionByID.
+        /// </summary>
+        internal static string GetPositionById {
+            get {
+                return ResourceManager.GetString("GetPositionById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selUnitByID.
+        /// </summary>
+        internal static string GetUnitById {
+            get {
+                return ResourceManager.GetString("GetUnitById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selUnits.
+        /// </summary>
+        internal static string GetUnits {
+            get {
+                return ResourceManager.GetString("GetUnits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to selUnitType.
         /// </summary>
         internal static string GetUnitType {
@@ -169,11 +259,38 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to selVenueByID.
+        /// </summary>
+        internal static string GetVenueById {
+            get {
+                return ResourceManager.GetString("GetVenueById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selVenues.
+        /// </summary>
+        internal static string GetVenues {
+            get {
+                return ResourceManager.GetString("GetVenues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to insContactInfo.
         /// </summary>
         internal static string InsContactInfo {
             get {
                 return ResourceManager.GetString("InsContactInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to insEvent.
+        /// </summary>
+        internal static string InsEvent {
+            get {
+                return ResourceManager.GetString("InsEvent", resourceCulture);
             }
         }
         
@@ -196,6 +313,24 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to insPosition.
+        /// </summary>
+        internal static string InsPosition {
+            get {
+                return ResourceManager.GetString("InsPosition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to insUnit.
+        /// </summary>
+        internal static string InsUnit {
+            get {
+                return ResourceManager.GetString("InsUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to insUnitType.
         /// </summary>
         internal static string InsUnitType {
@@ -205,11 +340,29 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to insVenue.
+        /// </summary>
+        internal static string InsVenue {
+            get {
+                return ResourceManager.GetString("InsVenue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to updContactInfo.
         /// </summary>
         internal static string UpdContactInfo {
             get {
                 return ResourceManager.GetString("UpdContactInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to updEvent.
+        /// </summary>
+        internal static string UpdEvent {
+            get {
+                return ResourceManager.GetString("UpdEvent", resourceCulture);
             }
         }
         
@@ -232,11 +385,38 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to updPosition.
+        /// </summary>
+        internal static string UpdPosition {
+            get {
+                return ResourceManager.GetString("UpdPosition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to updUnit.
+        /// </summary>
+        internal static string UpdUnit {
+            get {
+                return ResourceManager.GetString("UpdUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to updUnitType.
         /// </summary>
         internal static string UpdUnitType {
             get {
                 return ResourceManager.GetString("UpdUnitType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to updVenue.
+        /// </summary>
+        internal static string UpdVenue {
+            get {
+                return ResourceManager.GetString("UpdVenue", resourceCulture);
             }
         }
     }

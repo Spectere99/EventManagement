@@ -57,6 +57,10 @@
     <Compile Include="EventType.cs" />
     <Compile Include="EventVolunteer.cs" />
     <Compile Include="Mapper\ContactInfoMapper.cs" />
+    <Compile Include="Mapper\PositionMapper.cs" />
+    <Compile Include="Mapper\UnitMapper.cs" />
+    <Compile Include="Mapper\EventMapper.cs" />
+    <Compile Include="Mapper\VenueMapper.cs" />
     <Compile Include="Mapper\UnitTypeMapper.cs" />
     <Compile Include="Mapper\PersonTypeMapper.cs" />
     <Compile Include="Mapper\EventTypeMapper.cs" />
@@ -64,6 +68,10 @@
     <Compile Include="PersonType.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reader\PositionReader.cs" />
+    <Compile Include="Reader\UnitReader.cs" />
+    <Compile Include="Reader\EventReader.cs" />
+    <Compile Include="Reader\VenueReader.cs" />
     <Compile Include="Reader\UnitTypeReader.cs" />
     <Compile Include="Reader\PersonTypeReader.cs" />
     <Compile Include="Reader\EventTypeReader.cs" />

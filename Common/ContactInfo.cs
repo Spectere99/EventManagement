@@ -36,5 +36,22 @@ namespace Common
             Zip = StringNullValue;
             IsNew = true;
         }
+
+        public ContactInfo(int contactInfoId, string name, string homePhone, string businessPhone, string cellPhone,
+            string email, string address1, string address2, string city, string state, string zip)
+        {
+            ContactInfoId = contactInfoId;
+            Name = name;
+            HomePhone = homePhone;
+            BusinessPhone = businessPhone;
+            CellPhone = cellPhone;
+            Email = email;
+            Address1 = address1;
+            Address2 = address2;
+            City = city;
+            State = state;
+            Zip = zip;
+            IsNew = contactInfoId.Equals(IntNullValue);
+        }
     }
 }

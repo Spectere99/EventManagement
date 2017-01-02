@@ -21,7 +21,7 @@ namespace Common.Mapper
                 PersonType e = new PersonType();
                 e.PersonTypeId = (DBNull.Value == record[_ordPersonTypeId]) ? CommonBase.IntNullValue : (int)record[_ordPersonTypeId];
                 e.Type = (DBNull.Value == record[_ordPersonType]) ? CommonBase.StringNullValue : (string)record[_ordPersonType];
-
+                e.IsNew = false;
                 return e;
             }
             catch (Exception)

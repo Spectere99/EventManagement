@@ -21,7 +21,7 @@ namespace Common.Mapper
                 EventType e = new EventType();
                 e.EventTypeId = (DBNull.Value == record[_ordEventTypeID]) ? CommonBase.IntNullValue : (int)record[_ordEventTypeID];
                 e.Type = (DBNull.Value == record[_ordEventType]) ? CommonBase.StringNullValue : (string)record[_ordEventType];
-
+                e.IsNew = false;
                 return e;
             }
             catch (Exception)
