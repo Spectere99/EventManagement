@@ -79,11 +79,38 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to delEventStaff.
+        /// </summary>
+        internal static string DelEventStaff {
+            get {
+                return ResourceManager.GetString("DelEventStaff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to delEventType.
         /// </summary>
         internal static string DelEventType {
             get {
                 return ResourceManager.GetString("DelEventType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to delEventVolunteers.
+        /// </summary>
+        internal static string DelEventVolunteer {
+            get {
+                return ResourceManager.GetString("DelEventVolunteer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to delPerson.
+        /// </summary>
+        internal static string DelPerson {
+            get {
+                return ResourceManager.GetString("DelPerson", resourceCulture);
             }
         }
         
@@ -111,6 +138,15 @@ namespace Common {
         internal static string DelUnit {
             get {
                 return ResourceManager.GetString("DelUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to delUnitRank.
+        /// </summary>
+        internal static string DelUnitRank {
+            get {
+                return ResourceManager.GetString("DelUnitRank", resourceCulture);
             }
         }
         
@@ -169,6 +205,24 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to selEventStaff.
+        /// </summary>
+        internal static string GetEventStaff {
+            get {
+                return ResourceManager.GetString("GetEventStaff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selEventStaffByID.
+        /// </summary>
+        internal static string GetEventStaffById {
+            get {
+                return ResourceManager.GetString("GetEventStaffById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to selEventTypes.
         /// </summary>
         internal static string GetEventType {
@@ -183,6 +237,42 @@ namespace Common {
         internal static string GetEventTypeById {
             get {
                 return ResourceManager.GetString("GetEventTypeById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selEventVolunteerByID.
+        /// </summary>
+        internal static string GetEventVolunteerById {
+            get {
+                return ResourceManager.GetString("GetEventVolunteerById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selEventVolunteers.
+        /// </summary>
+        internal static string GetEventVolunteers {
+            get {
+                return ResourceManager.GetString("GetEventVolunteers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selPersonByID.
+        /// </summary>
+        internal static string GetPersonById {
+            get {
+                return ResourceManager.GetString("GetPersonById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selPersons.
+        /// </summary>
+        internal static string GetPersons {
+            get {
+                return ResourceManager.GetString("GetPersons", resourceCulture);
             }
         }
         
@@ -228,6 +318,24 @@ namespace Common {
         internal static string GetUnitById {
             get {
                 return ResourceManager.GetString("GetUnitById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selUnitRankByID.
+        /// </summary>
+        internal static string GetUnitRankById {
+            get {
+                return ResourceManager.GetString("GetUnitRankById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selUnitRanks.
+        /// </summary>
+        internal static string GetUnitRanks {
+            get {
+                return ResourceManager.GetString("GetUnitRanks", resourceCulture);
             }
         }
         
@@ -295,11 +403,38 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to insEventStaff.
+        /// </summary>
+        internal static string InsEventStaff {
+            get {
+                return ResourceManager.GetString("InsEventStaff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to insEventType.
         /// </summary>
         internal static string InsEventType {
             get {
                 return ResourceManager.GetString("InsEventType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to insEventVolunteer.
+        /// </summary>
+        internal static string InsEventVolunteer {
+            get {
+                return ResourceManager.GetString("InsEventVolunteer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to insPerson.
+        /// </summary>
+        internal static string InsPerson {
+            get {
+                return ResourceManager.GetString("InsPerson", resourceCulture);
             }
         }
         
@@ -327,6 +462,15 @@ namespace Common {
         internal static string InsUnit {
             get {
                 return ResourceManager.GetString("InsUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to insUnitRank.
+        /// </summary>
+        internal static string InsUnitRank {
+            get {
+                return ResourceManager.GetString("InsUnitRank", resourceCulture);
             }
         }
         
@@ -367,11 +511,38 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to updEventStaff.
+        /// </summary>
+        internal static string UpdEventStaff {
+            get {
+                return ResourceManager.GetString("UpdEventStaff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to updEventType.
         /// </summary>
         internal static string UpdEventType {
             get {
                 return ResourceManager.GetString("UpdEventType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to updEventVolunteer.
+        /// </summary>
+        internal static string UpdEventVolunteer {
+            get {
+                return ResourceManager.GetString("UpdEventVolunteer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to updPerson.
+        /// </summary>
+        internal static string UpdPerson {
+            get {
+                return ResourceManager.GetString("UpdPerson", resourceCulture);
             }
         }
         
@@ -399,6 +570,15 @@ namespace Common {
         internal static string UpdUnit {
             get {
                 return ResourceManager.GetString("UpdUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to updUnitRank.
+        /// </summary>
+        internal static string UpdUnitRank {
+            get {
+                return ResourceManager.GetString("UpdUnitRank", resourceCulture);
             }
         }
         

@@ -14,5 +14,22 @@ namespace Common
         public Event Event { get; set; }
         public Person Person { get; set; }
 
+        public EventVolunteer()
+        {
+            EventVolunteerId = IntNullValue;
+            LastUpdated = DateTimeNullValue;
+            Event = null;
+            Person = null;
+            IsNew = true;
+        }
+
+        public EventVolunteer(int eventVolunteerId, DateTime lastUpdated, Event eventObj, Person person)
+        {
+            EventVolunteerId = eventVolunteerId;
+            LastUpdated = lastUpdated;
+            Event = eventObj;
+            Person = person;
+            IsNew = EventVolunteerId.Equals(IntNullValue);
+        }
     }
 }

@@ -237,4 +237,64 @@
   <data name="UpdEvent" xml:space="preserve">
     <value>updEvent</value>
   </data>
+  <data name="DelUnitRank" xml:space="preserve">
+    <value>delUnitRank</value>
+  </data>
+  <data name="GetUnitRankById" xml:space="preserve">
+    <value>selUnitRankByID</value>
+  </data>
+  <data name="GetUnitRanks" xml:space="preserve">
+    <value>selUnitRanks</value>
+  </data>
+  <data name="InsUnitRank" xml:space="preserve">
+    <value>insUnitRank</value>
+  </data>
+  <data name="UpdUnitRank" xml:space="preserve">
+    <value>updUnitRank</value>
+  </data>
+  <data name="DelPerson" xml:space="preserve">
+    <value>delPerson</value>
+  </data>
+  <data name="GetPersonById" xml:space="preserve">
+    <value>selPersonByID</value>
+  </data>
+  <data name="GetPersons" xml:space="preserve">
+    <value>selPersons</value>
+  </data>
+  <data name="InsPerson" xml:space="preserve">
+    <value>insPerson</value>
+  </data>
+  <data name="UpdPerson" xml:space="preserve">
+    <value>updPerson</value>
+  </data>
+  <data name="DelEventStaff" xml:space="preserve">
+    <value>delEventStaff</value>
+  </data>
+  <data name="GetEventStaff" xml:space="preserve">
+    <value>selEventStaff</value>
+  </data>
+  <data name="GetEventStaffById" xml:space="preserve">
+    <value>selEventStaffByID</value>
+  </data>
+  <data name="InsEventStaff" xml:space="preserve">
+    <value>insEventStaff</value>
+  </data>
+  <data name="UpdEventStaff" xml:space="preserve">
+    <value>updEventStaff</value>
+  </data>
+  <data name="DelEventVolunteer" xml:space="preserve">
+    <value>delEventVolunteers</value>
+  </data>
+  <data name="GetEventVolunteerById" xml:space="preserve">
+    <value>selEventVolunteerByID</value>
+  </data>
+  <data name="GetEventVolunteers" xml:space="preserve">
+    <value>selEventVolunteers</value>
+  </data>
+  <data name="InsEventVolunteer" xml:space="preserve">
+    <value>insEventVolunteer</value>
+  </data>
+  <data name="UpdEventVolunteer" xml:space="preserve">
+    <value>updEventVolunteer</value>
+  </data>
 </root>

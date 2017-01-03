@@ -12,5 +12,21 @@ namespace Common
         public int UnitRankId { get; set; }
         public string Rank { get; set; }
         public UnitType UnitType { get; set; }
+
+        public UnitRank()
+        {
+            UnitRankId = IntNullValue;
+            Rank = StringNullValue;
+            UnitType = new UnitType();
+            IsNew = true;
+        }
+
+        public UnitRank(int unitRankId, string rank, UnitType unitType)
+        {
+            UnitRankId = unitRankId;
+            Rank = rank;
+            UnitType = unitType;
+            IsNew = UnitRankId.Equals(IntNullValue);
+        }
     }
 }

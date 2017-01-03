@@ -15,5 +15,25 @@ namespace Common
         public Event Event { get; set; }
         public Person Person { get; set; }
 
+
+        public EventStaff()
+        {
+            EventStaffId = IntNullValue;
+            LastUpdated = DateTimeNullValue;
+            Position = null;
+            Event = null;
+            Person = null;
+            IsNew = true;
+        }
+
+        public EventStaff(int eventStaffId, DateTime lastUpdated, Position position, Event eventVal, Person person)
+        {
+            EventStaffId = eventStaffId;
+            LastUpdated = lastUpdated;
+            Position = position;
+            Event = eventVal;
+            Person = person;
+            IsNew = EventStaffId.Equals(IntNullValue);
+        }
     }
 }
