@@ -114,11 +114,11 @@ namespace DALTester
             var unitRankReader = new UnitRankReader();
             var unitReader = new UnitReader();
 
-            var personType = personTypeReader.GetById(1);
-            var contactInfo = contactInfoReader.GetById(1);
-            var parentPerson = personReader.GetById(1);
-            var unitRank = unitRankReader.GetById(1);
-            var unit = unitReader.GetById(1);
+            var personType = personTypeReader.GetList();
+            var contactInfo = contactInfoReader.GetList();
+            var parentPerson = personReader.GetList();
+            var unitRank = unitRankReader.GetList();
+            var unit = unitReader.GetList();
 
             var newRecord = new Person
             {

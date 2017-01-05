@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace EventManagement.Models
 {
@@ -82,11 +83,16 @@ namespace EventManagement.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        [Display(Name = "Hometown")]
-        public string Hometown { get; set; }
+        public string Name { get; set; }
+        //[Required]
+        //[EmailAddress]
+        //[Display(Name = "Name")]
+        //public IEnumerable<SelectListItem> Name { get; set; }
+        ////[Display(Name = "Hometown")]
+        ////public string Hometown { get; set; }
     }
 
     public class ResetPasswordViewModel
@@ -104,7 +110,7 @@ namespace EventManagement.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

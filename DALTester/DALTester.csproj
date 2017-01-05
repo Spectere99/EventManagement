@@ -52,6 +52,8 @@
   <ItemGroup>
     <Compile Include="EventVolunteerTest.cs" />
     <Compile Include="EventStaffTest.cs" />
+    <Compile Include="ReservationTest.cs" />
+    <Compile Include="RegistrationTest.cs" />
     <Compile Include="PersonTest.cs" />
     <Compile Include="PositionTest.cs" />
     <Compile Include="UnitTest.cs" />

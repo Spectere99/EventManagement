@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DALTester
 {
     [TestClass]
-    public class EventTest
+    public class RegistrationTest
     {
         private int _testRecordId;
         private int _startTableCount;
@@ -18,7 +18,7 @@ namespace DALTester
         [TestMethod]
         public void TestSelect()
         {
-            var reader = new EventReader();
+            var reader = new RegistrationReader();
 
             var results = reader.GetList();
 
@@ -30,17 +30,17 @@ namespace DALTester
         [TestMethod]
         public void TestInsert()
         {
-            EventReader ciReader = new EventReader();
+            var ciReader = new RegistrationReader();
 
-            List<Event> toSave = new List<Event> {CreateTestRecord()};
+            var toSave = new List<Registration> {CreateTestRecord()};
 
-            List<Event> results = ciReader.GetList();
+            var results = ciReader.GetList();
 
             _startTableCount = results.Count;
 
             toSave = ciReader.Save(toSave);
 
-            _testRecordId = toSave[0].EventId;
+            _testRecordId = toSave[0].RegistrationId;
 
             results = ciReader.GetList();
 
@@ -51,7 +51,7 @@ namespace DALTester
         [TestMethod]
         public void TestSelectById()
         {
-            var reader = new EventReader();
+            var reader = new RegistrationReader();
 
             var results = reader.GetById(1);
 
@@ -61,72 +61,66 @@ namespace DALTester
         [TestMethod]
         public void TestUpdate()
         {
-            var ciReader = new EventReader();
+            var ciReader = new RegistrationReader();
 
             //Create the base object to modify.
-            List<Event> toSave = new List<Event> { CreateTestRecord() };
+            var toSave = new List<Registration> { CreateTestRecord() };
 
             toSave = ciReader.Save(toSave);
 
-            var results = ciReader.GetById(toSave[0].EventId);
+            var results = ciReader.GetById(toSave[0].RegistrationId);
 
             var toModify = results[0];
-            toModify.Name = "TEST-MOD";
+            toModify.ConfirmationNumber = "ABCD-1234";
             
-            var modifyItems = new List<Event> {toModify};
+            var modifyItems = new List<Registration> {toModify};
 
             //Should be doing an update and not an insert
             modifyItems = ciReader.Save(modifyItems);
 
-            results = ciReader.GetById(modifyItems[0].EventId);
+            results = ciReader.GetById(modifyItems[0].RegistrationId);
 
             ciReader.Remove(modifyItems);
 
-            Assert.AreEqual("TEST-MOD", results[0].Name);
+            Assert.AreEqual("ABCD-1234", results[0].ConfirmationNumber);
 
         }
 
         [TestMethod]
         public void TestRemove()
         {
-            var reader = new EventReader();
+            var reader = new RegistrationReader();
 
             //Create the base object to modify.
-            List<Event> toSave = new List<Event> { CreateTestRecord() };
+            var toSave = new List<Registration> { CreateTestRecord() };
 
             toSave = reader.Save(toSave);
 
-            var results = reader.GetById(toSave[0].EventId);
+            var results = reader.GetById(toSave[0].RegistrationId);
 
             reader.Remove(results);
 
-            results = reader.GetById(toSave[0].EventId);
+            results = reader.GetById(toSave[0].RegistrationId);
 
             Assert.AreEqual(0, results.Count);
 
         }
 
-        private Event CreateTestRecord()
+        private Registration CreateTestRecord()
         {
-            var reader = new EventTypeReader();
-            var vnuReader = new VenueReader();
+            var eventReader = new EventReader();
+            var personReader = new PersonReader();
 
-            var eventType = reader.GetList();
-            var venue = vnuReader.GetList();
-
-            Event newRecord = new Event
+            var eventObj = eventReader.GetById(1);
+            var person = personReader.GetById(1);
+            
+            var newRecord = new Registration
             {
-                Venue =  venue.FirstOrDefault(),
-                Name = "TEST-EVENT",
-                Start = DateTime.Now.AddDays(1),
-                End = DateTime.Now.AddDays(3),
-                Description = "Test Event",
-                LastUpdated = DateTime.MinValue,
-                StaffPaymentRequired = false,
-                RegistrationDeadline = DateTime.Now,
-                RequiredStaffCount = 5,
-                RequiredVolunteersCount = 10,
-                EventType = eventType.FirstOrDefault()
+                RegistrationDate = DateTime.Now,
+                ConfirmationNumber = "ABCD",
+                LastUpdated = DateTime.Now,
+                Event = eventObj.FirstOrDefault(),
+                Person = person.FirstOrDefault()
             };
 
             return newRecord;
