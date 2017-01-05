@@ -68,7 +68,14 @@ namespace Common.Reader
                         command.Parameters.Add(CreateParameter("pMiddleName", item.MiddleName, 45));
                         command.Parameters.Add(CreateParameter("pLastName", item.LastName, 45));
                         command.Parameters.Add(CreateParameter("pContactInfoID", item.ContactInfo.ContactInfoId));
-                        command.Parameters.Add(CreateParameter("pParentPersonID", item.ParentPerson.PersonId));
+                        if (item.ParentPerson != null)
+                        {
+                            command.Parameters.Add(CreateParameter("pParentPersonID", item.ParentPerson.PersonId));
+                        }
+                        else
+                        {
+                            command.Parameters.Add(CreateNullParamter("pParentPersonID", MySqlDbType.Int32));
+                        }
                         command.Parameters.Add(CreateParameter("pPersonTypeID", item.PersonType.PersonTypeId));
                         command.Parameters.Add(CreateParameter("pUnitRankID", item.Rank.UnitRankId));
                         command.Parameters.Add(CreateParameter("pUnitID", item.Unit.UnitId));
