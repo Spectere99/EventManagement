@@ -224,6 +224,7 @@ namespace Common.Abstract
             {
                 command.Connection.Open();
                 command.ExecuteNonQuery();
+                command.Connection.Close();
             }
             catch (Exception)
             {
@@ -242,6 +243,7 @@ namespace Common.Abstract
             {
                 command.Connection.Open();
                 var scalarValue = command.ExecuteScalar();
+                command.Connection.Close();
 
                 return (int)scalarValue;
 

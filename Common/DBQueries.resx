@@ -297,4 +297,34 @@
   <data name="UpdEventVolunteer" xml:space="preserve">
     <value>updEventVolunteer</value>
   </data>
+  <data name="DelRegistration" xml:space="preserve">
+    <value>delRegistration</value>
+  </data>
+  <data name="DelReservation" xml:space="preserve">
+    <value>delReservation</value>
+  </data>
+  <data name="GetRegistrationById" xml:space="preserve">
+    <value>selRegistrationByID</value>
+  </data>
+  <data name="GetRegistrations" xml:space="preserve">
+    <value>selRegistrations</value>
+  </data>
+  <data name="GetReservationById" xml:space="preserve">
+    <value>selReservationByID</value>
+  </data>
+  <data name="GetReservations" xml:space="preserve">
+    <value>selReservations</value>
+  </data>
+  <data name="InsRegistration" xml:space="preserve">
+    <value>insRegistration</value>
+  </data>
+  <data name="InsReservation" xml:space="preserve">
+    <value>insReservation</value>
+  </data>
+  <data name="UpdRegistration" xml:space="preserve">
+    <value>updRegistration</value>
+  </data>
+  <data name="UpdReservation" xml:space="preserve">
+    <value>updReservation</value>
+  </data>
 </root>

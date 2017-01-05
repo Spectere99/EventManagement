@@ -133,6 +133,24 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to delRegistration.
+        /// </summary>
+        internal static string DelRegistration {
+            get {
+                return ResourceManager.GetString("DelRegistration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to delReservation.
+        /// </summary>
+        internal static string DelReservation {
+            get {
+                return ResourceManager.GetString("DelReservation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to delUnit.
         /// </summary>
         internal static string DelUnit {
@@ -313,6 +331,42 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to selRegistrationByID.
+        /// </summary>
+        internal static string GetRegistrationById {
+            get {
+                return ResourceManager.GetString("GetRegistrationById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selRegistrations.
+        /// </summary>
+        internal static string GetRegistrations {
+            get {
+                return ResourceManager.GetString("GetRegistrations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selReservationByID.
+        /// </summary>
+        internal static string GetReservationById {
+            get {
+                return ResourceManager.GetString("GetReservationById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selReservations.
+        /// </summary>
+        internal static string GetReservations {
+            get {
+                return ResourceManager.GetString("GetReservations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to selUnitByID.
         /// </summary>
         internal static string GetUnitById {
@@ -457,6 +511,24 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to insRegistration.
+        /// </summary>
+        internal static string InsRegistration {
+            get {
+                return ResourceManager.GetString("InsRegistration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to insReservation.
+        /// </summary>
+        internal static string InsReservation {
+            get {
+                return ResourceManager.GetString("InsReservation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to insUnit.
         /// </summary>
         internal static string InsUnit {
@@ -561,6 +633,24 @@ namespace Common {
         internal static string UpdPosition {
             get {
                 return ResourceManager.GetString("UpdPosition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to updRegistration.
+        /// </summary>
+        internal static string UpdRegistration {
+            get {
+                return ResourceManager.GetString("UpdRegistration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to updReservation.
+        /// </summary>
+        internal static string UpdReservation {
+            get {
+                return ResourceManager.GetString("UpdReservation", resourceCulture);
             }
         }
         

@@ -16,5 +16,27 @@ namespace Common
         public Event Event { get; set; }
         public Person Person { get; set; }
 
+        public Registration()
+        {
+            RegistrationId = IntNullValue;
+            RegistrationDate = DateTimeNullValue;
+            ConfirmationNumber = StringNullValue;
+            LastUpdated = DateTimeNullValue;
+            Event = null;
+            Person = null;
+            IsNew = true;
+        }
+
+        public Registration(int registrationId, DateTime registrationDate, string confirmationNumber,
+            DateTime lastUpdated, Event eventObj, Person person)
+        {
+            RegistrationId = registrationId;
+            RegistrationDate = registrationDate;
+            ConfirmationNumber = confirmationNumber;
+            LastUpdated = lastUpdated;
+            Event = eventObj;
+            Person = person;
+            IsNew = RegistrationId.Equals(IntNullValue);
+        }
     }
 }
