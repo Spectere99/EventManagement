@@ -153,7 +153,6 @@ namespace EventManagement.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            ViewBag.Name = new SelectList(_context.Roles.ToList(), "Name", "Name");
             return View();
         }
 
@@ -171,7 +170,7 @@ namespace EventManagement.Controllers
                 if (result.Succeeded)
                 {
                     //Assign Role to user Here
-                    await this.UserManager.AddToRoleAsync(user.Id, model.Name);
+                   
 
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
@@ -385,7 +384,7 @@ namespace EventManagement.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Hometown = model.Hometown };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

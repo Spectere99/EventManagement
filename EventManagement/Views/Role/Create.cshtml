@@ -4,8 +4,8 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
-
+<h2>Create Role</h2>
+@Html.ActionLink("List Roles", "Index") | @Html.ActionLink("Manage User Role", "ManageUserRoles")
 <style type="text/css">
     #tbrole, .c {
         border-style: double;
@@ -14,12 +14,14 @@
 
 @using (Html.BeginForm())
 {
-    <table id="tbrole">
-        <tr>
-            <td class="c">Enter Role Name To be Created:</td>
-            <td calss="c">
-                @Html.EditorFor(m=>m.Name)
-            </td>
-        </tr>
-    </table>
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    
+    <div>
+        Role name
+    </div>
+    <p>
+        @Html.TextBox("RoleName")
+    </p>
+    <input type="submit" value="Save"/>
 }
