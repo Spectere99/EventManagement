@@ -4,7 +4,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
+using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -90,6 +92,10 @@ namespace EventManagement.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+
+            FormsAuthentication.SetAuthCookie(model.Email, model.RememberMe);
+            Session["MyMenu"] = null;
+
             switch (result)
             {
                 case SignInStatus.Success:
@@ -409,6 +415,8 @@ namespace EventManagement.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            FormsAuthentication.SignOut();
+            Session["MyMenu"] = null;
             return RedirectToAction("Index", "Home");
         }
 

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using System.Web.Security;
+using System.Web.UI.WebControls;
 
 namespace EventManagement.Models
 {
@@ -117,5 +119,24 @@ namespace EventManagement.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+    }
+
+    public class RoleMenuItem
+    {
+        public string LinkText;
+        public string ActionName;
+        public string ControllerName;
+        public string RoleNames;
+        public RoleMenuItem()
+        {
+        }
+
+        public RoleMenuItem(string linkText, string actionName, string controllerName, string rolesNames)
+        {
+            LinkText = linkText;
+            ActionName = actionName;
+            ControllerName = controllerName;
+            RoleNames = rolesNames;
+        }
     }
 }
