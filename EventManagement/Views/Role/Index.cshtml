@@ -1,21 +1,38 @@
 ﻿@model IEnumerable<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>
 @using System.Web.Mvc.Html
+@using GridMvc.Html
 
 @{
     ViewBag.Title = "Index";
 }
-
 <h2>Roles Listing</h2>
 
 @Html.ActionLink("Create New Role", "Create") | @Html.ActionLink("Manage User Role", "ManageUserRoles")
 <hr/>
 
 <div>
-    @foreach (var role in Model)
+    
+    @Html.Grid(Model).Named("RolesGrid").Columns(columns =>
+    {
+
+        columns.Add()
+            .Filterable(true)
+            .Encoded(false)
+            .Sanitized(false)
+            .RenderValueAs(o => @Html.ActionLink(o.Name, "Edit", new {roleName = o.Name})).Sortable(true);
+        columns.Add(c => c.Name)
+            .Titled("Role Name")
+            .Filterable(true);
+        columns.Add()
+            .Encoded(false)
+            .Sanitized(false)
+            .RenderValueAs(c => @<span onclick="return confirm('Are you sure you want to delete?')"><a href="/Role/Delete?RoleName=@c.Name" class="delLink" style="color: red;">Delete</a></span>);
+    }).WithPaging(3)
+    @*@foreach (var role in Model)
     {
         <p><strong>@role.Name | </strong>
             <span onclick="return confirm('Are you sure you want to delete?')"><a href="/Role/Delete?RoleName=@role.Name" class="delLink" style="color: red;">Delete</a></span> |
             @Html.ActionLink("Edit", "Edit", new {roleName = @role.Name})
         </p>
-    }
+    }*@
 </div>
