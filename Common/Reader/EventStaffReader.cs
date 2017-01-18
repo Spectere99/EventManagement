@@ -10,15 +10,15 @@ using MySql.Data.MySqlClient;
 
 namespace Common.Reader
 {
-    public class EventStaffReader : MySqlObjectReaderBase<EventStaff>
+    public class EventStaffReader : MySqlObjectReaderBase<EventStaffDTO>
     {
-        protected override MapperBase<EventStaff> GetMapper()
+        protected override MapperBase<EventStaffDTO> GetMapper()
         {
-            MapperBase<EventStaff> mapper = new EventStaffMapper();
+            MapperBase<EventStaffDTO> mapper = new EventStaffMapper();
             return mapper;
         }
 
-        public override List<EventStaff> GetList()
+        public override List<EventStaffDTO> GetList()
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetEventStaff))
             {
@@ -35,7 +35,7 @@ namespace Common.Reader
             }
         }
 
-        public override List<EventStaff> GetById(int id)
+        public override List<EventStaffDTO> GetById(int id)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetEventStaffById))
             {
@@ -56,9 +56,9 @@ namespace Common.Reader
             }
         }
 
-        public override List<EventStaff> Save(List<EventStaff> objList)
+        public override List<EventStaffDTO> Save(List<EventStaffDTO> objList)
         {
-            foreach (EventStaff item in objList)
+            foreach (EventStaffDTO item in objList)
             {
                 if (item.IsNew) //Insert
                 {
@@ -94,13 +94,13 @@ namespace Common.Reader
 
         }
 
-        public override void Remove(List<EventStaff> objList)
+        public override void Remove(List<EventStaffDTO> objList)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.DelEventStaff))
             {
                 try
                 {
-                    foreach (EventStaff item in objList)
+                    foreach (EventStaffDTO item in objList)
                     {
                         command.Parameters.Add(CreateParameter("pEventStaffID", item.EventStaffId));
                         ExecuteNoReader(command);

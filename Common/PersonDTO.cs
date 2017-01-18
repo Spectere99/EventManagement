@@ -7,36 +7,36 @@ using Common.Abstract;
 
 namespace Common
 {
-    public class Person:DTOBase
+    public class PersonDTO:DTOBase
     {
         public int PersonId { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public DateTime LastUpdated { get; set; }
-        public ContactInfo ContactInfo { get; set; }
-        public Person ParentPerson { get; set; }
-        public PersonType PersonType { get; set; }
-        public UnitRank Rank { get; set; }
-        public Unit Unit { get; set; }
+        public ContactInfoDTO ContactInfo { get; set; }
+        public PersonDTO ParentPerson { get; set; }
+        public PersonTypeDTO PersonType { get; set; }
+        public UnitRankDTO Rank { get; set; }
+        public UnitDTO Unit { get; set; }
 
-        public Person()
+        public PersonDTO()
         {
             PersonId = IntNullValue;
             FirstName = StringNullValue;
             MiddleName = StringNullValue;
             LastName = StringNullValue;
             LastUpdated = DateTimeNullValue;
-            ContactInfo = new ContactInfo();
+            ContactInfo = new ContactInfoDTO();
             ParentPerson = null;
-            PersonType = new PersonType();
-            Rank = new UnitRank();
-            Unit = new Unit();
+            PersonType = new PersonTypeDTO();
+            Rank = new UnitRankDTO();
+            Unit = new UnitDTO();
             IsNew = true;
         }
 
-        public Person(int personId, string firstName, string middleName, string lastName, DateTime lastUpdated,
-            ContactInfo contactInfo, Person parentPerson, PersonType personType, UnitRank rank, Unit unit)
+        public PersonDTO(int personId, string firstName, string middleName, string lastName, DateTime lastUpdated,
+            ContactInfoDTO contactInfo, PersonDTO parentPerson, PersonTypeDTO personType, UnitRankDTO rank, UnitDTO unit)
         {
             PersonId = personId;
             FirstName = firstName;

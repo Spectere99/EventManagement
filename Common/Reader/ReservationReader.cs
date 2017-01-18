@@ -10,15 +10,15 @@ using MySql.Data.MySqlClient;
 
 namespace Common.Reader
 {
-    public class ReservationReader : MySqlObjectReaderBase<Reservation>
+    public class ReservationReader : MySqlObjectReaderBase<ReservationDTO>
     {
-        protected override MapperBase<Reservation> GetMapper()
+        protected override MapperBase<ReservationDTO> GetMapper()
         {
-            MapperBase<Reservation> mapper = new ReservationMapper();
+            MapperBase<ReservationDTO> mapper = new ReservationMapper();
             return mapper;
         }
 
-        public override List<Reservation> GetList()
+        public override List<ReservationDTO> GetList()
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetReservations))
             {
@@ -35,7 +35,7 @@ namespace Common.Reader
             }
         }
 
-        public override List<Reservation> GetById(int id)
+        public override List<ReservationDTO> GetById(int id)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetReservationById))
             {
@@ -56,9 +56,9 @@ namespace Common.Reader
             }
         }
 
-        public override List<Reservation> Save(List<Reservation> objList)
+        public override List<ReservationDTO> Save(List<ReservationDTO> objList)
         {
-            foreach (Reservation item in objList)
+            foreach (ReservationDTO item in objList)
             {
                 if (item.IsNew) //Insert
                 {
@@ -96,13 +96,13 @@ namespace Common.Reader
 
         }
 
-        public override void Remove(List<Reservation> objList)
+        public override void Remove(List<ReservationDTO> objList)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.DelReservation))
             {
                 try
                 {
-                    foreach (Reservation item in objList)
+                    foreach (ReservationDTO item in objList)
                     {
                         command.Parameters.Add(CreateParameter("pReservationID", item.ReservationId));
                         ExecuteNoReader(command);

@@ -8,15 +8,15 @@ using Common.Abstract;
 
 namespace Common
 {
-    public class Reservation:DTOBase
+    public class ReservationDTO:DTOBase
     {
         public int ReservationId { get; set; }
         public DateTime ReservationDate { get; set; }
         public DateTime LastUpdated { get; set; }
-        public Event Event { get; set; }
-        public Person Person { get; set; }
+        public EventDTO Event { get; set; }
+        public PersonDTO Person { get; set; }
 
-        public Reservation()
+        public ReservationDTO()
         {
             ReservationId = IntNullValue;
             ReservationDate = DateTimeNullValue;
@@ -26,8 +26,8 @@ namespace Common
             IsNew = true;
         }
 
-        public Reservation(int reservationId, DateTime reservationDate, DateTime lastUpdated, Event eventObj,
-            Person person)
+        public ReservationDTO(int reservationId, DateTime reservationDate, DateTime lastUpdated, EventDTO eventObj,
+            PersonDTO person)
         {
             ReservationId = reservationId;
             ReservationDate = reservationDate;

@@ -10,7 +10,7 @@ using Common.Reader;
 
 namespace Common.Mapper
 {
-    class EventMapper : MapperBase<Event>
+    class EventMapper : MapperBase<EventDTO>
     {
         private int _ordEventId;
         private int _ordVenueId;
@@ -25,14 +25,14 @@ namespace Common.Mapper
         private int _ordRequiredStaff;
         private int _ordRequiredVolunteers;
 
-        protected override Event Map(IDataRecord record)
+        protected override EventDTO Map(IDataRecord record)
         {
             try
             {
                 EventTypeReader reader = new EventTypeReader();
                 VenueReader venueReader = new VenueReader();
 
-                Event e = new Event();
+                EventDTO e = new EventDTO();
                 e.EventId = (DBNull.Value == record[_ordEventId]) ? CommonBase.IntNullValue : (int) record[_ordEventId];
                 e.Name = (DBNull.Value == record[_ordName]) ? CommonBase.StringNullValue : (string) record[_ordName];
                 e.Start = (DBNull.Value == record[_ordEventStart]) ? CommonBase.DateTimeNullValue : (DateTime)record[_ordEventStart];

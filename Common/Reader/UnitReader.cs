@@ -10,15 +10,15 @@ using MySql.Data.MySqlClient;
 
 namespace Common.Reader
 {
-    public class UnitReader : MySqlObjectReaderBase<Unit>
+    public class UnitReader : MySqlObjectReaderBase<UnitDTO>
     {
-        protected override MapperBase<Unit> GetMapper()
+        protected override MapperBase<UnitDTO> GetMapper()
         {
-            MapperBase<Unit> mapper = new UnitMapper();
+            MapperBase<UnitDTO> mapper = new UnitMapper();
             return mapper;
         }
 
-        public override List<Unit> GetList()
+        public override List<UnitDTO> GetList()
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetUnits))
             {
@@ -35,7 +35,7 @@ namespace Common.Reader
             }
         }
 
-        public override List<Unit> GetById(int id)
+        public override List<UnitDTO> GetById(int id)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetUnitById))
             {
@@ -56,9 +56,9 @@ namespace Common.Reader
             }
         }
 
-        public override List<Unit> Save(List<Unit> objList)
+        public override List<UnitDTO> Save(List<UnitDTO> objList)
         {
-            foreach (Unit item in objList)
+            foreach (UnitDTO item in objList)
             {
                 if (item.IsNew) //Insert
                 {
@@ -92,13 +92,13 @@ namespace Common.Reader
 
         }
 
-        public override void Remove(List<Unit> objList)
+        public override void Remove(List<UnitDTO> objList)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.DelUnit))
             {
                 try
                 {
-                    foreach (Unit item in objList)
+                    foreach (UnitDTO item in objList)
                     {
                         command.Parameters.Add(CreateParameter("pUnitID", item.UnitId));
                         ExecuteNoReader(command);

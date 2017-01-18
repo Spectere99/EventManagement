@@ -9,7 +9,7 @@ using Common.Base;
 
 namespace Common.Mapper
 {
-    class ContactInfoMapper : MapperBase<ContactInfo>
+    class ContactInfoMapper : MapperBase<ContactInfoDTO>
     {
         private int _ordContactInfoId;
         private int _ordContactName;
@@ -23,11 +23,11 @@ namespace Common.Mapper
         private int _ordState;
         private int _ordZip;
 
-        protected override ContactInfo Map(IDataRecord record)
+        protected override ContactInfoDTO Map(IDataRecord record)
         {
             try
             {
-                ContactInfo c = new ContactInfo();
+                ContactInfoDTO c = new ContactInfoDTO();
                 c.ContactInfoId = (DBNull.Value == record[_ordContactInfoId]) ? CommonBase.IntNullValue : (int) record[_ordContactInfoId];
                 c.Name = (DBNull.Value == record[_ordContactName]) ? CommonBase.StringNullValue : (string)record[_ordContactName];
                 c.HomePhone = (DBNull.Value == record[_ordHomePhone]) ? CommonBase.StringNullValue : (string)record[_ordHomePhone];

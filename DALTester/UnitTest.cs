@@ -31,9 +31,9 @@ namespace DALTester
         {
             UnitReader ciReader = new UnitReader();
 
-            List<Unit> toSave = new List<Unit> {CreateTestRecord()};
+            List<UnitDTO> toSave = new List<UnitDTO> {CreateTestRecord()};
 
-            List<Unit> results = ciReader.GetList();
+            List<UnitDTO> results = ciReader.GetList();
 
             _startTableCount = results.Count;
 
@@ -65,7 +65,7 @@ namespace DALTester
             var ciReader = new UnitReader();
 
             //Create the base object to modify.
-            List<Unit> toSave = new List<Unit> { CreateTestRecord() };
+            List<UnitDTO> toSave = new List<UnitDTO> { CreateTestRecord() };
 
             toSave = ciReader.Save(toSave);
 
@@ -74,7 +74,7 @@ namespace DALTester
             var toModify = results[0];
             toModify.UnitNumber = 9999;
             
-            var modifyItems = new List<Unit> {toModify};
+            var modifyItems = new List<UnitDTO> {toModify};
 
             //Should be doing an update and not an insert
             modifyItems = ciReader.Save(modifyItems);
@@ -93,7 +93,7 @@ namespace DALTester
             var reader = new UnitReader();
 
             //Create the base object to modify.
-            List<Unit> toSave = new List<Unit> { CreateTestRecord() };
+            List<UnitDTO> toSave = new List<UnitDTO> { CreateTestRecord() };
 
             toSave = reader.Save(toSave);
 
@@ -107,13 +107,13 @@ namespace DALTester
 
         }
 
-        private Unit CreateTestRecord()
+        private UnitDTO CreateTestRecord()
         {
             var reader = new UnitTypeReader();
 
             var unitType = reader.GetById(1);
 
-            Unit newRecord = new Unit
+            UnitDTO newRecord = new UnitDTO
             {
                 UnitNumber = 0,
                 UnitType = unitType.Single()
@@ -123,11 +123,11 @@ namespace DALTester
 
         }
 
-        private void CleanUp(Unit testObj)
+        private void CleanUp(UnitDTO testObj)
         {
             UnitReader reader = new UnitReader();
 
-            reader.Remove(new List<Unit>() {testObj});
+            reader.Remove(new List<UnitDTO>() {testObj});
         }
     }
 }

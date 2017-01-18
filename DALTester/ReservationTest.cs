@@ -32,7 +32,7 @@ namespace DALTester
         {
             var ciReader = new ReservationReader();
 
-            var toSave = new List<Reservation> {CreateTestRecord()};
+            var toSave = new List<ReservationDTO> {CreateTestRecord()};
 
             var results = ciReader.GetList();
 
@@ -64,7 +64,7 @@ namespace DALTester
             var ciReader = new ReservationReader();
 
             //Create the base object to modify.
-            var toSave = new List<Reservation> { CreateTestRecord() };
+            var toSave = new List<ReservationDTO> { CreateTestRecord() };
 
             toSave = ciReader.Save(toSave);
 
@@ -73,7 +73,7 @@ namespace DALTester
             var toModify = results[0];
             toModify.ReservationDate = DateTime.Today.Date;
             
-            var modifyItems = new List<Reservation> {toModify};
+            var modifyItems = new List<ReservationDTO> {toModify};
 
             //Should be doing an update and not an insert
             modifyItems = ciReader.Save(modifyItems);
@@ -92,7 +92,7 @@ namespace DALTester
             var reader = new ReservationReader();
 
             //Create the base object to modify.
-            var toSave = new List<Reservation> { CreateTestRecord() };
+            var toSave = new List<ReservationDTO> { CreateTestRecord() };
 
             toSave = reader.Save(toSave);
 
@@ -106,7 +106,7 @@ namespace DALTester
 
         }
 
-        private Reservation CreateTestRecord()
+        private ReservationDTO CreateTestRecord()
         {
             var eventReader = new EventReader();
             var personReader = new PersonReader();
@@ -114,7 +114,7 @@ namespace DALTester
             var eventObj = eventReader.GetById(1);
             var person = personReader.GetById(1);
             
-            var newRecord = new Reservation
+            var newRecord = new ReservationDTO
             {
                 ReservationDate = DateTime.Now,
                 LastUpdated = DateTime.Now,

@@ -9,16 +9,16 @@ using Common.Base;
 
 namespace Common.Mapper
 {
-    class PositionMapper : MapperBase<Position>
+    class PositionMapper : MapperBase<PositionDTO>
     {
         private int _ordPositionId;
         private int _ordPosition;
 
-        protected override Position Map(IDataRecord record)
+        protected override PositionDTO Map(IDataRecord record)
         {
             try
             {
-                Position e = new Position();
+                PositionDTO e = new PositionDTO();
                 e.PositionId = (DBNull.Value == record[_ordPositionId]) ? CommonBase.IntNullValue : (int)record[_ordPositionId];
                 e.PositionName = (DBNull.Value == record[_ordPosition]) ? CommonBase.StringNullValue : (string)record[_ordPosition];
                 e.IsNew = false;

@@ -7,16 +7,16 @@ using Common.Abstract;
 
 namespace Common
 {
-    public class Registration:DTOBase
+    public class RegistrationDTO:DTOBase
     {
         public int RegistrationId { get; set; }
         public DateTime RegistrationDate { get; set; }
         public string ConfirmationNumber { get; set; }
         public DateTime LastUpdated { get; set; }
-        public Event Event { get; set; }
-        public Person Person { get; set; }
+        public EventDTO Event { get; set; }
+        public PersonDTO Person { get; set; }
 
-        public Registration()
+        public RegistrationDTO()
         {
             RegistrationId = IntNullValue;
             RegistrationDate = DateTimeNullValue;
@@ -27,8 +27,8 @@ namespace Common
             IsNew = true;
         }
 
-        public Registration(int registrationId, DateTime registrationDate, string confirmationNumber,
-            DateTime lastUpdated, Event eventObj, Person person)
+        public RegistrationDTO(int registrationId, DateTime registrationDate, string confirmationNumber,
+            DateTime lastUpdated, EventDTO eventObj, PersonDTO person)
         {
             RegistrationId = registrationId;
             RegistrationDate = registrationDate;

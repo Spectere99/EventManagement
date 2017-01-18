@@ -10,20 +10,20 @@ using Common.Reader;
 
 namespace Common.Mapper
 {
-    class VenueMapper : MapperBase<Venue>
+    class VenueMapper : MapperBase<VenueDTO>
     {
         private int _ordVenueId;
         private int _ordName;
         private int _ordContact;
         private int _ordContactInfoId;
 
-        protected override Venue Map(IDataRecord record)
+        protected override VenueDTO Map(IDataRecord record)
         {
             try
             {
                 ContactInfoReader reader = new ContactInfoReader();
 
-                Venue e = new Venue();
+                VenueDTO e = new VenueDTO();
                 e.VenueId = (DBNull.Value == record[_ordVenueId]) ? CommonBase.IntNullValue : (int) record[_ordVenueId];
                 e.Name = (DBNull.Value == record[_ordName]) ? CommonBase.StringNullValue : (string) record[_ordName];
                 e.Contact = (DBNull.Value == record[_ordContact])

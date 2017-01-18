@@ -10,15 +10,15 @@ using MySql.Data.MySqlClient;
 
 namespace Common.Reader
 {
-    public class RegistrationReader : MySqlObjectReaderBase<Registration>
+    public class RegistrationReader : MySqlObjectReaderBase<RegistrationDTO>
     {
-        protected override MapperBase<Registration> GetMapper()
+        protected override MapperBase<RegistrationDTO> GetMapper()
         {
-            MapperBase<Registration> mapper = new RegistrationMapper();
+            MapperBase<RegistrationDTO> mapper = new RegistrationMapper();
             return mapper;
         }
 
-        public override List<Registration> GetList()
+        public override List<RegistrationDTO> GetList()
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetRegistrations))
             {
@@ -35,7 +35,7 @@ namespace Common.Reader
             }
         }
 
-        public override List<Registration> GetById(int id)
+        public override List<RegistrationDTO> GetById(int id)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetRegistrationById))
             {
@@ -56,9 +56,9 @@ namespace Common.Reader
             }
         }
 
-        public override List<Registration> Save(List<Registration> objList)
+        public override List<RegistrationDTO> Save(List<RegistrationDTO> objList)
         {
-            foreach (Registration item in objList)
+            foreach (RegistrationDTO item in objList)
             {
                 if (item.IsNew) //Insert
                 {
@@ -98,13 +98,13 @@ namespace Common.Reader
 
         }
 
-        public override void Remove(List<Registration> objList)
+        public override void Remove(List<RegistrationDTO> objList)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.DelRegistration))
             {
                 try
                 {
-                    foreach (Registration item in objList)
+                    foreach (RegistrationDTO item in objList)
                     {
                         command.Parameters.Add(CreateParameter("pRegistrationID", item.RegistrationId));
                         ExecuteNoReader(command);

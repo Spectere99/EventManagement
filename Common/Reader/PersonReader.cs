@@ -10,15 +10,15 @@ using MySql.Data.MySqlClient;
 
 namespace Common.Reader
 {
-    public class PersonReader : MySqlObjectReaderBase<Person>
+    public class PersonReader : MySqlObjectReaderBase<PersonDTO>
     {
-        protected override MapperBase<Person> GetMapper()
+        protected override MapperBase<PersonDTO> GetMapper()
         {
-            MapperBase<Person> mapper = new PersonMapper();
+            MapperBase<PersonDTO> mapper = new PersonMapper();
             return mapper;
         }
 
-        public override List<Person> GetList()
+        public override List<PersonDTO> GetList()
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetPersons))
             {
@@ -35,7 +35,7 @@ namespace Common.Reader
             }
         }
 
-        public override List<Person> GetById(int id)
+        public override List<PersonDTO> GetById(int id)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetPersonById))
             {
@@ -56,9 +56,9 @@ namespace Common.Reader
             }
         }
 
-        public override List<Person> Save(List<Person> objList)
+        public override List<PersonDTO> Save(List<PersonDTO> objList)
         {
-            foreach (Person item in objList)
+            foreach (PersonDTO item in objList)
             {
                 if (item.IsNew) //Insert
                 {
@@ -112,13 +112,13 @@ namespace Common.Reader
 
         }
 
-        public override void Remove(List<Person> objList)
+        public override void Remove(List<PersonDTO> objList)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.DelPerson))
             {
                 try
                 {
-                    foreach (Person item in objList)
+                    foreach (PersonDTO item in objList)
                     {
                         command.Parameters.Add(CreateParameter("pPersonID", item.PersonId));
                         ExecuteNoReader(command);

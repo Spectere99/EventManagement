@@ -10,15 +10,15 @@ using MySql.Data.MySqlClient;
 
 namespace Common.Reader
 {
-    public class VenueReader : MySqlObjectReaderBase<Venue>
+    public class VenueReader : MySqlObjectReaderBase<VenueDTO>
     {
-        protected override MapperBase<Venue> GetMapper()
+        protected override MapperBase<VenueDTO> GetMapper()
         {
-            MapperBase<Venue> mapper = new VenueMapper();
+            MapperBase<VenueDTO> mapper = new VenueMapper();
             return mapper;
         }
 
-        public override List<Venue> GetList()
+        public override List<VenueDTO> GetList()
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetVenues))
             {
@@ -35,7 +35,7 @@ namespace Common.Reader
             }
         }
 
-        public override List<Venue> GetById(int id)
+        public override List<VenueDTO> GetById(int id)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetVenueById))
             {
@@ -56,9 +56,9 @@ namespace Common.Reader
             }
         }
 
-        public override List<Venue> Save(List<Venue> objList)
+        public override List<VenueDTO> Save(List<VenueDTO> objList)
         {
-            foreach (Venue item in objList)
+            foreach (VenueDTO item in objList)
             {
                 if (item.IsNew) //Insert
                 {
@@ -94,13 +94,13 @@ namespace Common.Reader
 
         }
 
-        public override void Remove(List<Venue> objList)
+        public override void Remove(List<VenueDTO> objList)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.DelVenue))
             {
                 try
                 {
-                    foreach (Venue item in objList)
+                    foreach (VenueDTO item in objList)
                     {
                         command.Parameters.Add(CreateParameter("pVenueID", item.VenueId));
                         ExecuteNoReader(command);

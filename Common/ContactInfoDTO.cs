@@ -7,7 +7,7 @@ using Common.Abstract;
 
 namespace Common
 {
-    public class ContactInfo:DTOBase
+    public class ContactInfoDTO:DTOBase
     {
         public int ContactInfoId { get; set; }
         public string Name { get; set; }
@@ -21,7 +21,7 @@ namespace Common
         public string State { get; set; }
         public string Zip { get; set; }
 
-        public ContactInfo()
+        public ContactInfoDTO()
         {
             ContactInfoId = IntNullValue;
             Name = StringNullValue;
@@ -37,7 +37,7 @@ namespace Common
             IsNew = true;
         }
 
-        public ContactInfo(int contactInfoId, string name, string homePhone, string businessPhone, string cellPhone,
+        public ContactInfoDTO(int contactInfoId, string name, string homePhone, string businessPhone, string cellPhone,
             string email, string address1, string address2, string city, string state, string zip)
         {
             ContactInfoId = contactInfoId;

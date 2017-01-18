@@ -9,16 +9,16 @@ using Common.Base;
 
 namespace Common.Mapper
 {
-    class PersonTypeMapper : MapperBase<PersonType>
+    class PersonTypeMapper : MapperBase<PersonTypeDTO>
     {
         private int _ordPersonTypeId;
         private int _ordPersonType;
 
-        protected override PersonType Map(IDataRecord record)
+        protected override PersonTypeDTO Map(IDataRecord record)
         {
             try
             {
-                PersonType e = new PersonType();
+                PersonTypeDTO e = new PersonTypeDTO();
                 e.PersonTypeId = (DBNull.Value == record[_ordPersonTypeId]) ? CommonBase.IntNullValue : (int)record[_ordPersonTypeId];
                 e.Type = (DBNull.Value == record[_ordPersonType]) ? CommonBase.StringNullValue : (string)record[_ordPersonType];
                 e.IsNew = false;

@@ -31,9 +31,9 @@ namespace DALTester
         {
             UnitTypeReader ciReader = new UnitTypeReader();
 
-            List<UnitType> toSave = new List<UnitType> {CreateTestRecord()};
+            List<UnitTypeDTO> toSave = new List<UnitTypeDTO> {CreateTestRecord()};
 
-            List<UnitType> results = ciReader.GetList();
+            List<UnitTypeDTO> results = ciReader.GetList();
 
             _startTableCount = results.Count;
 
@@ -63,7 +63,7 @@ namespace DALTester
             var ciReader = new UnitTypeReader();
 
             //Create the base object to modify.
-            List<UnitType> toSave = new List<UnitType> { CreateTestRecord() };
+            List<UnitTypeDTO> toSave = new List<UnitTypeDTO> { CreateTestRecord() };
 
             toSave = ciReader.Save(toSave);
 
@@ -72,7 +72,7 @@ namespace DALTester
             var toModify = results[0];
             toModify.Type = "TEST-MOD";
             
-            var modifyItems = new List<UnitType> {toModify};
+            var modifyItems = new List<UnitTypeDTO> {toModify};
 
             //Should be doing an update and not an insert
             modifyItems = ciReader.Save(modifyItems);
@@ -91,7 +91,7 @@ namespace DALTester
             var reader = new UnitTypeReader();
 
             //Create the base object to modify.
-            List<UnitType> toSave = new List<UnitType> { CreateTestRecord() };
+            List<UnitTypeDTO> toSave = new List<UnitTypeDTO> { CreateTestRecord() };
 
             toSave = reader.Save(toSave);
 
@@ -105,9 +105,9 @@ namespace DALTester
 
         }
 
-        private UnitType CreateTestRecord()
+        private UnitTypeDTO CreateTestRecord()
         {
-            UnitType newRecord = new UnitType
+            UnitTypeDTO newRecord = new UnitTypeDTO
             {
                 Type = "TEST"
             };

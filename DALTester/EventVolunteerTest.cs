@@ -32,9 +32,9 @@ namespace DALTester
         {
             EventVolunteerReader ciReader = new EventVolunteerReader();
 
-            List<EventVolunteer> toSave = new List<EventVolunteer> {CreateTestRecord()};
+            List<EventVolunteerDTO> toSave = new List<EventVolunteerDTO> {CreateTestRecord()};
 
-            List<EventVolunteer> results = ciReader.GetList();
+            List<EventVolunteerDTO> results = ciReader.GetList();
 
             _startTableCount = results.Count;
 
@@ -64,7 +64,7 @@ namespace DALTester
             var ciReader = new EventVolunteerReader();
 
             //Create the base object to modify.
-            List<EventVolunteer> toSave = new List<EventVolunteer> { CreateTestRecord() };
+            List<EventVolunteerDTO> toSave = new List<EventVolunteerDTO> { CreateTestRecord() };
 
             toSave = ciReader.Save(toSave);
 
@@ -73,7 +73,7 @@ namespace DALTester
             var toModify = results[0];
             toModify.Event.EventId = 2;
             
-            var modifyItems = new List<EventVolunteer> {toModify};
+            var modifyItems = new List<EventVolunteerDTO> {toModify};
 
             //Should be doing an update and not an insert
             modifyItems = ciReader.Save(modifyItems);
@@ -92,7 +92,7 @@ namespace DALTester
             var reader = new EventVolunteerReader();
 
             //Create the base object to modify.
-            List<EventVolunteer> toSave = new List<EventVolunteer> { CreateTestRecord() };
+            List<EventVolunteerDTO> toSave = new List<EventVolunteerDTO> { CreateTestRecord() };
 
             toSave = reader.Save(toSave);
 
@@ -106,7 +106,7 @@ namespace DALTester
 
         }
 
-        private EventVolunteer CreateTestRecord()
+        private EventVolunteerDTO CreateTestRecord()
         {
             var eventReader = new EventReader();
             var personReader = new PersonReader();
@@ -114,7 +114,7 @@ namespace DALTester
             var eventObj = eventReader.GetById(1);
             var person = personReader.GetById(1);
 
-            EventVolunteer newRecord = new EventVolunteer
+            EventVolunteerDTO newRecord = new EventVolunteerDTO
             {
                 Event = eventObj.FirstOrDefault(),
                 Person = person.FirstOrDefault()

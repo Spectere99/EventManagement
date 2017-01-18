@@ -31,9 +31,9 @@ namespace DALTester
         {
             EventTypeReader ciReader = new EventTypeReader();
 
-            List<EventType> toSave = new List<EventType> {CreateTestRecord()};
+            List<EventTypeDTO> toSave = new List<EventTypeDTO> {CreateTestRecord()};
 
-            List<EventType> results = ciReader.GetList();
+            List<EventTypeDTO> results = ciReader.GetList();
 
             _startTableCount = results.Count;
 
@@ -63,7 +63,7 @@ namespace DALTester
             var ciReader = new EventTypeReader();
 
             //Create the base object to modify.
-            List<EventType> toSave = new List<EventType> { CreateTestRecord() };
+            List<EventTypeDTO> toSave = new List<EventTypeDTO> { CreateTestRecord() };
 
             toSave = ciReader.Save(toSave);
 
@@ -72,7 +72,7 @@ namespace DALTester
             var toModify = results[0];
             toModify.Type = "TEST-MOD";
             
-            var modifyItems = new List<EventType> {toModify};
+            var modifyItems = new List<EventTypeDTO> {toModify};
 
             //Should be doing an update and not an insert
             modifyItems = ciReader.Save(modifyItems);
@@ -91,7 +91,7 @@ namespace DALTester
             var reader = new EventTypeReader();
 
             //Create the base object to modify.
-            List<EventType> toSave = new List<EventType> { CreateTestRecord() };
+            List<EventTypeDTO> toSave = new List<EventTypeDTO> { CreateTestRecord() };
 
             toSave = reader.Save(toSave);
 
@@ -105,9 +105,9 @@ namespace DALTester
 
         }
 
-        private EventType CreateTestRecord()
+        private EventTypeDTO CreateTestRecord()
         {
-            EventType newRecord = new EventType
+            EventTypeDTO newRecord = new EventTypeDTO
             {
                 Type = "TEST"
             };

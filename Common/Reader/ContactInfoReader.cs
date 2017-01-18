@@ -10,15 +10,15 @@ using MySql.Data.MySqlClient;
 
 namespace Common.Reader
 {
-    public class ContactInfoReader : MySqlObjectReaderBase<ContactInfo>
+    public class ContactInfoReader : MySqlObjectReaderBase<ContactInfoDTO>
     {
-        protected override MapperBase<ContactInfo> GetMapper()
+        protected override MapperBase<ContactInfoDTO> GetMapper()
         {
-            MapperBase<ContactInfo> mapper = new ContactInfoMapper();
+            MapperBase<ContactInfoDTO> mapper = new ContactInfoMapper();
             return mapper;
         }
 
-        public override List<ContactInfo> GetList()
+        public override List<ContactInfoDTO> GetList()
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetContactInfo))
             {
@@ -35,7 +35,7 @@ namespace Common.Reader
             }
         }
 
-        public override List<ContactInfo> GetById(int id)
+        public override List<ContactInfoDTO> GetById(int id)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetContactInfoById))
             {
@@ -56,9 +56,9 @@ namespace Common.Reader
             }
         }
 
-        public override List<ContactInfo> Save(List<ContactInfo> objList)
+        public override List<ContactInfoDTO> Save(List<ContactInfoDTO> objList)
         {
-            foreach (ContactInfo item in objList)
+            foreach (ContactInfoDTO item in objList)
             {
                 if (item.IsNew) //Insert
                 {
@@ -108,13 +108,13 @@ namespace Common.Reader
 
         }
 
-        public override void Remove(List<ContactInfo> objList)
+        public override void Remove(List<ContactInfoDTO> objList)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.DelContactInfo))
             {
                 try
                 {
-                    foreach (ContactInfo item in objList)
+                    foreach (ContactInfoDTO item in objList)
                     {
                         command.Parameters.Add(CreateParameter("pContactInfoID", item.ContactInfoId));
                         ExecuteNoReader(command);

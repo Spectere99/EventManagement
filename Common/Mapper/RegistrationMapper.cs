@@ -10,7 +10,7 @@ using Common.Reader;
 
 namespace Common.Mapper
 {
-    class RegistrationMapper : MapperBase<Registration>
+    class RegistrationMapper : MapperBase<RegistrationDTO>
     {
         private int _ordRegistrationId;
         private int _ordRegistrationDate;
@@ -19,7 +19,7 @@ namespace Common.Mapper
         private int _ordEventId;
         private int _ordPersonId;
         
-        protected override Registration Map(IDataRecord record)
+        protected override RegistrationDTO Map(IDataRecord record)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace Common.Mapper
                 PersonReader personReader = new PersonReader();
 
 
-                Registration e = new Registration();
+                RegistrationDTO e = new RegistrationDTO();
                 e.RegistrationId = (DBNull.Value == record[_ordRegistrationId]) ? CommonBase.IntNullValue : (int) record[_ordRegistrationId];
                 e.RegistrationDate = (DBNull.Value == record[_ordRegistrationDate]) ? CommonBase.DateTimeNullValue : (DateTime) record[_ordRegistrationDate];
                 e.LastUpdated = (DBNull.Value == record[_ordLastUpdate]) ? CommonBase.DateTimeNullValue : (DateTime)record[_ordLastUpdate];

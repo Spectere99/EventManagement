@@ -10,14 +10,14 @@ using Common.Reader;
 
 namespace Common.Mapper
 {
-    class EventVolunteerMapper : MapperBase<EventVolunteer>
+    class EventVolunteerMapper : MapperBase<EventVolunteerDTO>
     {
         private int _ordEventVolunteerId;
         private int _ordLastUpdated;
         private int _ordEventId;
         private int _ordPersonId;
 
-        protected override EventVolunteer Map(IDataRecord record)
+        protected override EventVolunteerDTO Map(IDataRecord record)
         {
             try
             {
@@ -25,7 +25,7 @@ namespace Common.Mapper
                 PersonReader personReader = new PersonReader();
 
 
-                EventVolunteer e = new EventVolunteer();
+                EventVolunteerDTO e = new EventVolunteerDTO();
                 
                 e.EventVolunteerId = (DBNull.Value == record[_ordEventVolunteerId]) ? CommonBase.IntNullValue : (int)record[_ordEventVolunteerId];
                 e.LastUpdated = (DBNull.Value == record[_ordLastUpdated]) ? CommonBase.DateTimeNullValue : (DateTime)record[_ordLastUpdated];

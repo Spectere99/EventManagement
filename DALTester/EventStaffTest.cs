@@ -32,9 +32,9 @@ namespace DALTester
         {
             EventStaffReader ciReader = new EventStaffReader();
 
-            List<EventStaff> toSave = new List<EventStaff> {CreateTestRecord()};
+            List<EventStaffDTO> toSave = new List<EventStaffDTO> {CreateTestRecord()};
 
-            List<EventStaff> results = ciReader.GetList();
+            List<EventStaffDTO> results = ciReader.GetList();
 
             _startTableCount = results.Count;
 
@@ -64,7 +64,7 @@ namespace DALTester
             var ciReader = new EventStaffReader();
 
             //Create the base object to modify.
-            List<EventStaff> toSave = new List<EventStaff> { CreateTestRecord() };
+            List<EventStaffDTO> toSave = new List<EventStaffDTO> { CreateTestRecord() };
 
             toSave = ciReader.Save(toSave);
 
@@ -73,7 +73,7 @@ namespace DALTester
             var toModify = results[0];
             toModify.Event.EventId = 2;
             
-            var modifyItems = new List<EventStaff> {toModify};
+            var modifyItems = new List<EventStaffDTO> {toModify};
 
             //Should be doing an update and not an insert
             modifyItems = ciReader.Save(modifyItems);
@@ -92,7 +92,7 @@ namespace DALTester
             var reader = new EventStaffReader();
 
             //Create the base object to modify.
-            List<EventStaff> toSave = new List<EventStaff> { CreateTestRecord() };
+            List<EventStaffDTO> toSave = new List<EventStaffDTO> { CreateTestRecord() };
 
             toSave = reader.Save(toSave);
 
@@ -106,7 +106,7 @@ namespace DALTester
 
         }
 
-        private EventStaff CreateTestRecord()
+        private EventStaffDTO CreateTestRecord()
         {
             var eventReader = new EventReader();
             var positionReader = new PositionReader();
@@ -116,7 +116,7 @@ namespace DALTester
             var position = positionReader.GetById(1);
             var person = personReader.GetById(1);
 
-            EventStaff newRecord = new EventStaff
+            EventStaffDTO newRecord = new EventStaffDTO
             {
                 Position = position.FirstOrDefault(),
                 Event = eventObj.FirstOrDefault(),

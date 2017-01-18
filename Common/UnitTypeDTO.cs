@@ -7,14 +7,14 @@ using Common.Abstract;
 
 namespace Common
 {
-    public class PersonType:DTOBase
+    public class UnitTypeDTO : DTOBase
     {
-        public int PersonTypeId { get; set; }
-        public string Type { set; get; }
+        public int UnitTypeId { get; set; }
+        public string Type { get; set; }
 
-        public PersonType()
+        public UnitTypeDTO()
         {
-            PersonTypeId = IntNullValue;
+            UnitTypeId = IntNullValue;
             Type = StringNullValue;
             IsNew = true;
         }

@@ -10,19 +10,19 @@ using Common.Reader;
 
 namespace Common.Mapper
 {
-    class UnitMapper : MapperBase<Unit>
+    class UnitMapper : MapperBase<UnitDTO>
     {
         private int _ordUnitId;
         private int _ordUnitNumber;
         private int _ordUnitTypeId;
 
-        protected override Unit Map(IDataRecord record)
+        protected override UnitDTO Map(IDataRecord record)
         {
             try
             {
                 UnitTypeReader reader = new UnitTypeReader();
 
-                Unit e = new Unit();
+                UnitDTO e = new UnitDTO();
                 e.UnitId = (DBNull.Value == record[_ordUnitId]) ? CommonBase.IntNullValue : (int)record[_ordUnitId];
                 e.UnitNumber = (DBNull.Value == record[_ordUnitNumber]) ? CommonBase.IntNullValue : (int) record[_ordUnitNumber];
                 

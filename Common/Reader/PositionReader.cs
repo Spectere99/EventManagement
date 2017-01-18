@@ -10,15 +10,15 @@ using MySql.Data.MySqlClient;
 
 namespace Common.Reader
 {
-    public class PositionReader : MySqlObjectReaderBase<Position>
+    public class PositionReader : MySqlObjectReaderBase<PositionDTO>
     {
-        protected override MapperBase<Position> GetMapper()
+        protected override MapperBase<PositionDTO> GetMapper()
         {
-            MapperBase<Position> mapper = new PositionMapper();
+            MapperBase<PositionDTO> mapper = new PositionMapper();
             return mapper;
         }
 
-        public override List<Position> GetList()
+        public override List<PositionDTO> GetList()
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetPosition))
             {
@@ -35,7 +35,7 @@ namespace Common.Reader
             }
         }
 
-        public override List<Position> GetById(int id)
+        public override List<PositionDTO> GetById(int id)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetPositionById))
             {
@@ -56,9 +56,9 @@ namespace Common.Reader
             }
         }
 
-        public override List<Position> Save(List<Position> objList)
+        public override List<PositionDTO> Save(List<PositionDTO> objList)
         {
-            foreach (Position item in objList)
+            foreach (PositionDTO item in objList)
             {
                 if (item.IsNew) //Insert
                 {
@@ -90,13 +90,13 @@ namespace Common.Reader
 
         }
 
-        public override void Remove(List<Position> objList)
+        public override void Remove(List<PositionDTO> objList)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.DelPosition))
             {
                 try
                 {
-                    foreach (Position item in objList)
+                    foreach (PositionDTO item in objList)
                     {
                         command.Parameters.Add(CreateParameter("pPositionID", item.PositionId));
                         ExecuteNoReader(command);

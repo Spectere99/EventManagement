@@ -31,9 +31,9 @@ namespace DALTester
         {
             VenueReader ciReader = new VenueReader();
 
-            List<Venue> toSave = new List<Venue> {CreateTestRecord()};
+            List<VenueDTO> toSave = new List<VenueDTO> {CreateTestRecord()};
 
-            List<Venue> results = ciReader.GetList();
+            List<VenueDTO> results = ciReader.GetList();
 
             _startTableCount = results.Count;
 
@@ -63,7 +63,7 @@ namespace DALTester
             var ciReader = new VenueReader();
 
             //Create the base object to modify.
-            List<Venue> toSave = new List<Venue> { CreateTestRecord() };
+            List<VenueDTO> toSave = new List<VenueDTO> { CreateTestRecord() };
 
             toSave = ciReader.Save(toSave);
 
@@ -72,7 +72,7 @@ namespace DALTester
             var toModify = results[0];
             toModify.Name = "TEST-MOD";
             
-            var modifyItems = new List<Venue> {toModify};
+            var modifyItems = new List<VenueDTO> {toModify};
 
             //Should be doing an update and not an insert
             modifyItems = ciReader.Save(modifyItems);
@@ -91,7 +91,7 @@ namespace DALTester
             var reader = new VenueReader();
 
             //Create the base object to modify.
-            List<Venue> toSave = new List<Venue> { CreateTestRecord() };
+            List<VenueDTO> toSave = new List<VenueDTO> { CreateTestRecord() };
 
             toSave = reader.Save(toSave);
 
@@ -105,13 +105,13 @@ namespace DALTester
 
         }
 
-        private Venue CreateTestRecord()
+        private VenueDTO CreateTestRecord()
         {
             var reader = new ContactInfoReader();
 
             var contactInfo = reader.GetById(1);
 
-            Venue newRecord = new Venue
+            VenueDTO newRecord = new VenueDTO
             {
                 Name = "TEST",
                 Contact = "CONTACT_TEST",

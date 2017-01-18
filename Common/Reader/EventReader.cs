@@ -10,15 +10,15 @@ using MySql.Data.MySqlClient;
 
 namespace Common.Reader
 {
-    public class EventReader : MySqlObjectReaderBase<Event>
+    public class EventReader : MySqlObjectReaderBase<EventDTO>
     {
-        protected override MapperBase<Event> GetMapper()
+        protected override MapperBase<EventDTO> GetMapper()
         {
-            MapperBase<Event> mapper = new EventMapper();
+            MapperBase<EventDTO> mapper = new EventMapper();
             return mapper;
         }
 
-        public override List<Event> GetList()
+        public override List<EventDTO> GetList()
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetEvents))
             {
@@ -35,7 +35,7 @@ namespace Common.Reader
             }
         }
 
-        public override List<Event> GetById(int id)
+        public override List<EventDTO> GetById(int id)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetEventById))
             {
@@ -56,9 +56,9 @@ namespace Common.Reader
             }
         }
 
-        public override List<Event> Save(List<Event> objList)
+        public override List<EventDTO> Save(List<EventDTO> objList)
         {
-            foreach (Event item in objList)
+            foreach (EventDTO item in objList)
             {
                 if (item.IsNew) //Insert
                 {
@@ -109,13 +109,13 @@ namespace Common.Reader
 
         }
 
-        public override void Remove(List<Event> objList)
+        public override void Remove(List<EventDTO> objList)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.DelEvent))
             {
                 try
                 {
-                    foreach (Event item in objList)
+                    foreach (EventDTO item in objList)
                     {
                         command.Parameters.Add(CreateParameter("pEventID", item.EventId));
                         ExecuteNoReader(command);

@@ -7,14 +7,14 @@ using Common.Abstract;
 
 namespace Common
 {
-    public class EventVolunteer:DTOBase
+    public class EventVolunteerDTO:DTOBase
     {
         public int EventVolunteerId { get; set; }
         public DateTime LastUpdated { get; set; }
-        public Event Event { get; set; }
-        public Person Person { get; set; }
+        public EventDTO Event { get; set; }
+        public PersonDTO Person { get; set; }
 
-        public EventVolunteer()
+        public EventVolunteerDTO()
         {
             EventVolunteerId = IntNullValue;
             LastUpdated = DateTimeNullValue;
@@ -23,7 +23,7 @@ namespace Common
             IsNew = true;
         }
 
-        public EventVolunteer(int eventVolunteerId, DateTime lastUpdated, Event eventObj, Person person)
+        public EventVolunteerDTO(int eventVolunteerId, DateTime lastUpdated, EventDTO eventObj, PersonDTO person)
         {
             EventVolunteerId = eventVolunteerId;
             LastUpdated = lastUpdated;

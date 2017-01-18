@@ -10,7 +10,7 @@ using Common.Reader;
 
 namespace Common.Mapper
 {
-    class PersonMapper : MapperBase<Person>
+    class PersonMapper : MapperBase<PersonDTO>
     {
         private int _ordPersonId;
         private int _ordFirstName;
@@ -23,7 +23,7 @@ namespace Common.Mapper
         private int _ordUnitRankId;
         private int _ordUnitId;
         
-        protected override Person Map(IDataRecord record)
+        protected override PersonDTO Map(IDataRecord record)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace Common.Mapper
                 UnitReader unitReader = new UnitReader();
 
 
-                Person e = new Person();
+                PersonDTO e = new PersonDTO();
                 e.PersonId = (DBNull.Value == record[_ordPersonId]) ? CommonBase.IntNullValue : (int) record[_ordPersonId];
                 e.FirstName = (DBNull.Value == record[_ordFirstName]) ? CommonBase.StringNullValue : (string) record[_ordFirstName];
                 e.MiddleName = (DBNull.Value == record[_ordMiddleName]) ? CommonBase.StringNullValue : (string)record[_ordMiddleName];

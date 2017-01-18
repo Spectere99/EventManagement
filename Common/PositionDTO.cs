@@ -7,13 +7,13 @@ using Common.Abstract;
 
 namespace Common
 {
-    public class Position : DTOBase
+    public class PositionDTO : DTOBase
     {
         public int PositionId { get; set; }
 
         public string PositionName { get; set; }
 
-        public Position()
+        public PositionDTO()
         {
             PositionId = IntNullValue;
             PositionName = StringNullValue;

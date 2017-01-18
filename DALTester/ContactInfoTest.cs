@@ -31,9 +31,9 @@ namespace DALTester
         {
             ContactInfoReader ciReader = new ContactInfoReader();
 
-            List<ContactInfo> toSave = new List<ContactInfo> {CreateTestContactRecord()};
+            List<ContactInfoDTO> toSave = new List<ContactInfoDTO> {CreateTestContactRecord()};
 
-            List<ContactInfo> results = ciReader.GetList();
+            List<ContactInfoDTO> results = ciReader.GetList();
 
             _startTableCount = results.Count;
 
@@ -63,7 +63,7 @@ namespace DALTester
             var ciReader = new ContactInfoReader();
 
             //Create the base object to modify.
-            List<ContactInfo> toSave = new List<ContactInfo> { CreateTestContactRecord() };
+            List<ContactInfoDTO> toSave = new List<ContactInfoDTO> { CreateTestContactRecord() };
 
             toSave = ciReader.Save(toSave);
 
@@ -72,7 +72,7 @@ namespace DALTester
             var toModify = results[0];
             toModify.HomePhone = "(999)999-9999";
             
-            var modifyItems = new List<ContactInfo> {toModify};
+            var modifyItems = new List<ContactInfoDTO> {toModify};
 
             //Should be doing an update and not an insert
             modifyItems = ciReader.Save(modifyItems);
@@ -91,7 +91,7 @@ namespace DALTester
             var ciReader = new ContactInfoReader();
 
             //Create the base object to modify.
-            List<ContactInfo> toSave = new List<ContactInfo> { CreateTestContactRecord() };
+            List<ContactInfoDTO> toSave = new List<ContactInfoDTO> { CreateTestContactRecord() };
 
             toSave = ciReader.Save(toSave);
 
@@ -105,9 +105,9 @@ namespace DALTester
 
         }
 
-        private ContactInfo CreateTestContactRecord()
+        private ContactInfoDTO CreateTestContactRecord()
         {
-            ContactInfo newContactInfo = new ContactInfo
+            ContactInfoDTO newContactInfo = new ContactInfoDTO
             {
                 Name = "John Doe",
                 Address1 = "123 This St.",

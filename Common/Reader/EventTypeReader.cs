@@ -10,15 +10,15 @@ using MySql.Data.MySqlClient;
 
 namespace Common.Reader
 {
-    public class EventTypeReader : MySqlObjectReaderBase<EventType>
+    public class EventTypeReader : MySqlObjectReaderBase<EventTypeDTO>
     {
-        protected override MapperBase<EventType> GetMapper()
+        protected override MapperBase<EventTypeDTO> GetMapper()
         {
-            MapperBase<EventType> mapper = new EventTypeMapper();
+            MapperBase<EventTypeDTO> mapper = new EventTypeMapper();
             return mapper;
         }
 
-        public override List<EventType> GetList()
+        public override List<EventTypeDTO> GetList()
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetEventType))
             {
@@ -35,7 +35,7 @@ namespace Common.Reader
             }
         }
 
-        public override List<EventType> GetById(int id)
+        public override List<EventTypeDTO> GetById(int id)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetEventTypeById))
             {
@@ -56,9 +56,9 @@ namespace Common.Reader
             }
         }
 
-        public override List<EventType> Save(List<EventType> objList)
+        public override List<EventTypeDTO> Save(List<EventTypeDTO> objList)
         {
-            foreach (EventType item in objList)
+            foreach (EventTypeDTO item in objList)
             {
                 if (item.IsNew) //Insert
                 {
@@ -90,13 +90,13 @@ namespace Common.Reader
 
         }
 
-        public override void Remove(List<EventType> objList)
+        public override void Remove(List<EventTypeDTO> objList)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.DelEventType))
             {
                 try
                 {
-                    foreach (EventType item in objList)
+                    foreach (EventTypeDTO item in objList)
                     {
                         command.Parameters.Add(CreateParameter("pEventTypeID", item.EventTypeId));
                         ExecuteNoReader(command);

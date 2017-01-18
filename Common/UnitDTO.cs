@@ -7,21 +7,21 @@ using Common.Abstract;
 
 namespace Common
 {
-    public class Unit : DTOBase
+    public class UnitDTO : DTOBase
     {
         public int UnitId { get; set; }
         public int UnitNumber { get; set; }
-        public UnitType UnitType { get; set; }
+        public UnitTypeDTO UnitType { get; set; }
 
-        public Unit()
+        public UnitDTO()
         {
             UnitId = IntNullValue;
             UnitNumber = IntNullValue;
-            UnitType = new UnitType();
+            UnitType = new UnitTypeDTO();
             IsNew = true;
         }
 
-        public Unit(int unitId, int unitNumber, UnitType unitType)
+        public UnitDTO(int unitId, int unitNumber, UnitTypeDTO unitType)
         {
             UnitId = unitId;
             UnitNumber = unitNumber;

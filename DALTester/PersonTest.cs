@@ -32,7 +32,7 @@ namespace DALTester
         {
             var ciReader = new PersonReader();
 
-            var toSave = new List<Person> {CreateTestRecord()};
+            var toSave = new List<PersonDTO> {CreateTestRecord()};
 
             var results = ciReader.GetList();
 
@@ -64,7 +64,7 @@ namespace DALTester
             var ciReader = new PersonReader();
 
             //Create the base object to modify.
-            var toSave = new List<Person> { CreateTestRecord() };
+            var toSave = new List<PersonDTO> { CreateTestRecord() };
 
             toSave = ciReader.Save(toSave);
 
@@ -73,7 +73,7 @@ namespace DALTester
             var toModify = results[0];
             toModify.FirstName = "TEST-MOD";
             
-            var modifyItems = new List<Person> {toModify};
+            var modifyItems = new List<PersonDTO> {toModify};
 
             //Should be doing an update and not an insert
             modifyItems = ciReader.Save(modifyItems);
@@ -92,7 +92,7 @@ namespace DALTester
             var reader = new PersonReader();
 
             //Create the base object to modify.
-            var toSave = new List<Person> { CreateTestRecord() };
+            var toSave = new List<PersonDTO> { CreateTestRecord() };
 
             toSave = reader.Save(toSave);
 
@@ -106,7 +106,7 @@ namespace DALTester
 
         }
 
-        private Person CreateTestRecord()
+        private PersonDTO CreateTestRecord()
         {
             var personTypeReader = new PersonTypeReader();
             var contactInfoReader = new ContactInfoReader();
@@ -120,7 +120,7 @@ namespace DALTester
             var unitRank = unitRankReader.GetList();
             var unit = unitReader.GetList();
 
-            var newRecord = new Person
+            var newRecord = new PersonDTO
             {
                 FirstName = "TESTER",
                 MiddleName = "J.",

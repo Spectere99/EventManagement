@@ -31,9 +31,9 @@ namespace DALTester
         {
             PersonTypeReader ciReader = new PersonTypeReader();
 
-            List<PersonType> toSave = new List<PersonType> {CreateTestRecord()};
+            List<PersonTypeDTO> toSave = new List<PersonTypeDTO> {CreateTestRecord()};
 
-            List<PersonType> results = ciReader.GetList();
+            List<PersonTypeDTO> results = ciReader.GetList();
 
             _startTableCount = results.Count;
 
@@ -63,7 +63,7 @@ namespace DALTester
             var ciReader = new PersonTypeReader();
 
             //Create the base object to modify.
-            List<PersonType> toSave = new List<PersonType> { CreateTestRecord() };
+            List<PersonTypeDTO> toSave = new List<PersonTypeDTO> { CreateTestRecord() };
 
             toSave = ciReader.Save(toSave);
 
@@ -72,7 +72,7 @@ namespace DALTester
             var toModify = results[0];
             toModify.Type = "TEST-MOD";
             
-            var modifyItems = new List<PersonType> {toModify};
+            var modifyItems = new List<PersonTypeDTO> {toModify};
 
             //Should be doing an update and not an insert
             modifyItems = ciReader.Save(modifyItems);
@@ -91,7 +91,7 @@ namespace DALTester
             var reader = new PersonTypeReader();
 
             //Create the base object to modify.
-            List<PersonType> toSave = new List<PersonType> { CreateTestRecord() };
+            List<PersonTypeDTO> toSave = new List<PersonTypeDTO> { CreateTestRecord() };
 
             toSave = reader.Save(toSave);
 
@@ -105,9 +105,9 @@ namespace DALTester
 
         }
 
-        private PersonType CreateTestRecord()
+        private PersonTypeDTO CreateTestRecord()
         {
-            PersonType newRecord = new PersonType
+            PersonTypeDTO newRecord = new PersonTypeDTO
             {
                 Type = "TEST"
             };

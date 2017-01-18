@@ -10,15 +10,15 @@ using MySql.Data.MySqlClient;
 
 namespace Common.Reader
 {
-    public class EventVolunteerReader : MySqlObjectReaderBase<EventVolunteer>
+    public class EventVolunteerReader : MySqlObjectReaderBase<EventVolunteerDTO>
     {
-        protected override MapperBase<EventVolunteer> GetMapper()
+        protected override MapperBase<EventVolunteerDTO> GetMapper()
         {
-            MapperBase<EventVolunteer> mapper = new EventVolunteerMapper();
+            MapperBase<EventVolunteerDTO> mapper = new EventVolunteerMapper();
             return mapper;
         }
 
-        public override List<EventVolunteer> GetList()
+        public override List<EventVolunteerDTO> GetList()
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetEventVolunteers))
             {
@@ -35,7 +35,7 @@ namespace Common.Reader
             }
         }
 
-        public override List<EventVolunteer> GetById(int id)
+        public override List<EventVolunteerDTO> GetById(int id)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetEventVolunteerById))
             {
@@ -56,9 +56,9 @@ namespace Common.Reader
             }
         }
 
-        public override List<EventVolunteer> Save(List<EventVolunteer> objList)
+        public override List<EventVolunteerDTO> Save(List<EventVolunteerDTO> objList)
         {
-            foreach (EventVolunteer item in objList)
+            foreach (EventVolunteerDTO item in objList)
             {
                 if (item.IsNew) //Insert
                 {
@@ -92,13 +92,13 @@ namespace Common.Reader
 
         }
 
-        public override void Remove(List<EventVolunteer> objList)
+        public override void Remove(List<EventVolunteerDTO> objList)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.DelEventVolunteer))
             {
                 try
                 {
-                    foreach (EventVolunteer item in objList)
+                    foreach (EventVolunteerDTO item in objList)
                     {
                         command.Parameters.Add(CreateParameter("pEventVolunteerID", item.EventVolunteerId));
                         ExecuteNoReader(command);

@@ -8,23 +8,23 @@ using Common.Abstract;
 
 namespace Common
 {
-    public class Venue : DTOBase
+    public class VenueDTO : DTOBase
     {
         public int VenueId { get; set; }
         public string Name { get; set; }
         public string Contact { get; set; }
-        public ContactInfo ContactInfo { get; set; }
+        public ContactInfoDTO ContactInfo { get; set; }
 
-        public Venue()
+        public VenueDTO()
         {
             VenueId = IntNullValue;
             Name = StringNullValue;
             Contact = StringNullValue;
-            ContactInfo = new ContactInfo();
+            ContactInfo = new ContactInfoDTO();
             IsNew = true;
         }
 
-        public Venue(int venueId, string name, string contact, ContactInfo contactInfo)
+        public VenueDTO(int venueId, string name, string contact, ContactInfoDTO contactInfo)
         {
             VenueId = venueId;
             Name = name;

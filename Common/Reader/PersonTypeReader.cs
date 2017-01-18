@@ -10,15 +10,15 @@ using MySql.Data.MySqlClient;
 
 namespace Common.Reader
 {
-    public class PersonTypeReader : MySqlObjectReaderBase<PersonType>
+    public class PersonTypeReader : MySqlObjectReaderBase<PersonTypeDTO>
     {
-        protected override MapperBase<PersonType> GetMapper()
+        protected override MapperBase<PersonTypeDTO> GetMapper()
         {
-            MapperBase<PersonType> mapper = new PersonTypeMapper();
+            MapperBase<PersonTypeDTO> mapper = new PersonTypeMapper();
             return mapper;
         }
 
-        public override List<PersonType> GetList()
+        public override List<PersonTypeDTO> GetList()
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetPersonType))
             {
@@ -35,7 +35,7 @@ namespace Common.Reader
             }
         }
 
-        public override List<PersonType> GetById(int id)
+        public override List<PersonTypeDTO> GetById(int id)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetPersonTypeById))
             {
@@ -56,9 +56,9 @@ namespace Common.Reader
             }
         }
 
-        public override List<PersonType> Save(List<PersonType> objList)
+        public override List<PersonTypeDTO> Save(List<PersonTypeDTO> objList)
         {
-            foreach (PersonType item in objList)
+            foreach (PersonTypeDTO item in objList)
             {
                 if (item.IsNew) //Insert
                 {
@@ -90,13 +90,13 @@ namespace Common.Reader
 
         }
 
-        public override void Remove(List<PersonType> objList)
+        public override void Remove(List<PersonTypeDTO> objList)
         {
             using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.DelPersonType))
             {
                 try
                 {
-                    foreach (PersonType item in objList)
+                    foreach (PersonTypeDTO item in objList)
                     {
                         command.Parameters.Add(CreateParameter("pPersonTypeID", item.PersonTypeId));
                         ExecuteNoReader(command);

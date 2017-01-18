@@ -10,7 +10,7 @@ using Common.Reader;
 
 namespace Common.Mapper
 {
-    class ReservationMapper : MapperBase<Reservation>
+    class ReservationMapper : MapperBase<ReservationDTO>
     {
         private int _ordReservationId;
         private int _ordReservationDate;
@@ -18,7 +18,7 @@ namespace Common.Mapper
         private int _ordEventId;
         private int _ordPersonId;
         
-        protected override Reservation Map(IDataRecord record)
+        protected override ReservationDTO Map(IDataRecord record)
         {
             try
             {
@@ -26,7 +26,7 @@ namespace Common.Mapper
                 PersonReader personReader = new PersonReader();
 
 
-                Reservation e = new Reservation();
+                ReservationDTO e = new ReservationDTO();
                 e.ReservationId = (DBNull.Value == record[_ordReservationId]) ? CommonBase.IntNullValue : (int) record[_ordReservationId];
                 e.ReservationDate = (DBNull.Value == record[_ordReservationDate]) ? CommonBase.DateTimeNullValue : (DateTime) record[_ordReservationDate];
                 e.LastUpdated = (DBNull.Value == record[_ordLastUpdate]) ? CommonBase.DateTimeNullValue : (DateTime)record[_ordLastUpdate];

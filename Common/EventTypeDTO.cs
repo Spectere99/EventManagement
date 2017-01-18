@@ -7,16 +7,17 @@ using Common.Abstract;
 
 namespace Common
 {
-    public class UnitType : DTOBase
+    public class EventTypeDTO : DTOBase
     {
-        public int UnitTypeId { get; set; }
+        public int EventTypeId { get; set; }
         public string Type { get; set; }
 
-        public UnitType()
+        public EventTypeDTO()
         {
-            UnitTypeId = IntNullValue;
+            EventTypeId = IntNullValue;
             Type = StringNullValue;
             IsNew = true;
+
         }
     }
 }

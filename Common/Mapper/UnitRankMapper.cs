@@ -10,19 +10,19 @@ using Common.Reader;
 
 namespace Common.Mapper
 {
-    class UnitRankMapper : MapperBase<UnitRank>
+    class UnitRankMapper : MapperBase<UnitRankDTO>
     {
         private int _ordUnitRankId;
         private int _ordUnitRank;
         private int _ordUnitTypeId;
 
-        protected override UnitRank Map(IDataRecord record)
+        protected override UnitRankDTO Map(IDataRecord record)
         {
             try
             {
                 UnitTypeReader unitTypeReader = new UnitTypeReader();
 
-                UnitRank e = new UnitRank();
+                UnitRankDTO e = new UnitRankDTO();
                 e.UnitRankId = (DBNull.Value == record[_ordUnitRankId]) ? CommonBase.IntNullValue : (int)record[_ordUnitRankId];
                 e.Rank = (DBNull.Value == record[_ordUnitRank]) ? CommonBase.StringNullValue : (string)record[_ordUnitRank];
 

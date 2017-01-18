@@ -31,9 +31,9 @@ namespace DALTester
         {
             UnitRankReader ciReader = new UnitRankReader();
 
-            List<UnitRank> toSave = new List<UnitRank> {CreateTestRecord()};
+            List<UnitRankDTO> toSave = new List<UnitRankDTO> {CreateTestRecord()};
 
-            List<UnitRank> results = ciReader.GetList();
+            List<UnitRankDTO> results = ciReader.GetList();
 
             _startTableCount = results.Count;
 
@@ -63,7 +63,7 @@ namespace DALTester
             var ciReader = new UnitRankReader();
 
             //Create the base object to modify.
-            List<UnitRank> toSave = new List<UnitRank> { CreateTestRecord() };
+            List<UnitRankDTO> toSave = new List<UnitRankDTO> { CreateTestRecord() };
 
             toSave = ciReader.Save(toSave);
 
@@ -72,7 +72,7 @@ namespace DALTester
             var toModify = results[0];
             toModify.Rank = "TEST-MOD";
             
-            var modifyItems = new List<UnitRank> {toModify};
+            var modifyItems = new List<UnitRankDTO> {toModify};
 
             //Should be doing an update and not an insert
             modifyItems = ciReader.Save(modifyItems);
@@ -91,7 +91,7 @@ namespace DALTester
             var reader = new UnitRankReader();
 
             //Create the base object to modify.
-            List<UnitRank> toSave = new List<UnitRank> { CreateTestRecord() };
+            List<UnitRankDTO> toSave = new List<UnitRankDTO> { CreateTestRecord() };
 
             toSave = reader.Save(toSave);
 
@@ -105,13 +105,13 @@ namespace DALTester
 
         }
 
-        private UnitRank CreateTestRecord()
+        private UnitRankDTO CreateTestRecord()
         {
             var reader = new UnitTypeReader();
 
             var unitType = reader.GetById(1);
 
-            UnitRank newRecord = new UnitRank
+            UnitRankDTO newRecord = new UnitRankDTO
             {
                 Rank = "TEST",
                 UnitType = unitType.FirstOrDefault()

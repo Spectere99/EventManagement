@@ -31,9 +31,9 @@ namespace DALTester
         {
             PositionReader ciReader = new PositionReader();
 
-            List<Position> toSave = new List<Position> {CreateTestRecord()};
+            List<PositionDTO> toSave = new List<PositionDTO> {CreateTestRecord()};
 
-            List<Position> results = ciReader.GetList();
+            List<PositionDTO> results = ciReader.GetList();
 
             _startTableCount = results.Count;
 
@@ -63,7 +63,7 @@ namespace DALTester
             var ciReader = new PositionReader();
 
             //Create the base object to modify.
-            List<Position> toSave = new List<Position> { CreateTestRecord() };
+            List<PositionDTO> toSave = new List<PositionDTO> { CreateTestRecord() };
 
             toSave = ciReader.Save(toSave);
 
@@ -72,7 +72,7 @@ namespace DALTester
             var toModify = results[0];
             toModify.PositionName = "TEST-MOD";
             
-            var modifyItems = new List<Position> {toModify};
+            var modifyItems = new List<PositionDTO> {toModify};
 
             //Should be doing an update and not an insert
             modifyItems = ciReader.Save(modifyItems);
@@ -91,7 +91,7 @@ namespace DALTester
             var reader = new PositionReader();
 
             //Create the base object to modify.
-            List<Position> toSave = new List<Position> { CreateTestRecord() };
+            List<PositionDTO> toSave = new List<PositionDTO> { CreateTestRecord() };
 
             toSave = reader.Save(toSave);
 
@@ -105,9 +105,9 @@ namespace DALTester
 
         }
 
-        private Position CreateTestRecord()
+        private PositionDTO CreateTestRecord()
         {
-            Position newRecord = new Position
+            PositionDTO newRecord = new PositionDTO
             {
                 PositionName = "TEST"
             };

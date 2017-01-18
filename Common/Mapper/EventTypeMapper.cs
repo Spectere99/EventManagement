@@ -9,16 +9,16 @@ using Common.Base;
 
 namespace Common.Mapper
 {
-    class EventTypeMapper : MapperBase<EventType>
+    class EventTypeMapper : MapperBase<EventTypeDTO>
     {
         private int _ordEventTypeID;
         private int _ordEventType;
 
-        protected override EventType Map(IDataRecord record)
+        protected override EventTypeDTO Map(IDataRecord record)
         {
             try
             {
-                EventType e = new EventType();
+                EventTypeDTO e = new EventTypeDTO();
                 e.EventTypeId = (DBNull.Value == record[_ordEventTypeID]) ? CommonBase.IntNullValue : (int)record[_ordEventTypeID];
                 e.Type = (DBNull.Value == record[_ordEventType]) ? CommonBase.StringNullValue : (string)record[_ordEventType];
                 e.IsNew = false;

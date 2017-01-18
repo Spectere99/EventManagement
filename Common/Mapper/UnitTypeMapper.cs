@@ -9,16 +9,16 @@ using Common.Base;
 
 namespace Common.Mapper
 {
-    class UnitTypeMapper : MapperBase<UnitType>
+    class UnitTypeMapper : MapperBase<UnitTypeDTO>
     {
         private int _ordUnitTypeId;
         private int _ordUnitType;
 
-        protected override UnitType Map(IDataRecord record)
+        protected override UnitTypeDTO Map(IDataRecord record)
         {
             try
             {
-                UnitType e = new UnitType();
+                UnitTypeDTO e = new UnitTypeDTO();
                 e.UnitTypeId = (DBNull.Value == record[_ordUnitTypeId]) ? CommonBase.IntNullValue : (int)record[_ordUnitTypeId];
                 e.Type = (DBNull.Value == record[_ordUnitType]) ? CommonBase.StringNullValue : (string)record[_ordUnitType];
                 e.IsNew = false;

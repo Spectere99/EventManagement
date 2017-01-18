@@ -32,7 +32,7 @@ namespace DALTester
         {
             var ciReader = new RegistrationReader();
 
-            var toSave = new List<Registration> {CreateTestRecord()};
+            var toSave = new List<RegistrationDTO> {CreateTestRecord()};
 
             var results = ciReader.GetList();
 
@@ -64,7 +64,7 @@ namespace DALTester
             var ciReader = new RegistrationReader();
 
             //Create the base object to modify.
-            var toSave = new List<Registration> { CreateTestRecord() };
+            var toSave = new List<RegistrationDTO> { CreateTestRecord() };
 
             toSave = ciReader.Save(toSave);
 
@@ -73,7 +73,7 @@ namespace DALTester
             var toModify = results[0];
             toModify.ConfirmationNumber = "ABCD-1234";
             
-            var modifyItems = new List<Registration> {toModify};
+            var modifyItems = new List<RegistrationDTO> {toModify};
 
             //Should be doing an update and not an insert
             modifyItems = ciReader.Save(modifyItems);
@@ -92,7 +92,7 @@ namespace DALTester
             var reader = new RegistrationReader();
 
             //Create the base object to modify.
-            var toSave = new List<Registration> { CreateTestRecord() };
+            var toSave = new List<RegistrationDTO> { CreateTestRecord() };
 
             toSave = reader.Save(toSave);
 
@@ -106,7 +106,7 @@ namespace DALTester
 
         }
 
-        private Registration CreateTestRecord()
+        private RegistrationDTO CreateTestRecord()
         {
             var eventReader = new EventReader();
             var personReader = new PersonReader();
@@ -114,7 +114,7 @@ namespace DALTester
             var eventObj = eventReader.GetById(1);
             var person = personReader.GetById(1);
             
-            var newRecord = new Registration
+            var newRecord = new RegistrationDTO
             {
                 RegistrationDate = DateTime.Now,
                 ConfirmationNumber = "ABCD",

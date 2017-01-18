@@ -1,0 +1,22 @@
+﻿@model EventManagement.Models.RegistrationViewModel
+@{
+    ViewBag.Title = "Index";
+}
+<head>
+    <title>Event Registration</title>
+    <script src="~/js/registration.js" type="text/javascript"></script>
+</head>
+<h2>Registration</h2>
+@*@using (Html.BeginForm("Index", "Registration", FormMethod.Post, new {id = "RegistrationForm"}))*@
+@using (Html.BeginForm())
+{
+    <p>
+        @Html.DropDownListFor(m => m.EventList, new SelectList(Model.EventList, "EventId", "EventName"), "Select ...", new {onchange = "GetVenueDetails(this.value);", @class = "form-control"})
+        @Html.Label("VenueName", "Event Not Selected", new {id="VenueName"})<br/>
+        @Html.Label("VenueAddress1", " ", new { id = "VenueAddress1" })<br />
+        @Html.Label("VenueAddress2", " ", new { id = "VenueAddress2" })<br />
+        @Html.Label("VenueCity", " ", new { id = "VenueCity" }), @Html.Label("VenueState", " ", new { id = "VenueState" }) @Html.Label("VenueZip", " ", new { id = "VenueZip" })
+
+    </p>
+}
+
