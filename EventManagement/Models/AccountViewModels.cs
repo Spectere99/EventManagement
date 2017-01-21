@@ -56,11 +56,13 @@ namespace EventManagement.Models
 
     public class LoginViewModel
     {
+        //[Required]
+        //[Display(Name = "Email")]
+        //[EmailAddress]
+        //public string Email { get; set; }
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
-
+        [Display(Name = "User Name")]
+        public string UserName { get; set; }
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
@@ -73,9 +75,55 @@ namespace EventManagement.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "Middle Name")]
+        public string MiddleName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Phone]
+        [Display(Name = "Home Phone")]
+        public string HomePhone { get; set; }
+
+        [Phone]
+        [Display(Name = "Business Phone")]
+        public string BusinessPhone { get; set; }
+
+        [Phone]
+        [Display(Name = "Cell Phone")]
+        public string CellPhone { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Address")]
+        public string Address1 { get; set; }
+
+        [Display(Name = "Suite / Apt #")]
+        public string Address2 { get; set; }
+
+        [Required]
+        [Display(Name = "City")]
+        public string City { get; set; }
+
+        [Required]
+        [Display(Name = "State")]
+        public string State { get; set; }
+
+        [Required]
+        [Display(Name = "Zip")]
+        public string Zip { get; set; }
+        [Required]
+        [Display(Name = "User Name")]
+        public string UserName { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

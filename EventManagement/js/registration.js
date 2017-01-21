@@ -25,10 +25,8 @@
                                 $('#venueDetails').show();
                             }
                         },
-                        error: function(xhr, ajaxOptions, thrownError) {
-                            alert(xhr.status);
-                            alert(ajaxOptions);
-                            alert(thrownError);
+                        error: function (xhr) {
+                            alert(xhr.responseText);
                         }
                     });
                     $.ajax({
@@ -44,10 +42,8 @@
                                 $("#EventDate").text(eDates);
                             }
                         },
-                        error: function(xhr, ajaxOptions, thrownError) {
-                            alert(xhr.status);
-                            alert(ajaxOptions);
-                            alert(thrownError);
+                        error: function (xhr) {
+                            alert(xhr.responseText);
                         }
                     });
                     

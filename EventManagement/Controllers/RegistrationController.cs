@@ -17,9 +17,17 @@ namespace EventManagement.Controllers
         // Sets up for the user to select the event that they want to register for.
         public ActionResult Index()
         {
+            if (HttpContext.Request.Url != null) Session["RegistrationEvent"] = HttpContext.Request.Url.AbsoluteUri;
+            Session["CreateUser"] = true;
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult EventSelection()
+        {
             //Get available Events
             EventReader eventReader = new EventReader();
-            var eventDtos = eventReader.GetList().OrderBy(p=>p.Start).ToList();
+            var eventDtos = eventReader.GetList().OrderBy(p => p.Start).ToList();
 
             List<EventViewModel> events = new List<EventViewModel>();
             foreach (var eventDto in eventDtos)
@@ -52,7 +60,6 @@ namespace EventManagement.Controllers
 
             return View(registrationViewModel);
         }
-
         public ActionResult RegistrantEntry()
         {
             if (Session["RegistrationEvent"] != null)

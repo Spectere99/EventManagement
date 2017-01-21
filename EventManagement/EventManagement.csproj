@@ -1147,6 +1147,9 @@
     <Content Include="Scripts\version.json" />
     <Content Include="Views\Registration\RegistrantEntry.cshtml" />
     <Content Include="Views\Registration\VolunteerEntry.cshtml" />
+    <Content Include="Views\Registration\EventSelection.cshtml" />
+    <Content Include="Views\Registration\_Register.cshtml" />
+    <Content Include="Views\Registration\_Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

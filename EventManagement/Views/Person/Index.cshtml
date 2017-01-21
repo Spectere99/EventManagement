@@ -1,4 +1,4 @@
-﻿
+﻿@model EventManagement.Models.PersonViewModel
 @{
     Layout = null;
 
@@ -7,7 +7,6 @@
     
 }
 
-@model IEnumerable<EventsModel.Person>
 
 <!DOCTYPE html>
 
@@ -24,14 +23,11 @@
             <th>First Name</th>
             <th>Last Name</th>
         </tr>
-        @foreach (var person in Model)
-        {
-            <tr>
-                <td>@person.FirstName</td>
-                <td>@person.LastName</td>    
-            </tr>
+        <tr>
+                <td>Model.FirstName</td>
+                <td>Model.LastName</td>    
+        </tr>
             
-        }
     </table>
 </div>
 </body>

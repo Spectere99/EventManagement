@@ -1,45 +1,13 @@
-﻿@model EventManagement.Models.RegistrationViewModel
+﻿@using EventManagement.Models
+@model LoginViewModel
 @{
     ViewBag.Title = "Index";
 }
-<head>
-    <title>Event Registration</title>
-    <script src="~/js/registration.js" type="text/javascript"></script>
-</head>
-<h2>Registration</h2>
-@*@using (Html.BeginForm("Index", "Registration", FormMethod.Post, new {id = "RegistrationForm"}))*@
-@using (Html.BeginForm("RegistrantEntry", "Registration"))
-{
-    <p>
-        <div class="row">
-            <div id="eventSelection" class="col-md-4">
-                @Html.DropDownListFor(m => m.EventList, new SelectList(Model.EventList, "EventId", "EventName"), "Select ...", new {  @class = "form-control" })  @*onchange = "GetVenueDetails(this.value);",*@
-            </div>
-            <div id="venueDetails" class="col-md-4" style="display: none">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <h6>
-                            @Html.Label("EventDate", " ", new {id = "EventDate"})<br/>
-                            @Html.Label("VenueName", "Event Not Selected", new {id = "VenueName"})<br/>
-                            @Html.Label("VenueAddress1", " ", new {id = "VenueAddress1"})<br/>
-                            @Html.Label("VenueAddress2", " ", new {id = "VenueAddress2"})<br/>
-                            @Html.Label("VenueCity", " ", new {id = "VenueCity"}), @Html.Label("VenueState", " ", new {id = "VenueState"}) @Html.Label("VenueZip", " ", new {id = "VenueZip"})
-                        </h6>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-        <div class="row">
-            
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Next" class="btn btn-default" />
-            </div>
-        </div>
-    </p>
-
-    
-}
+<div class="col-md-5">
+    @Html.Partial("_Login")
+</div>
+<div class="col-md-7">
+    @Html.Partial("_Register")
+</div>
+<hr/>
 
