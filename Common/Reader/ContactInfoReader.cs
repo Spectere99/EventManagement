@@ -66,7 +66,6 @@ namespace Common.Reader
                     {
                         command.Parameters.Add(CreateParameter("pContactName", item.Name, 45));
                         command.Parameters.Add(CreateParameter("pHomePhone", item.HomePhone, 15));
-                        command.Parameters.Add(CreateParameter("pBusinessPhone", item.BusinessPhone, 15));
                         command.Parameters.Add(CreateParameter("pCellPhone", item.CellPhone, 15));
                         command.Parameters.Add(CreateParameter("pEmail", item.Email, 45));
                         command.Parameters.Add(CreateParameter("pAddress1", item.Address1, 50));
@@ -91,7 +90,6 @@ namespace Common.Reader
                         command.Parameters.Add(CreateParameter("pContactInfoID", item.ContactInfoId));
                         command.Parameters.Add(CreateParameter("pContactName", item.Name, 45));
                         command.Parameters.Add(CreateParameter("pHomePhone", item.HomePhone, 15));
-                        command.Parameters.Add(CreateParameter("pBusinessPhone", item.BusinessPhone, 15));
                         command.Parameters.Add(CreateParameter("pCellPhone", item.CellPhone, 15));
                         command.Parameters.Add(CreateParameter("pEmail", item.Email, 45));
                         command.Parameters.Add(CreateParameter("pAddress1", item.Address1, 50));

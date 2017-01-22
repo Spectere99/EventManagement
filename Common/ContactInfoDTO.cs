@@ -12,7 +12,6 @@ namespace Common
         public int ContactInfoId { get; set; }
         public string Name { get; set; }
         public string HomePhone { get; set; }
-        public string BusinessPhone { get; set; }
         public string CellPhone { get; set; }
         public string Email { get; set; }
         public string Address1 { get; set; }
@@ -26,7 +25,6 @@ namespace Common
             ContactInfoId = IntNullValue;
             Name = StringNullValue;
             HomePhone = StringNullValue;
-            BusinessPhone = StringNullValue;
             CellPhone = StringNullValue;
             Email = StringNullValue;
             Address1 = StringNullValue;
@@ -37,13 +35,12 @@ namespace Common
             IsNew = true;
         }
 
-        public ContactInfoDTO(int contactInfoId, string name, string homePhone, string businessPhone, string cellPhone,
+        public ContactInfoDTO(int contactInfoId, string name, string homePhone, string cellPhone,
             string email, string address1, string address2, string city, string state, string zip)
         {
             ContactInfoId = contactInfoId;
             Name = name;
             HomePhone = homePhone;
-            BusinessPhone = businessPhone;
             CellPhone = cellPhone;
             Email = email;
             Address1 = address1;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -7,6 +8,8 @@ using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Security;
+using Common;
+using Common.Reader;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -154,12 +157,28 @@ namespace EventManagement.Controllers
             }
         }
 
-        //
+       
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(string returnUrl)
         {
-            return View();
+            //Set State List
+            
+            Session["EventStartPage"] = returnUrl;
+            PersonTypeReader personTypeReader = new PersonTypeReader();
+            UnitTypeReader unitTypeReader = new UnitTypeReader();
+
+            var personTypes = personTypeReader.GetList().Where(p=>p.PersonTypeId > 0).ToList();
+            var unitTypes = unitTypeReader.GetList().Where(p=>p.UnitTypeId > 0).ToList();
+
+           RegisterViewModel registerViewModel = new RegisterViewModel()
+            {
+                StateList = Utilities.States,
+                PersonTypeList = personTypes,
+                UnitTypeList = unitTypes
+            };
+
+            return View(registerViewModel);
         }
 
         //
@@ -169,11 +188,10 @@ namespace EventManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            bool shouldRedirect = Session["RegistrationEvent"] != null;
-            if (Session["CreateUser"] == null)
-            {
-                Session["CreateUser"] = false;
-            }
+            ContactInfoReader contactInfoReader = new ContactInfoReader();
+            PersonReader personReader = new PersonReader();
+            PersonTypeReader personTypeReader = new PersonTypeReader();
+            UnitReader unitReader = new UnitReader();
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
@@ -182,7 +200,69 @@ namespace EventManagement.Controllers
                 {
                     //Assign Role to user Here
                     // Create Person and Contact Info objects in database
+                    
+                    ContactInfoDTO contactInfo = new ContactInfoDTO()
+                    {
+                        Name = model.FirstName + " " + model.LastName,
+                        HomePhone = model.HomePhone,
+                        CellPhone = model.CellPhone,
+                        Email = model.Email,
+                        Address1 = model.Address1,
+                        Address2 = model.Address2,
+                        City = model.City,
+                        State = model.State,
+                        Zip = model.Zip
+                    };
+                    List<ContactInfoDTO> contactInfoList = new List<ContactInfoDTO>();
+                    contactInfoList.Add(contactInfo);
 
+                    contactInfoList = contactInfoReader.Save(contactInfoList); 
+                    
+                    List<PersonDTO> personList = new List<PersonDTO>();
+                    if (model.NotUnitAffiliated)
+                    {
+                        //Person Type, Unit Type, and Unit are not going to be selected.
+                        PersonDTO person = new PersonDTO()
+                        {
+                            FirstName = model.FirstName,
+                            MiddleName = model.MiddleName,
+                            LastName = model.LastName,
+                            LastUpdated = DateTime.Now,
+                            ContactInfo = contactInfoList[0],
+                            ParentPerson = null,
+                            PersonType = null,
+                            Rank = null,
+                            Unit = null,
+                            UserId = user.Id
+                        };
+                        personList.Add(person);    
+                    }
+                    else
+                    {
+                        var personType = personTypeReader.GetById(int.Parse(model.PersonType));
+                        var unit = unitReader.GetById(int.Parse(model.Unit));
+                        PersonDTO person = new PersonDTO()
+                        {
+                            FirstName = model.FirstName,
+                            MiddleName = model.MiddleName,
+                            LastName = model.LastName,
+                            LastUpdated = DateTime.Now,
+                            ContactInfo = contactInfoList[0],
+                            ParentPerson = null,
+                            PersonType = personType[0],
+                            Rank = null,
+                            Unit = unit[0],
+                            UserId = user.Id
+                        };
+                        personList.Add(person);    
+                    }
+                    
+
+                    
+                    
+
+                    personReader.Save(personList);
+                    
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -190,19 +270,21 @@ namespace EventManagement.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    return shouldRedirect ? RedirectToAction("EventSelection", "Registration") : RedirectToAction("Index", "Home");
+                    //return shouldRedirect ? RedirectToAction("EventSelection", "Registration") : RedirectToAction("Index", "Home");
+                    return RedirectToLocal(model.ReturnUrl);
                 }
                 AddErrors(result);
-                if (shouldRedirect)
-                {
-                    return RedirectToAction("EventSelection", "Registration");
-                }
             }
-            
+            personTypeReader = new PersonTypeReader();
+            UnitTypeReader unitTypeReader = new UnitTypeReader();
+
+            var personTypes = personTypeReader.GetList().Where(p => p.PersonTypeId > 0).ToList();
+            var unitTypes = unitTypeReader.GetList().Where(p => p.UnitTypeId > 0).ToList();
+
+            model.PersonTypeList = personTypes;
+            model.UnitTypeList = unitTypes;
+            model.StateList = Utilities.States;
             // If we got this far, something failed, redisplay form
-            if (!(bool) Session["CreateUser"]) return View(model);
-            ModelState.Clear();
-            Session["CreateUser"] = false;
             return View(model);
         }
 

@@ -1,13 +1,12 @@
 ﻿@using EventManagement.Models
-@model LoginViewModel
+@using System.Web.Mvc.Html
+@using GridMvc.Html
+
+@model EventViewModel
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Event Index";
 }
-<div class="col-md-5">
-    @Html.Partial("_Login")
-</div>
-<div class="col-md-7">
-    @Html.Partial("_Register")
-</div>
+<h2>Event Listing</h2>
 <hr/>
 

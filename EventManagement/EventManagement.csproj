@@ -255,6 +255,7 @@
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="AuthorizeAtrribute.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -272,6 +273,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="js\register.js" />
     <Content Include="js\registration.js" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
@@ -1150,6 +1152,7 @@
     <Content Include="Views\Registration\EventSelection.cshtml" />
     <Content Include="Views\Registration\_Register.cshtml" />
     <Content Include="Views\Registration\_Login.cshtml" />
+    <Content Include="Views\Account\_Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

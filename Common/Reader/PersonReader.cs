@@ -67,18 +67,22 @@ namespace Common.Reader
                         command.Parameters.Add(CreateParameter("pFirstName", item.FirstName, 45));
                         command.Parameters.Add(CreateParameter("pMiddleName", item.MiddleName, 45));
                         command.Parameters.Add(CreateParameter("pLastName", item.LastName, 45));
-                        command.Parameters.Add(CreateParameter("pContactInfoID", item.ContactInfo.ContactInfoId));
-                        if (item.ParentPerson != null)
-                        {
-                            command.Parameters.Add(CreateParameter("pParentPersonID", item.ParentPerson.PersonId));
-                        }
-                        else
-                        {
-                            command.Parameters.Add(CreateNullParamter("pParentPersonID", MySqlDbType.Int32));
-                        }
-                        command.Parameters.Add(CreateParameter("pPersonTypeID", item.PersonType.PersonTypeId));
-                        command.Parameters.Add(CreateParameter("pUnitRankID", item.Rank.UnitRankId));
-                        command.Parameters.Add(CreateParameter("pUnitID", item.Unit.UnitId));
+                        command.Parameters.Add(item.ContactInfo != null
+                            ? CreateParameter("pContactInfoID", item.ContactInfo.ContactInfoId)
+                            : CreateNullParamter("pContactInfoID", MySqlDbType.Int32));
+                        command.Parameters.Add(item.ParentPerson != null
+                            ? CreateParameter("pParentPersonID", item.ParentPerson.PersonId)
+                            : CreateNullParamter("pParentPersonID", MySqlDbType.Int32));
+                        command.Parameters.Add(item.PersonType == null
+                            ? CreateParameter("pPersonTypeID", -1)
+                            : CreateParameter("pPersonTypeID", item.PersonType.PersonTypeId));
+                        command.Parameters.Add(item.Rank == null
+                            ? CreateParameter("pUnitRankID", -1)
+                            : CreateParameter("pUnitRankID", item.Rank.UnitRankId));
+                        command.Parameters.Add(item.Unit == null
+                            ? CreateParameter("pUnitID", -1)
+                            : CreateParameter("pUnitID", item.Unit.UnitId));
+                        command.Parameters.Add(CreateParameter("pUserID", item.UserId, 45));
                         command.Parameters.Add(CreateOutputParameter("oPersonID", MySqlDbType.Int32));
 
                         ExecuteNoReader(command);
@@ -97,11 +101,22 @@ namespace Common.Reader
                         command.Parameters.Add(CreateParameter("pFirstName", item.FirstName, 45));
                         command.Parameters.Add(CreateParameter("pMiddleName", item.MiddleName, 45));
                         command.Parameters.Add(CreateParameter("pLastName", item.LastName, 45));
-                        command.Parameters.Add(CreateParameter("pContactInfoID", item.ContactInfo.ContactInfoId));
-                        command.Parameters.Add(CreateParameter("pParentPersonID", item.ParentPerson.PersonId));
-                        command.Parameters.Add(CreateParameter("pPersonTypeID", item.PersonType.PersonTypeId));
-                        command.Parameters.Add(CreateParameter("pUnitRankID", item.Rank.UnitRankId));
-                        command.Parameters.Add(CreateParameter("pUnitID", item.Unit.UnitId));
+                        command.Parameters.Add(item.ContactInfo != null
+                            ? CreateParameter("pContactInfoID", item.ContactInfo.ContactInfoId)
+                            : CreateNullParamter("pContactInfoID", MySqlDbType.Int32));
+                        command.Parameters.Add(item.ParentPerson != null
+                            ? CreateParameter("pParentPersonID", item.ParentPerson.PersonId)
+                            : CreateNullParamter("pParentPersonID", MySqlDbType.Int32));
+                        command.Parameters.Add(item.PersonType == null
+                            ? CreateParameter("pPersonTypeID", -1)
+                            : CreateParameter("pPersonTypeID", item.PersonType.PersonTypeId));
+                        command.Parameters.Add(item.Rank == null
+                            ? CreateParameter("pUnitRankID", -1)
+                            : CreateParameter("pUnitRankID", item.Rank.UnitRankId));
+                        command.Parameters.Add(item.Unit == null
+                            ? CreateParameter("pUnitID", -1)
+                            : CreateParameter("pUnitID", item.Unit.UnitId));
+                        command.Parameters.Add(CreateParameter("pUserID", item.UserId, 45));
                         
                         
                         ExecuteNoReader(command);

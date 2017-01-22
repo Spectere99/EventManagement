@@ -14,7 +14,6 @@ namespace Common.Mapper
         private int _ordContactInfoId;
         private int _ordContactName;
         private int _ordHomePhone;
-        private int _ordBusinessPhone;
         private int _ordCellPhone;
         private int _ordEmail;
         private int _ordAddress1;
@@ -31,7 +30,6 @@ namespace Common.Mapper
                 c.ContactInfoId = (DBNull.Value == record[_ordContactInfoId]) ? CommonBase.IntNullValue : (int) record[_ordContactInfoId];
                 c.Name = (DBNull.Value == record[_ordContactName]) ? CommonBase.StringNullValue : (string)record[_ordContactName];
                 c.HomePhone = (DBNull.Value == record[_ordHomePhone]) ? CommonBase.StringNullValue : (string)record[_ordHomePhone];
-                c.BusinessPhone = (DBNull.Value == record[_ordBusinessPhone]) ? CommonBase.StringNullValue : (string)record[_ordBusinessPhone];
                 c.CellPhone = (DBNull.Value == record[_ordCellPhone]) ? CommonBase.StringNullValue : (string)record[_ordCellPhone];
                 c.Email = (DBNull.Value == record[_ordEmail]) ? CommonBase.StringNullValue : (string)record[_ordEmail];
                 c.Address1 = (DBNull.Value == record[_ordAddress1]) ? CommonBase.StringNullValue : (string)record[_ordAddress1];
@@ -54,7 +52,6 @@ namespace Common.Mapper
             _ordContactInfoId = reader.GetOrdinal("ContactInfoID");
             _ordContactName = reader.GetOrdinal("ContactName");
             _ordHomePhone = reader.GetOrdinal("HomePhone");
-            _ordBusinessPhone = reader.GetOrdinal("BusinessPhone");
             _ordCellPhone = reader.GetOrdinal("CellPhone");
             _ordEmail = reader.GetOrdinal("Email");
             _ordAddress1 = reader.GetOrdinal("Address1");

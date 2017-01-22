@@ -17,8 +17,6 @@ namespace EventManagement.Controllers
         // Sets up for the user to select the event that they want to register for.
         public ActionResult Index()
         {
-            if (HttpContext.Request.Url != null) Session["RegistrationEvent"] = HttpContext.Request.Url.AbsoluteUri;
-            Session["CreateUser"] = true;
             return View();
         }
 
@@ -65,11 +63,8 @@ namespace EventManagement.Controllers
             if (Session["RegistrationEvent"] != null)
             {
                 UnitTypeReader unitTypeReader = new UnitTypeReader();
-                //UnitReader unitReader = new UnitReader();
                 var unitTypes = unitTypeReader.GetList();
-                //var units = unitReader.GetList();
 
-                //SelectList unitList = new SelectList(units, "UnitId", "UnitNumber");
                 SelectList unitTypeList = new SelectList(unitTypes, "UnitTypeId", "Type");
                 ReservationViewModel reservationViewModel = new ReservationViewModel
                 {
@@ -105,6 +100,7 @@ namespace EventManagement.Controllers
             }
             return View();
         }
+
         [HttpGet]
         public ActionResult GetVenueDetails(int eventId)
         {
@@ -145,7 +141,6 @@ namespace EventManagement.Controllers
             SelectList unitList = new SelectList(units.Where(p => p.UnitType.UnitTypeId.Equals(typeId)).ToList(), "UnitId", "UnitNumber");
             return Json(unitList, JsonRequestBehavior.AllowGet);
         }
-
         [HttpGet]
         public ActionResult GetRanks(int typeId)
         {
@@ -155,6 +150,7 @@ namespace EventManagement.Controllers
 
             return Json(rankList, JsonRequestBehavior.AllowGet);
         }
+
         //[HttpPost]
         //public ActionResult RegisterForEvent(Models.RegistrationViewModel)
         //{

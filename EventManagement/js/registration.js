@@ -7,7 +7,7 @@
                 if (id > 0) {
                     $.ajax({
                         //url: '@Url.Action("GetVenueDetails", "Registration")',
-                        url: 'Registration/GetVenueDetails',
+                        url: 'GetVenueDetails',
                         contentType: "application/json; charset=utf-8",
                         type: "GET",
                         dataType: "json",
@@ -31,7 +31,7 @@
                     });
                     $.ajax({
                        
-                        url: 'Registration/GetEventDate',
+                        url: 'GetEventDate',
                         contentType: "application/json; charset=utf-8",
                         type: "GET",
                         dataType: "json",
@@ -50,8 +50,10 @@
                 }
             });
 
-        $("#Person_notUnitAffiliated")
-            .click(function() {
+        $("#NotUnitAffiliated")
+            .click(function () {
+                $("#lblPersonTypeList").toggle(!this.checked);
+                $("#PersonType").toggle(!this.checked);
                 $("#lblUnitTypeList").toggle(!this.checked);
                 $("#UnitTypeList").toggle(!this.checked);
                 $("#lblUnitList").toggle(!this.checked);
@@ -64,7 +66,7 @@
                 //alert("Selected");
                 if (id > 0) {
                     $.ajax({
-                        url: "/Registration/GetUnits",
+                        url: "GetUnits",
                         contentType: "application/json; charset=utf-8",
                         type: "GET",
                         dataType: "json",
@@ -83,7 +85,7 @@
                     }
                     });
                     $.ajax({
-                        url: "/Registration/GetRanks",
+                        url: "GetRanks",
                         contentType: "application/json; charset=utf-8",
                         type: "GET",
                         dataType: "json",

@@ -22,6 +22,7 @@ namespace Common.Mapper
         private int _ordPersonTypeId;
         private int _ordUnitRankId;
         private int _ordUnitId;
+        private int _ordUserId;
         
         protected override PersonDTO Map(IDataRecord record)
         {
@@ -56,6 +57,8 @@ namespace Common.Mapper
                 var unitId = (DBNull.Value == record[_ordUnitId]) ? CommonBase.IntNullValue : (int) record[_ordUnitId];
                 e.Unit = unitReader.GetById(unitId).FirstOrDefault();
 
+                e.UserId = (DBNull.Value == record[_ordUserId]) ? CommonBase.StringNullValue : (string)record[_ordUserId];
+
                 e.IsNew = false;
                 return e;
             }
@@ -78,7 +81,7 @@ namespace Common.Mapper
             _ordPersonTypeId = reader.GetOrdinal("persontype_PersonTypeID");
             _ordUnitRankId = reader.GetOrdinal("unitranks_UnitRankID");
             _ordUnitId = reader.GetOrdinal("units_UnitID");
-           
+            _ordUserId = reader.GetOrdinal("UserID");
 
         }
     }

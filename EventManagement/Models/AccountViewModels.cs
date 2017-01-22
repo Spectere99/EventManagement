@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.UI.WebControls;
+using Common;
 
 namespace EventManagement.Models
 {
@@ -19,6 +20,11 @@ namespace EventManagement.Models
     }
 
     public class ExternalLoginListViewModel
+    {
+        public string ReturnUrl { get; set; }
+    }
+
+    public class RegisterJumpListViewModel
     {
         public string ReturnUrl { get; set; }
     }
@@ -74,6 +80,8 @@ namespace EventManagement.Models
 
     public class RegisterViewModel
     {
+        public string ReturnUrl { get; set; }
+
         [Required]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
@@ -117,6 +125,7 @@ namespace EventManagement.Models
         [Required]
         [Display(Name = "State")]
         public string State { get; set; }
+        public List<StateObject> StateList { get; set; }
 
         [Required]
         [Display(Name = "Zip")]
@@ -136,8 +145,24 @@ namespace EventManagement.Models
         [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        //[Display(Name = "Hometown")]
-        //public string Hometown { get; set; }
+        public bool NotUnitAffiliated { get; set; }
+
+        [Display(Name = "Classification")]
+        public string PersonType { get; set; }
+        [Display(Name = "Classification")]
+        public List<PersonTypeDTO> PersonTypeList { get; set; }
+
+        [Display(Name = "Unit Type")]
+        public string UnitType { get; set; }
+        [Display(Name = "Unit Type")]
+        public List<UnitTypeDTO> UnitTypeList { get; set; }
+
+        [Display(Name = "Unit")]
+        public string Unit { get; set; }
+        [Display(Name = "Unit")]
+        public List<UnitDTO> UnitList { get; set; }
+        public string UserId { get; set; }
+
     }
 
     public class ResetPasswordViewModel
