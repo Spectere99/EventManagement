@@ -45,11 +45,36 @@ namespace EventManagement.Controllers
             return View(personViewModel);
         }
 
+        [HttpGet]
+        [Authorize]
+        public ActionResult Edit(int id)
+        {
+            PersonReader personReader = new PersonReader();
+
+            var person = personReader.GetById(id).FirstOrDefault();
+            if (person != null)
+            {
+                PersonViewModel personViewModel = TranslatePersonDTO(person);
+
+                personViewModel.NotUnitAffiliated = person.Unit.UnitType.UnitTypeId.Equals(-1);
+
+                return View(personViewModel);
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Edit(int id, FormCollection formValues)
+        {
+            return RedirectToAction("PersonDetails");
+        }
 
         private PersonViewModel TranslatePersonDTO(PersonDTO person)
         {
             PersonViewModel personViewModel = new PersonViewModel
             {
+                PersonId = person.PersonId,
                 FirstName = person.FirstName,
                 MiddleName = person.MiddleName,
                 LastName = person.LastName,

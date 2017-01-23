@@ -1152,7 +1152,8 @@
     <Content Include="Views\Registration\_Register.cshtml" />
     <Content Include="Views\Registration\_Login.cshtml" />
     <Content Include="Views\Account\_Register.cshtml" />
-    <Content Include="Views\Account\PersonDetails.cshtml" />
+    <Content Include="Views\Person\PersonDetails.cshtml" />
+    <Content Include="Views\Person\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
