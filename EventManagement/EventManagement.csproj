@@ -1135,7 +1135,6 @@
     </Content>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Person\Index.cshtml" />
-    <Content Include="Views\Person\PersonDetails.cshtml" />
     <Content Include="Views\Role\Create.cshtml" />
     <Content Include="Views\Role\ManageUserRoles.cshtml" />
     <Content Include="Views\Role\Edit.cshtml" />
@@ -1153,7 +1152,7 @@
     <Content Include="Views\Registration\_Register.cshtml" />
     <Content Include="Views\Registration\_Login.cshtml" />
     <Content Include="Views\Account\_Register.cshtml" />
-    <Content Include="Views\Account\HouseHold.cshtml" />
+    <Content Include="Views\Account\PersonDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
