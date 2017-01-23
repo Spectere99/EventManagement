@@ -81,7 +81,7 @@ namespace Common.Mapper
             _ordPersonTypeId = reader.GetOrdinal("persontype_PersonTypeID");
             _ordUnitRankId = reader.GetOrdinal("unitranks_UnitRankID");
             _ordUnitId = reader.GetOrdinal("units_UnitID");
-            _ordUserId = reader.GetOrdinal("UserID");
+            _ordUserId = reader.GetOrdinal("user_id");
 
         }
     }

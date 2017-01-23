@@ -286,6 +286,24 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to selPersonByParentID.
+        /// </summary>
+        internal static string GetPersonByParentId {
+            get {
+                return ResourceManager.GetString("GetPersonByParentId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selPersonByUserID.
+        /// </summary>
+        internal static string GetPersonByUserId {
+            get {
+                return ResourceManager.GetString("GetPersonByUserId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to selPersons.
         /// </summary>
         internal static string GetPersons {

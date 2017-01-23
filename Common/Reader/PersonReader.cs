@@ -56,6 +56,48 @@ namespace Common.Reader
             }
         }
 
+        public List<PersonDTO> GetByUserId(string userId)
+        {
+            using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetPersonByUserId))
+            {
+                try
+                {
+                    command.Parameters.Add(CreateParameter("pUserID", userId, 45));
+                    var resultList = Execute(command);
+                    return resultList;
+
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+
+            }
+        }
+
+        public List<PersonDTO> GetByParentId(int id)
+        {
+            using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetPersonByParentId))
+            {
+                try
+                {
+                    command.Parameters.Add(CreateParameter("pParentID", id));
+                    var resultList = Execute(command);
+                    return resultList;
+
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+
+            }
+        }
+
         public override List<PersonDTO> Save(List<PersonDTO> objList)
         {
             foreach (PersonDTO item in objList)

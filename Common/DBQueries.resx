@@ -327,4 +327,10 @@
   <data name="UpdReservation" xml:space="preserve">
     <value>updReservation</value>
   </data>
+  <data name="GetPersonByUserId" xml:space="preserve">
+    <value>selPersonByUserID</value>
+  </data>
+  <data name="GetPersonByParentId" xml:space="preserve">
+    <value>selPersonByParentID</value>
+  </data>
 </root>

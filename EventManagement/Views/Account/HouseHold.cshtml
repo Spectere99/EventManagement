@@ -1,0 +1,149 @@
+﻿@model EventManagement.Models.PersonViewModel
+
+@{
+    ViewBag.Title = "HouseHold";
+}
+
+<h2>HouseHold</h2>
+
+<div>
+    <h4>RegisterViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+       
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MiddleName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MiddleName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactInfo.HomePhone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactInfo.HomePhone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactInfo.CellPhone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactInfo.CellPhone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactInfo.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactInfo.Email)
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.ContactInfo.Address1)*@
+            @Html.DisplayName("Address")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactInfo.Address1)
+        </dd>
+        <dd>
+            @Html.DisplayFor(model => model.ContactInfo.Address2)
+        </dd>
+        <dd>
+            @Html.DisplayFor(model => model.ContactInfo.City),
+            @Html.DisplayFor(model => model.ContactInfo.State)
+            @Html.DisplayFor(model => model.ContactInfo.Zip)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.ContactInfo.Address2)
+        </dt>*@
+
+        @*<dd>
+            @Html.DisplayFor(model => model.ContactInfo.Address2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactInfo.City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactInfo.City)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactInfo.State)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactInfo.State)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactInfo.Zip)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactInfo.Zip)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NotUnitAffiliated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NotUnitAffiliated)
+        </dd>
+        @if (!Model.NotUnitAffiliated)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.PersonType)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PersonType)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.UnitType)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UnitType)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Unit)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Unit)
+            </dd>
+        }
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -198,7 +198,10 @@ namespace EventManagement.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+
                     //Assign Role to user Here
+                    UserManager.AddToRole(user.Id, "User");
+
                     // Create Person and Contact Info objects in database
                     
                     ContactInfoDTO contactInfo = new ContactInfoDTO()
@@ -256,21 +259,33 @@ namespace EventManagement.Controllers
                         };
                         personList.Add(person);    
                     }
-                    
-
-                    
-                    
 
                     personReader.Save(personList);
                     
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    //return shouldRedirect ? RedirectToAction("EventSelection", "Registration") : RedirectToAction("Index", "Home");
+                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+
+                    //System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
+                    //new System.Net.Mail.MailAddress("rflowers@saber98.com", "Web Registration"),
+                    //new System.Net.Mail.MailAddress(user.Email));
+                    //m.Subject = "Email confirmation";
+                    //m.Body = string.Format("Dear {0} <BR/>Thank you for your registration, please click on thebelow link to complete your registration: <a href=\"{1}\"title=\"User Email Confirm\">{1}</a>"
+                    //                    ,user.UserName, callbackUrl);
+                    //m.IsBodyHtml = true;
+                    //System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("smtp.saber98.com");
+                    //smtp.UseDefaultCredentials = false;
+                    //smtp.Credentials = new System.Net.NetworkCredential("rflowersr@saber98.com", "Sp3ct3r399");
+                    
+                    //smtp.EnableSsl = false;
+                    //smtp.Send(m);
+                    //return RedirectToAction("ConfirmEmail", "Account", new {Email = user.Email});
+
+                     //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    
                     return RedirectToLocal(model.ReturnUrl);
                 }
                 AddErrors(result);
@@ -288,6 +303,32 @@ namespace EventManagement.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        [Authorize]
+        public ActionResult HouseHold()
+        {
+            PersonViewModel personViewModel = new PersonViewModel();
+            PersonReader personReader = new PersonReader();
+            var userId = User.Identity.GetUserId();
+            //Get person based on their user id
+            var person = personReader.GetByUserId(userId).FirstOrDefault();
+
+            if (person != null)
+            {
+                personViewModel = TranslatePersonDTO(person);
+                //Need to load the children now.
+                var children = personReader.GetByParentId(person.PersonId);
+                foreach (var child in children)
+                {
+                    var childViewModel = TranslatePersonDTO(child);
+
+                    personViewModel.Children.Add(childViewModel);
+                }
+                personViewModel.NotUnitAffiliated = person.Unit.UnitType.UnitTypeId.Equals(-1);
+            }
+
+            return View(personViewModel);
+        }
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
@@ -570,6 +611,33 @@ namespace EventManagement.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        private PersonViewModel TranslatePersonDTO(PersonDTO person)
+        {
+            PersonViewModel personViewModel = new PersonViewModel
+            {
+                FirstName = person.FirstName,
+                MiddleName = person.MiddleName,
+                LastName = person.LastName,
+                PersonType = person.PersonType.Type,
+                UnitType = person.Unit.UnitType.Type,
+                Unit = person.Unit.UnitNumber.ToString(),
+                UnitRank = person.Rank.Rank,
+                ContactInfo = new ContactInfoViewModel
+                {
+                    ContactName = person.ContactInfo.Name,
+                    Address1 = person.ContactInfo.Address1,
+                    Address2 = person.ContactInfo.Address2,
+                    CellPhone = person.ContactInfo.CellPhone,
+                    HomePhone = person.ContactInfo.HomePhone,
+                    City = person.ContactInfo.City,
+                    State = person.ContactInfo.State,
+                    Zip = person.ContactInfo.Zip
+                }
+            };
+
+            return personViewModel;
+        }
+
         internal class ChallengeResult : HttpUnauthorizedResult
         {
             public ChallengeResult(string provider, string redirectUri)
@@ -598,6 +666,8 @@ namespace EventManagement.Controllers
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
         }
+
+        
         #endregion
     }
 }
