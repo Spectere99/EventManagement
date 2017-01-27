@@ -227,6 +227,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LookupController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MeController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
@@ -273,6 +274,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="js\person.js" />
     <Content Include="js\register.js" />
     <Content Include="js\registration.js" />
     <Content Include="Scripts\angular-animate.js" />
@@ -1154,10 +1156,12 @@
     <Content Include="Views\Account\_Register.cshtml" />
     <Content Include="Views\Person\PersonDetails.cshtml" />
     <Content Include="Views\Person\Edit.cshtml" />
+    <Content Include="Views\Person\AddPerson.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\DataViews\" />
+    <Folder Include="Views\Lookup\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

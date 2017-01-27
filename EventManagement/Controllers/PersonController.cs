@@ -63,6 +63,61 @@ namespace EventManagement.Controllers
             return View();
         }
 
+        [HttpGet]
+        [Authorize]
+        public ActionResult AddPerson(int id)
+        {
+            PersonReader personReader = new PersonReader();
+            
+            var parentPerson = personReader.GetById(id).FirstOrDefault();
+            
+           if (parentPerson != null)
+            {
+                PersonTypeReader personTypeReader = new PersonTypeReader();
+                UnitTypeReader unitTypeReader = new UnitTypeReader();
+
+               //Since we are only allowing to add a child for a parent account here, we leave out person types that are Parent(1) and Leader(2)
+                var personTypes = personTypeReader.GetList().Where(p => p.PersonTypeId > 2).ToList();
+                var unitTypes = unitTypeReader.GetList().Where(p => p.UnitTypeId > 0).ToList();
+
+                PersonChildViewModel personChildViewModel = new PersonChildViewModel
+                {
+                    ParentPersonId = id,
+                    ContactInfoId = parentPerson.ContactInfo.ContactInfoId,
+                    PersonTypeList = personTypes,
+                    UnitTypeList = unitTypes
+                };
+
+                return View(personChildViewModel);
+            }
+
+            TempData["RedirectMsg"] = "Parent Not found in database.";
+            return RedirectToAction("PersonDetails");
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult AddPerson(PersonChildViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                TempData["RedirectMsg"] = "Child Addes Successfully!";
+                return RedirectToAction("PersonDetails");    
+            }
+
+            //Invalid Entries
+            PersonTypeReader personTypeReader = new PersonTypeReader();
+            UnitTypeReader unitTypeReader = new UnitTypeReader();
+
+            var personTypes = personTypeReader.GetList().Where(p => p.PersonTypeId > 2).ToList();
+            var unitTypes = unitTypeReader.GetList().Where(p => p.UnitTypeId > 0).ToList();
+            
+            model.PersonTypeList = personTypes;
+            model.UnitTypeList = unitTypes;
+
+            return View(model);
+        }
+
         [HttpPost]
         [Authorize]
         public ActionResult Edit(int id, FormCollection formValues)
@@ -85,6 +140,7 @@ namespace EventManagement.Controllers
                 ContactInfo = new ContactInfoViewModel
                 {
                     ContactName = person.ContactInfo.Name,
+                    Email = person.ContactInfo.Email,
                     Address1 = person.ContactInfo.Address1,
                     Address2 = person.ContactInfo.Address2,
                     CellPhone = person.ContactInfo.CellPhone,

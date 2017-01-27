@@ -17,7 +17,7 @@
                 //alert("Selected");
                 if (id > 0) {
                     $.ajax({
-                        url: "../Registration/GetUnits",
+                        url: "Lookup/GetUnits",
                         contentType: "application/json; charset=utf-8",
                         type: "GET",
                         dataType: "json",

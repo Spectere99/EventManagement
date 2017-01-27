@@ -7,7 +7,7 @@
                 if (id > 0) {
                     $.ajax({
                         //url: '@Url.Action("GetVenueDetails", "Registration")',
-                        url: 'GetVenueDetails',
+                        url: 'Lookup/GetVenueDetails',
                         contentType: "application/json; charset=utf-8",
                         type: "GET",
                         dataType: "json",
@@ -30,8 +30,7 @@
                         }
                     });
                     $.ajax({
-                       
-                        url: 'GetEventDate',
+                        url: 'Lookup/GetEventDate',
                         contentType: "application/json; charset=utf-8",
                         type: "GET",
                         dataType: "json",

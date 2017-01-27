@@ -9,6 +9,10 @@
 <div>
     <h4>Person Details</h4>
     <hr />
+    @if (@TempData["RedirectMsg"] != string.Empty)
+    {
+        <span class="label label-success">@TempData["RedirectMsg"]</span>
+    }
     <dl class="dl-horizontal">
        
         <dt>
@@ -110,8 +114,10 @@
             </dd>
         }
     </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new {  id = Model.PersonId }) |
-    @Html.ActionLink("Back to List", "Index")
+    <p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PersonId }, new { @class = "btn btn-info" })
+    @Html.ActionLink("Add Child", "AddPerson", new { id = Model.PersonId }, new { @class = "btn btn-info", })
+    @*@Html.ActionLink("Back to List", "Index")*@
 </p>
+</div>
+
