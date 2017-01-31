@@ -1,5 +1,5 @@
 ﻿@using System.Globalization
-@model EventManagement.Models.ReservationViewModel
+@model EventManagement.Models.VolunteerRegistrationViewModel
 
 @{
     ViewBag.Title = "VolunteerEntry";
@@ -20,50 +20,29 @@
     <div class="form-horizontal">
         <h4>ReservationViewModel</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @*<div class="form-group">
-            <div class="col-md-10">
-                @Html.LabelFor(model => model.ReservationDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.Label("lblReservationDate", Model.ReservationDate.ToString(CultureInfo.InvariantCulture), htmlAttributes: new { @class = "form-control-static col-md-3" })
+        @if (Model != null)
+        {
+            <div class="panel-default">
+                Thank you for registering for @Model.Event.Name !!!!
             </div>
-            <hr />
-        </div>*@
-        <div class="form-group">
-            <div class="col-md-10">
-                @Html.LabelFor(model => model.Person.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.EditorFor(model => model.Person.FirstName, new { htmlAttributes = new { @class = "form-control" } })<br/>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Next" class="btn btn-default" />
+                </div>
             </div>
-            <div class="col-md-10">
-                @Html.LabelFor(model => model.Person.MiddleName, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.EditorFor(model => model.Person.MiddleName, new { htmlAttributes = new { @class = "form-control" } })<br />
+        }
+        else
+        {
+            <div class="panel-default">
+                Please select a valid Event
             </div>
-            <div class="col-md-10">
-                @Html.LabelFor(model => model.Person.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.EditorFor(model => model.Person.LastName, new { htmlAttributes = new { @class = "form-control" } })<br />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Next" class="btn btn-default" />
+                </div>
             </div>
-            <div class="col-md-10">
-                @Html.CheckBoxFor(model => model.Person.notUnitAffiliated, new { htmlAttribues = new { @class = "form-control" }}) Not Associated with a Unit<br/>
-            </div>
-            <div class="col-md-10">
-                @Html.LabelFor(model => model.PersonType, htmlAttributes: new { id = "lblPersonTypeList", @class = "control-label col-md-2" })
-                @Html.DropDownListFor(model => model.PersonType, Model.PersonType, "Select ...", new { @class = "form-control" })<br />
-            </div>
-            <div class="col-md-10">
-                @Html.LabelFor(model => model.UnitTypeList, htmlAttributes: new { id="lblUnitTypeList", @class = "control-label col-md-2" })
-                @Html.DropDownListFor(model => model.UnitTypeList, Model.UnitTypeList, "Select ...", new { @class = "form-control" })<br />
-            </div>
-            <div class="col-md-10">
-                @Html.LabelFor(model => model.UnitList, htmlAttributes: new { id = "lblUnitList", @class = "control-label col-md-2" })
-                <select id="UnitList" name="UnitList" disabled="disabled", class="form-control" ></select><br />
-                @*@Html.DropDownListFor(model => model.UnitList, Enumerable.Empty<SelectListItem>(), new { disabled="true", @class = "form-control" })*@
-            </div>
-           
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Next" class="btn btn-default" />
-            </div>
-        </div>
+        }
+        
     </div>
 }
 

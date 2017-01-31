@@ -33,10 +33,11 @@ namespace EventManagement.Controllers
                 personViewModel = TranslatePersonDTO(person);
                 //Need to load the children now.
                 var children = personReader.GetByParentId(person.PersonId);
+                personViewModel.Children = new List<PersonViewModel>();
+
                 foreach (var child in children)
                 {
                     var childViewModel = TranslatePersonDTO(child);
-
                     personViewModel.Children.Add(childViewModel);
                 }
                 personViewModel.NotUnitAffiliated = person.Unit.UnitType.UnitTypeId.Equals(-1);
@@ -61,6 +62,21 @@ namespace EventManagement.Controllers
                 return View(personViewModel);
             }
             return View();
+        }
+
+        [Authorize]
+        public ActionResult Delete(int personId)
+        {
+            PersonReader personReader = new PersonReader();
+
+            var person = personReader.GetById(personId).FirstOrDefault();
+            if (person != null)
+            {
+                List<PersonDTO> personList = new List<PersonDTO> {person};
+                personReader.Remove(personList);
+            }
+
+            return RedirectToAction("PersonDetails");
         }
 
         [HttpGet]
@@ -99,15 +115,50 @@ namespace EventManagement.Controllers
         [Authorize]
         public ActionResult AddPerson(PersonChildViewModel model)
         {
+            PersonTypeReader personTypeReader = new PersonTypeReader();
+            UnitTypeReader unitTypeReader = new UnitTypeReader();
+            UnitReader unitReader = new UnitReader();
+            ContactInfoReader contactInfoReader = new ContactInfoReader();
+
             if (ModelState.IsValid)
             {
-                TempData["RedirectMsg"] = "Child Addes Successfully!";
-                return RedirectToAction("PersonDetails");    
+                PersonReader personReader = new PersonReader();
+                UnitRankReader unitRankReader = new UnitRankReader();
+                List<PersonDTO> personList = new List<PersonDTO>();
+                
+                var parentPerson = personReader.GetById(model.ParentPersonId);
+                var personType = personTypeReader.GetById(int.Parse(model.PersonType));
+                var unit = unitReader.GetById(int.Parse(model.Unit));
+                var rank = unitRankReader.GetById(int.Parse(model.Rank));
+                var parent = parentPerson.FirstOrDefault();
+                if (parent != null)
+                {
+                    var contactInfo = contactInfoReader.GetById(parent.ContactInfo.ContactInfoId);
+
+                    PersonDTO person = new PersonDTO()
+                    {
+                        FirstName = model.FirstName,
+                        MiddleName = model.MiddleName,
+                        LastName = model.LastName,
+                        LastUpdated = DateTime.Now,
+                        ContactInfo = contactInfo.FirstOrDefault(),
+                        ParentPerson = parent,
+                        PersonType = personType.FirstOrDefault(),
+                        Rank = rank.FirstOrDefault(),
+                        Unit = unit.FirstOrDefault(),
+                        UserId = String.Empty
+                    };
+                    personList.Add(person);
+
+                    personReader.Save(personList);
+                    TempData["RedirectMsg"] = "Child Addes Successfully!";
+                    return RedirectToAction("PersonDetails");    
+                }
+                TempData["RedirectMsg"] = "ERROR - Parent Not Found";
             }
 
             //Invalid Entries
-            PersonTypeReader personTypeReader = new PersonTypeReader();
-            UnitTypeReader unitTypeReader = new UnitTypeReader();
+            
 
             var personTypes = personTypeReader.GetList().Where(p => p.PersonTypeId > 2).ToList();
             var unitTypes = unitTypeReader.GetList().Where(p => p.UnitTypeId > 0).ToList();

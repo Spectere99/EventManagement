@@ -1,17 +1,17 @@
-﻿@model EventManagement.Models.RegistrationViewModel
+﻿@model EventManagement.Models.VolunteerRegistrationViewModel
 @{
-    ViewBag.Title = "EventSelection";
+    ViewBag.Title = "EventVolunteerSelection";
 }
 
 <h2>Event Selection</h2>
 
 <head>
-    <title>Event Registration</title>
+    <title>Event Volunteer Registration</title>
     <script src="~/js/registration.js" type="text/javascript"></script>
 </head>
 <h2>Registration</h2>
 @*@using (Html.BeginForm("Index", "Registration", FormMethod.Post, new {id = "RegistrationForm"}))*@
-@using (Html.BeginForm("RegistrantEntry", "Registration"))
+@using (Html.BeginForm("VolunteerEntry", "Registration", new { id = Model.Person.PersonId }, FormMethod.Post))
 {
     <p>
         <div class="row">

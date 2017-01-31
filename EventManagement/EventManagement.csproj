@@ -1157,6 +1157,8 @@
     <Content Include="Views\Person\PersonDetails.cshtml" />
     <Content Include="Views\Person\Edit.cshtml" />
     <Content Include="Views\Person\AddPerson.cshtml" />
+    <Content Include="Views\Registration\AttendeeSelection.cshtml" />
+    <Content Include="Views\Registration\EventVolunteerSelection.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

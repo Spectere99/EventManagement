@@ -1,0 +1,36 @@
+﻿@using System.ComponentModel
+@using EventManagement.Models
+@model EventManagement.Models.AttendeeViewList
+
+@{
+    ViewBag.Title = "AttendeeSelection";
+}
+
+<h2>Attendee Selection</h2>
+
+
+<ul class="list-group">
+    <li href="#" class="list-group-item">
+        @Html.ActionLink("Add Child", "AddPerson", "Person", new {id = Model.ParentId}, new {@class = "btn btn-info",})
+        @*@Html.ActionLink("Back to List", "Index")*@
+    </li>
+    @foreach (var item in Model.AttendeeList)
+    {
+        <li href="#" class="list-group-item">
+            <h4 class="list-group-item-heading">@item.FirstName @item.LastName</h4>
+            <p class="list-group-item-text">
+                Unit: @item.UnitType @item.Unit <br/>
+                Rank: @item.UnitRank
+            </p>
+            @Html.ActionLink("Register", "EventSelection", "Registration", new {id = item.PersonId}, new {@class = "btn btn-info"})
+            @if (item.PersonType != "Cub Scout")
+            {
+                @Html.ActionLink("Volunteer", "EventVolunteerSelection", "Registration", new { id = item.PersonId }, new { @class = "btn btn-info" })
+            }
+        </li>
+    }
+
+</ul>
+
+
+

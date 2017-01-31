@@ -7,7 +7,7 @@
                 if (id > 0) {
                     $.ajax({
                         //url: '@Url.Action("GetVenueDetails", "Registration")',
-                        url: 'Lookup/GetVenueDetails',
+                        url: '../../Lookup/GetVenueDetails',
                         contentType: "application/json; charset=utf-8",
                         type: "GET",
                         dataType: "json",
@@ -30,7 +30,7 @@
                         }
                     });
                     $.ajax({
-                        url: 'Lookup/GetEventDate',
+                        url: '../../Lookup/GetEventDate',
                         contentType: "application/json; charset=utf-8",
                         type: "GET",
                         dataType: "json",
@@ -65,7 +65,7 @@
                 //alert("Selected");
                 if (id > 0) {
                     $.ajax({
-                        url: "GetUnits",
+                        url: "../../Lookup/GetUnits",
                         contentType: "application/json; charset=utf-8",
                         type: "GET",
                         dataType: "json",
@@ -84,7 +84,7 @@
                     }
                     });
                     $.ajax({
-                        url: "GetRanks",
+                        url: "../../GetRanks",
                         contentType: "application/json; charset=utf-8",
                         type: "GET",
                         dataType: "json",
