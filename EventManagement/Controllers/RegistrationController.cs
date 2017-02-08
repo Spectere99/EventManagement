@@ -86,14 +86,16 @@ namespace EventManagement.Controllers
 
                     events.Add(anEvent);
                 }
-                RegistrationViewModel registrationViewModel = new RegistrationViewModel();
-                registrationViewModel.EventList = events;
-                registrationViewModel.Registration = new RegistrationDTO();
-                registrationViewModel.Registration.Person = person;
+                RegistrationViewModel registrationViewModel = new RegistrationViewModel
+                {
+                    EventList = events,
+                    Event = null,
+                    Person = person
+                };
 
                 //var dropDownEvents = new SelectList(events.OrderBy(p=>p.Start).ToList(), "EventId", "Name");
                 //ViewBag.EventList = dropDownEvents;
-
+                TempData["EventRegistant"] = registrationViewModel;
                 return View(registrationViewModel);
             }
             //If we dont' have a person passed in, we cannot continue and need to redirect to a login page.
@@ -142,62 +144,119 @@ namespace EventManagement.Controllers
 
                 //var dropDownEvents = new SelectList(events.OrderBy(p=>p.Start).ToList(), "EventId", "Name");
                 //ViewBag.EventList = dropDownEvents;
-
+                TempData["VolunteerRegistant"] = volunteerRegistration;
                 return View(volunteerRegistration);
             }
             //If we dont' have a person passed in, we cannot continue and need to redirect to a login page.
             return RedirectToAction("Login", "Account");
         }
-        public ActionResult RegistrantEntry()
+        public ActionResult RegistrantConfirm(RegistrationViewModel model)
         {
-            if (Session["RegistrationEvent"] != null)
+            RegistrationViewModel registrationEntry = TempData["EventRegistant"] as RegistrationViewModel;
+            model.Event = Session["RegistrationEvent"] as EventDTO;
+            if (model.Event != null)
             {
-                UnitTypeReader unitTypeReader = new UnitTypeReader();
-                var unitTypes = unitTypeReader.GetList();
-
-                SelectList unitTypeList = new SelectList(unitTypes, "UnitTypeId", "Type");
-                ReservationViewModel reservationViewModel = new ReservationViewModel
+                Session["RegistrationEvent"] = null;
+                if (registrationEntry != null)
                 {
-                    ReservationDate = DateTime.Now,
-                    Event = Session["RegistrationEvent"] as EventDTO,
-                    UnitTypeList = unitTypeList
-                };
-                return View(reservationViewModel);
+                    registrationEntry.Event = model.Event;
+                    PersonReader personReader = new PersonReader();
+                    var person = personReader.GetById(registrationEntry.Person.PersonId).FirstOrDefault();
+
+                    if (person != null)
+                    {
+                        //Check to see if a registration exists for this person already.
+
+                        //Check for Registration slots being open (ie. Enough volunteers from that person's unit).
+                        bool validRegistration = true;
+                        
+                        //Register the person  or Redirect to waiting list.
+                        if (validRegistration)
+                        {
+                            //Generate Confirmation Code
+                            var confirmationCode = Utilities.GenerateConfirmationCode();
+                            RegistrationDTO registration = new RegistrationDTO()
+                            {
+                                ConfirmationNumber = confirmationCode,
+                                Event = model.Event,
+                                Person = person,
+                                RegistrationDate = DateTime.Now
+                            };
+                            RegistrationReader registrationReader = new RegistrationReader();
+                            List<RegistrationDTO> registrations = new List<RegistrationDTO>();
+                            registrations.Add(registration);
+                            registrationReader.Save(registrations);
+
+                            return View(registrationEntry);
+                        }
+                        ReservationDTO reservation = new ReservationDTO()
+                        {
+                            Event = model.Event,
+                            Person = person,
+                            ReservationDate = DateTime.Now
+                        };
+                        ReservationReader reservationReader = new ReservationReader();
+                        List<ReservationDTO> reservations = new List<ReservationDTO>();
+                        reservations.Add(reservation);
+                        reservationReader.Save(reservations);
+
+                        ReservationViewModel reservationViewModel = new ReservationViewModel
+                        {
+                            Person = person,
+                            Event = model.Event,
+                            ReservationDate = reservation.ReservationDate
+                        };
+
+                        TempData["ReservationViewModel"] = reservationViewModel;
+                        return RedirectToAction("WaitingListConfirm");       
+                    }
+                }
             }
             return View();
         }
 
-        public ActionResult VolunteerEntry(int id)
+        public ActionResult VolunteerConfirm(VolunteerRegistrationViewModel model)
         {
-            if (Session["RegistrationEvent"] != null)
+            VolunteerRegistrationViewModel volunteerEntry = TempData["VolunteerRegistant"] as VolunteerRegistrationViewModel;
+            model.Event = Session["RegistrationEvent"] as EventDTO;
+            if (model.Event != null) //if (ModelState.IsValid)
             {
-                PersonReader personReader = new PersonReader();
-                EventVolunteerReader eventVolunteerReader = new EventVolunteerReader();
-
-                var person = personReader.GetById(id).FirstOrDefault();
-
-                if (person != null)
+                Session["RegistrationEvent"] = null;
+                if (volunteerEntry != null)
                 {
-                    //Need to check for existing registration.
-                    VolunteerRegistrationViewModel volunteerRegistration = new VolunteerRegistrationViewModel();
-                    List<EventVolunteerDTO> volunteerList = new List<EventVolunteerDTO>();
+                    PersonReader personReader = new PersonReader();
+                    EventVolunteerReader eventVolunteerReader = new EventVolunteerReader();
 
-                    EventVolunteerDTO newVolunteer = new EventVolunteerDTO();
-                    newVolunteer.Event = Session["RegistrationEvent"] as EventDTO;
-                    newVolunteer.Person = person;
-                    
-                    volunteerList.Add(newVolunteer);
-                    eventVolunteerReader.Save(volunteerList);
-                    
-                    volunteerRegistration.Person = person;
-                    volunteerRegistration.Event = newVolunteer.Event;
+                    var person = personReader.GetById(volunteerEntry.Person.PersonId).FirstOrDefault();
 
-                    Session["RegistrationEvent"] = null;
-                    return View(volunteerRegistration);
+                    if (person != null)
+                    {
+                        //Need to check for existing registration.
+                        List<EventVolunteerDTO> volunteerList = new List<EventVolunteerDTO>();
+
+                        EventVolunteerDTO newVolunteer = new EventVolunteerDTO();
+                        newVolunteer.Event = model.Event;
+                        newVolunteer.Person = person;
+                        newVolunteer.VolunteerDays = model.VolunteerDays;
+
+                        volunteerList.Add(newVolunteer);
+                        eventVolunteerReader.Save(volunteerList);
+
+                        volunteerEntry.Person = person;
+                        volunteerEntry.Event = newVolunteer.Event;
+
+                        
+                        return View(volunteerEntry);
+                    }
                 }
-                
             }
             return View();  //Need to redirect to Error Page because Event was not selected.
+        }
+
+        public ActionResult WaitingListConfirm(ReservationViewModel model)
+        {
+            ReservationViewModel reservationViewModel = TempData["ReservationViewModel"] as ReservationViewModel;
+            return View(reservationViewModel);
         }
 
         private AttendeeViewModel TranslatePersonDTO(PersonDTO person)

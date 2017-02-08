@@ -3,7 +3,7 @@
 
         $("#EventList")
             .change(function() {
-                var id = Number($("#EventList").val());
+                var id = Number($("#EventList").val());             
                 if (id > 0) {
                     $.ajax({
                         //url: '@Url.Action("GetVenueDetails", "Registration")',

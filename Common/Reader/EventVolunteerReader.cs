@@ -66,7 +66,9 @@ namespace Common.Reader
                     {
                         command.Parameters.Add(CreateParameter("pEventID", item.Event.EventId));
                         command.Parameters.Add(CreateParameter("pPersonID", item.Person.PersonId));
+                        command.Parameters.Add(CreateParameter("pvolunteerDays", item.VolunteerDays));
                         command.Parameters.Add(CreateOutputParameter("oEventVolunteerID", MySqlDbType.Int32));
+                        
 
                         ExecuteNoReader(command);
 
@@ -83,6 +85,7 @@ namespace Common.Reader
                         command.Parameters.Add(CreateParameter("pEventVolunteerID", item.EventVolunteerId));
                         command.Parameters.Add(CreateParameter("pEventID", item.Event.EventId));
                         command.Parameters.Add(CreateParameter("pPersonID", item.Person.PersonId));
+                        command.Parameters.Add(CreateParameter("pvolunteerDays", item.VolunteerDays));
 
                         ExecuteNoReader(command);
                     }

@@ -13,29 +13,31 @@ namespace EventManagement.Models
     public class RegistrationViewModel
     {
         public IEnumerable<EventViewModel> EventList { get; set; }
-        public RegistrationDTO Registration { get; set; }
-        
-        
+        public EventDTO Event { get; set; }
+        public PersonDTO Person { get; set; }
     }
 
     public class ReservationViewModel
     {
         public DateTime ReservationDate { get; set; }
         public EventDTO Event { get; set; }
-        public PersonViewModel Person { get; set; }
-        public SelectList PersonType { get; set; }
-        [Required, Display(Name = "Unit Type")]
-        public SelectList UnitTypeList { get; set; }
-        [Required, Display(Name = "Unit")]
-        public SelectList UnitList { get; set; }
-        [Required, Display(Name = "Rank")]
-        public SelectList UnitRankList { get; set; }
+        public PersonDTO Person { get; set; }
+        //public SelectList PersonType { get; set; }
+        //[Required, Display(Name = "Unit Type")]
+        //public SelectList UnitTypeList { get; set; }
+        //[Required, Display(Name = "Unit")]
+        //public SelectList UnitList { get; set; }
+        //[Required, Display(Name = "Rank")]
+        //public SelectList UnitRankList { get; set; }
     }
 
     public class VolunteerRegistrationViewModel
     {
         public IEnumerable<EventViewModel> EventList { get; set; }
         public EventDTO Event { get; set; }
+        [Required, Display(Name="Days Volunteering")]
+        [Range(1, 5, ErrorMessage = "Please enter a number between 1 and 5 days.")]
+        public int VolunteerDays { get; set; }
         public PersonDTO Person { get; set; }
     }
 

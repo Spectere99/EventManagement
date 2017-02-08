@@ -10,45 +10,41 @@
     <script src="~/js/registration.js" type="text/javascript"></script>
 </head>
 <h2>Registration</h2>
-@*@using (Html.BeginForm("Index", "Registration", FormMethod.Post, new {id = "RegistrationForm"}))*@
-@using (Html.BeginForm("VolunteerEntry", "Registration", new { id = Model.Person.PersonId }, FormMethod.Post))
+@*@using (Html.BeginForm("Index", "Registration", FormMethod.Post, new {id = "RegistrationForm"}))  @*new { id = Model.Person.PersonId },*@
+@using (Html.BeginForm("VolunteerEntry", "Registration", FormMethod.Post))   
 {
-    <p>
+    
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Event Selection</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="row">
             <div id="eventSelection" class="col-md-4">
-                @Html.DropDownListFor(m => m.EventList, new SelectList(Model.EventList, "EventId", "EventName"), "Select ...", new { @class = "form-control" })  @*onchange = "GetVenueDetails(this.value);",*@
+                @Html.DropDownListFor(m => m.EventList, new SelectList(Model.EventList, "EventId", "EventName"), "Select ...", new { @class = "form-control" }) @*onchange = "GetVenueDetails(this.value);",*@
                 <dl class="dl-horizontal">
-                    @Html.Label("EventDate", " ", new { id = "EventDate" })
-                    @Html.Label("VenueName", "Event Not Selected", new { id = "VenueName" })
-                    @Html.Label("VenueAddress1", " ", new { id = "VenueAddress1" })
-                    @Html.Label("VenueAddress2", " ", new { id = "VenueAddress2" })
-                    @Html.Label("VenueCity", " ", new { id = "VenueCity" }), @Html.Label("VenueState", " ", new { id = "VenueState" }) @Html.Label("VenueZip", " ", new { id = "VenueZip" })
+                    @Html.Label("EventDate", " ", new {id = "EventDate"})
+                    @Html.Label("VenueName", "Event Not Selected", new {id = "VenueName"})
+                    @Html.Label("VenueAddress1", " ", new {id = "VenueAddress1"})
+                    @Html.Label("VenueAddress2", " ", new {id = "VenueAddress2"})
+                    @Html.Label("VenueCity", " ", new {id = "VenueCity"}), @Html.Label("VenueState", " ", new {id = "VenueState"}) @Html.Label("VenueZip", " ", new {id = "VenueZip"})
                 </dl>
             </div>
-            @*<div id="venueDetails" class="col-md-4" style="display: none">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <h6>
-                            @Html.Label("EventDate", " ", new { id = "EventDate" })<br />
-                            @Html.Label("VenueName", "Event Not Selected", new { id = "VenueName" })<br />
-                            @Html.Label("VenueAddress1", " ", new { id = "VenueAddress1" })<br />
-                            @Html.Label("VenueAddress2", " ", new { id = "VenueAddress2" })<br />
-                            @Html.Label("VenueCity", " ", new { id = "VenueCity" }), @Html.Label("VenueState", " ", new { id = "VenueState" }) @Html.Label("VenueZip", " ", new { id = "VenueZip" })
-                        </h6>
-                    </div>
-                </div>
-            </div>*@
-
-        </div>
-        <div class="row">
 
         </div>
         <div class="form-group">
+            <div class="form-group">
+                @Html.LabelFor(model => model.VolunteerDays, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.VolunteerDays, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.VolunteerDays, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Next" class="btn btn-default" />
             </div>
         </div>
-    </p>
-
-
+  </div>
 }

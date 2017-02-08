@@ -13,6 +13,8 @@ namespace Common
         public DateTime LastUpdated { get; set; }
         public EventDTO Event { get; set; }
         public PersonDTO Person { get; set; }
+        public int VolunteerDays { get; set; }
+            
 
         public EventVolunteerDTO()
         {
@@ -20,15 +22,17 @@ namespace Common
             LastUpdated = DateTimeNullValue;
             Event = null;
             Person = null;
+            VolunteerDays = 0;
             IsNew = true;
         }
 
-        public EventVolunteerDTO(int eventVolunteerId, DateTime lastUpdated, EventDTO eventObj, PersonDTO person)
+        public EventVolunteerDTO(int eventVolunteerId, DateTime lastUpdated, EventDTO eventObj, PersonDTO person, int volunteerDays)
         {
             EventVolunteerId = eventVolunteerId;
             LastUpdated = lastUpdated;
             Event = eventObj;
             Person = person;
+            VolunteerDays = volunteerDays;
             IsNew = EventVolunteerId.Equals(IntNullValue);
         }
     }

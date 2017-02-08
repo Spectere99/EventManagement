@@ -1148,8 +1148,8 @@
     <Content Include="Views\Admin\AddRole.cshtml" />
     <Content Include="Views\Registration\Index.cshtml" />
     <Content Include="Scripts\version.json" />
-    <Content Include="Views\Registration\RegistrantEntry.cshtml" />
-    <Content Include="Views\Registration\VolunteerEntry.cshtml" />
+    <Content Include="Views\Registration\RegistrantConfirm.cshtml" />
+    <Content Include="Views\Registration\VolunteerConfirm.cshtml" />
     <Content Include="Views\Registration\EventSelection.cshtml" />
     <Content Include="Views\Registration\_Register.cshtml" />
     <Content Include="Views\Registration\_Login.cshtml" />
@@ -1159,6 +1159,7 @@
     <Content Include="Views\Person\AddPerson.cshtml" />
     <Content Include="Views\Registration\AttendeeSelection.cshtml" />
     <Content Include="Views\Registration\EventVolunteerSelection.cshtml" />
+    <Content Include="Views\Registration\WaitingListConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
