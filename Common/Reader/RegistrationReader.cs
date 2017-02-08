@@ -65,7 +65,7 @@ namespace Common.Reader
                     using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.InsRegistration))
                     {
                         command.Parameters.Add(CreateParameter("pRegistrationDate", item.RegistrationDate));
-                        command.Parameters.Add(CreateParameter("pConfirmation", item.ConfirmationNumber, 15));
+                        command.Parameters.Add(CreateParameter("pConfirmation", item.ConfirmationNumber, 64));
                         command.Parameters.Add(CreateParameter("pEventID", item.Event.EventId));
                         command.Parameters.Add(CreateParameter("pPersonID", item.Person.PersonId));
                         command.Parameters.Add(CreateOutputParameter("pRegistrationID", MySqlDbType.Int32));
@@ -84,7 +84,7 @@ namespace Common.Reader
                     {
                         command.Parameters.Add(CreateParameter("pRegistrationID", item.RegistrationId));
                         command.Parameters.Add(CreateParameter("pRegistrationDate", item.RegistrationDate));
-                        command.Parameters.Add(CreateParameter("pConfirmation", item.ConfirmationNumber, 15));
+                        command.Parameters.Add(CreateParameter("pConfirmation", item.ConfirmationNumber, 64));
                         command.Parameters.Add(CreateParameter("pEventID", item.Event.EventId));
                         command.Parameters.Add(CreateParameter("pPersonID", item.Person.PersonId));
                         
