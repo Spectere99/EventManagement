@@ -333,4 +333,10 @@
   <data name="GetPersonByParentId" xml:space="preserve">
     <value>selPersonByParentID</value>
   </data>
+  <data name="GetEventVolunteersByEventId" xml:space="preserve">
+    <value>selEventVolunteerByEventID</value>
+  </data>
+  <data name="GetRegistrationsByEventId" xml:space="preserve">
+    <value>selRegistrationByEventID</value>
+  </data>
 </root>

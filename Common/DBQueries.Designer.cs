@@ -277,6 +277,15 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to selEventVolunteerByEventID.
+        /// </summary>
+        internal static string GetEventVolunteersByEventId {
+            get {
+                return ResourceManager.GetString("GetEventVolunteersByEventId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to selPersonByID.
         /// </summary>
         internal static string GetPersonById {
@@ -363,6 +372,15 @@ namespace Common {
         internal static string GetRegistrations {
             get {
                 return ResourceManager.GetString("GetRegistrations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selRegistrationByEventID.
+        /// </summary>
+        internal static string GetRegistrationsByEventId {
+            get {
+                return ResourceManager.GetString("GetRegistrationsByEventId", resourceCulture);
             }
         }
         

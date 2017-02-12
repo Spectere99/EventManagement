@@ -56,6 +56,26 @@ namespace Common.Reader
             }
         }
 
+        public List<RegistrationDTO> GetByEventId(int id)
+        {
+            using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetRegistrationsByEventId))
+            {
+                try
+                {
+                    command.Parameters.Add(CreateParameter("pEventID", id));
+                    var resultList = Execute(command);
+                    return resultList;
+
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+
+            }
+        }
         public override List<RegistrationDTO> Save(List<RegistrationDTO> objList)
         {
             foreach (RegistrationDTO item in objList)

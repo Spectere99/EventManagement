@@ -168,7 +168,8 @@ namespace EventManagement.Controllers
                         //Check to see if a registration exists for this person already.
 
                         //Check for Registration slots being open (ie. Enough volunteers from that person's unit).
-                        bool validRegistration = true;
+                        RegistrationValidator regValidator = new RegistrationValidator();
+                        bool validRegistration = regValidator.DayCampRegistrationValid(person, registrationEntry.Event.EventId);
                         
                         //Register the person  or Redirect to waiting list.
                         if (validRegistration)

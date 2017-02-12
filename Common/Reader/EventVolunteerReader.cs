@@ -51,8 +51,24 @@ namespace Common.Reader
 
                     throw;
                 }
+            }
+        }
+        public List<EventVolunteerDTO> GetByEventId(int id)
+        {
+            using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetEventVolunteersByEventId))
+            {
+                try
+                {
+                    command.Parameters.Add(CreateParameter("pEventID", id));
+                    var resultList = Execute(command);
+                    return resultList;
 
+                }
+                catch (Exception)
+                {
 
+                    throw;
+                }
             }
         }
 
