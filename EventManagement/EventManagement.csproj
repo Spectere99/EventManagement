@@ -1161,6 +1161,7 @@
     <Content Include="Views\Registration\AttendeeSelection.cshtml" />
     <Content Include="Views\Registration\EventVolunteerSelection.cshtml" />
     <Content Include="Views\Registration\WaitingListConfirm.cshtml" />
+    <Content Include="Views\Registration\ExistingRegistration.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

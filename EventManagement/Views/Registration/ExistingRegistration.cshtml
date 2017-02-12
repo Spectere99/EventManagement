@@ -2,7 +2,7 @@
 @model EventManagement.Models.ReservationViewModel
 
 @{
-    ViewBag.Title = "WaitingListConfirm";
+    ViewBag.Title = "ExistingRegistration";
 }
 <head>
     <title>Waiting List Confirmation</title>
@@ -11,23 +11,17 @@
     <script src="~/js/registration.js" type="text/javascript"></script>
     
 </head>
-<h2>Waiting List Confirmation</h2>
+<h2>Already Registered</h2>
 
 
     <div class="form-horizontal">
     
     @if (Model != null)
     {
-        <h4>Waiting List Notification</h4>
+        <h4>Existing Registration Found!</h4>
         <hr />
         <div class="panel-default">
-            You have been placed on a waiting list because there was not enough leader volunteers from your 
-            unit to satisfy the required staffing needs.  Please contact your Unit leader and have them volunteer
-            <br/>
-            Day Camp Policy states that for every person that volunteers for 5 days will allow for 5 spots for 
-            day camp.
-            <br/>
-            Your waiting list confirmation will be sent via email to <strong>@Model.Person.ContactInfo.Email</strong>
+            A registration was already found for <strong>@Model.Person.FirstName @Model.Person.LastName</strong>
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

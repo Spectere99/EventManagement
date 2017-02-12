@@ -11,7 +11,6 @@ namespace EventManagement
     {
         public bool DayCampRegistrationValid(PersonDTO registrant, int eventId)
         {
-
             bool validRegistraion = false;
             try
             {
@@ -25,17 +24,32 @@ namespace EventManagement
                 var unitVolunteers = volunteerList.Where(p => p.Person.Unit.UnitId == registrant.Unit.UnitId).ToList();
 
                 var totalVolunteerDays = unitVolunteers.Sum(s => s.VolunteerDays);
-                var volunteerCount = totalVolunteerDays / 5;  //Specific to Summer DayCamp.  Need to make more Generic.
+                var volunteerCount = totalVolunteerDays/5; //Specific to Summer DayCamp.  Need to make more Generic.
 
-                validRegistraion = registrationList.Count < volunteerCount;
+                validRegistraion = registrationList.Count <= volunteerCount;
             }
             catch (Exception)
             {
                 throw;
             }
-            
-
             return validRegistraion;
+        }
+
+        public bool CheckForExistingRegistration(PersonDTO registrant, int eventId)
+        {
+            try
+            {
+                RegistrationReader registrationReader = new RegistrationReader();
+
+                List<RegistrationDTO> registrationList = registrationReader.GetByEventId(eventId);
+
+                return registrationList.Any(p => p.Person.PersonId == registrant.PersonId);
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
         }
     }
 }

@@ -165,10 +165,24 @@ namespace EventManagement.Controllers
 
                     if (person != null)
                     {
-                        //Check to see if a registration exists for this person already.
 
-                        //Check for Registration slots being open (ie. Enough volunteers from that person's unit).
                         RegistrationValidator regValidator = new RegistrationValidator();
+                        //Check to see if a registration exists for this person already.
+                        bool existingRegistration = regValidator.CheckForExistingRegistration(person,registrationEntry.Event.EventId);
+
+                        if (existingRegistration)
+                        {
+                            ReservationViewModel tempReservationModel = new ReservationViewModel
+                            {
+                                Person = person,
+                                Event = model.Event,
+                                ReservationDate = DateTime.Now
+                            };
+
+                            TempData["ReservationViewModel"] = tempReservationModel;
+                            return RedirectToAction("ExistingRegistration");  
+                        }
+                        //Check for Registration slots being open (ie. Enough volunteers from that person's unit).
                         bool validRegistration = regValidator.DayCampRegistrationValid(person, registrationEntry.Event.EventId);
                         
                         //Register the person  or Redirect to waiting list.
@@ -260,6 +274,11 @@ namespace EventManagement.Controllers
             return View(reservationViewModel);
         }
 
+        public ActionResult ExistingRegistration(ReservationViewModel model)
+        {
+            ReservationViewModel reservationViewModel = TempData["ReservationViewModel"] as ReservationViewModel;
+            return View(reservationViewModel);
+        }
         private AttendeeViewModel TranslatePersonDTO(PersonDTO person)
         {
             AttendeeViewModel attendeeViewModel = new AttendeeViewModel
