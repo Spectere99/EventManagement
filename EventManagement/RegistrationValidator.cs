@@ -19,14 +19,34 @@ namespace EventManagement
                 RegistrationReader registrationReader = new RegistrationReader();
 
                 List<RegistrationDTO> registrationList = registrationReader.GetByEventId(eventId);
+                var registrationListUnitCount =
+                    registrationList.Count(p => p.Person.Unit.UnitId == registrant.Unit.UnitId);
 
                 List<EventVolunteerDTO> volunteerList = eventVolunteerReader.GetByEventId(eventId);
-                var unitVolunteers = volunteerList.Where(p => p.Person.Unit.UnitId == registrant.Unit.UnitId).ToList();
 
-                var totalVolunteerDays = unitVolunteers.Sum(s => s.VolunteerDays);
-                var volunteerCount = totalVolunteerDays/5; //Specific to Summer DayCamp.  Need to make more Generic.
+                var parentVolunteer =
+                    volunteerList.FirstOrDefault(p => p.Person.PersonId == registrant.ParentPerson.PersonId);
+                
+                bool parentIsVolunteer = volunteerList.Any(p => p.Person.PersonId == registrant.ParentPerson.PersonId);
 
-                validRegistraion = registrationList.Count <= volunteerCount;
+                if (parentVolunteer != null && (parentIsVolunteer && parentVolunteer.VolunteerDays == 5)) // Bypass other checks.  This person is automatically registered.
+                {
+                    validRegistraion = true;
+                }
+                else
+                {
+                    var unitVolunteers = volunteerList.Where(p => p.Person.Unit.UnitId == registrant.Unit.UnitId).ToList();
+
+                    var totalVolunteerDays = unitVolunteers.Sum(s => s.VolunteerDays);
+                    double volunteerCount = totalVolunteerDays / 5.0; //Specific to Summer DayCamp.  Need to make more Generic.
+
+                    if (Math.Abs(((volunteerCount*5)%5)) == 0)
+                    {
+                        validRegistraion = registrationListUnitCount < (volunteerCount * 5);        
+                    }
+                    
+                }
+                
             }
             catch (Exception)
             {

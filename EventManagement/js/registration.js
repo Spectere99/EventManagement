@@ -7,7 +7,7 @@
                 if (id > 0) {
                     $.ajax({
                         //url: '@Url.Action("GetVenueDetails", "Registration")',
-                        url: '../../Lookup/GetVenueDetails',
+                        url: "../../Lookup/GetVenueDetails",
                         contentType: "application/json; charset=utf-8",
                         type: "GET",
                         dataType: "json",
@@ -22,7 +22,7 @@
                                 $("#VenueState").text(vdata.ContactInfo.State);
                                 $("#VenueZip").text(vdata.ContactInfo.Zip);
 
-                                $('#venueDetails').show();
+                                $("#venueDetails").show();
                             }
                         },
                         error: function (xhr) {
@@ -30,7 +30,7 @@
                         }
                     });
                     $.ajax({
-                        url: '../../Lookup/GetEventDate',
+                        url: "../../Lookup/GetEventDate",
                         contentType: "application/json; charset=utf-8",
                         type: "GET",
                         dataType: "json",
@@ -72,7 +72,7 @@
                         data: { "typeId": id },
                         success: function(data) {
                             $("#UnitList").empty();
-                            var items = '<option>Select a Unit</option>';
+                            var items = "<option>Select a Unit</option>";
                             for (var i = 0; i < data.length; i++) {
                                 items += "<option value='" + data[i].Value + "'>" + data[i].Text + "</option>";
                             }
@@ -91,7 +91,7 @@
                         data: { "typeId": id },
                         success: function (data) {
                             $("#UnitRankList").empty();
-                            var items = '<option>Select a Rank</option>';
+                            var items = "<option>Select a Rank</option>";
                             for (var i = 0; i < data.length; i++) {
                                 items += "<option value='" + data[i].Value + "'>" + data[i].Text + "</option>";
                             }

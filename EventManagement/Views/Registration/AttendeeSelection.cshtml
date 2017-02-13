@@ -22,7 +22,10 @@
                 Unit: @item.UnitType @item.Unit <br/>
                 Rank: @item.UnitRank
             </p>
-            @Html.ActionLink("Register", "EventSelection", "Registration", new {id = item.PersonId}, new {@class = "btn btn-info"})
+            @if (item.PersonType == "Cub Scout")
+            {
+                @Html.ActionLink("Register", "EventSelection", "Registration", new {id = item.PersonId}, new {@class = "btn btn-info"})
+            }
             @if (item.PersonType != "Cub Scout")
             {
                 @Html.ActionLink("Volunteer", "EventVolunteerSelection", "Registration", new { id = item.PersonId }, new { @class = "btn btn-info" })

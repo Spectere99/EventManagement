@@ -11,7 +11,7 @@
 </head>
 <h2>Registration</h2>
 @*@using (Html.BeginForm("Index", "Registration", FormMethod.Post, new {id = "RegistrationForm"}))  @*new { id = Model.Person.PersonId },*@
-@using (Html.BeginForm("VolunteerEntry", "Registration", FormMethod.Post))   
+@using (Html.BeginForm("VolunteerConfirm", "Registration", FormMethod.Post))   
 {
     
     @Html.AntiForgeryToken()

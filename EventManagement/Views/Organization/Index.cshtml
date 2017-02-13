@@ -1,0 +1,147 @@
+﻿@model EventManagement.Models.OrganizationViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Organization</h2>
+
+<div>
+    <h4>Person Details</h4>
+    <hr />
+    @if (@TempData["RedirectMsg"] != string.Empty)
+    {
+        <span class="label label-success">@TempData["RedirectMsg"]</span>
+    }
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MiddleName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MiddleName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ContactInfo.HomePhone)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ContactInfo.HomePhone)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ContactInfo.CellPhone)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ContactInfo.CellPhone)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ContactInfo.Email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ContactInfo.Email)
+            </dd>
+
+            <dt>
+                @*@Html.DisplayNameFor(model => model.ContactInfo.Address1)*@
+                @Html.DisplayName("Address")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ContactInfo.Address1)
+            </dd>
+            <dd>
+                @Html.DisplayFor(model => model.ContactInfo.Address2)
+            </dd>
+            <dd>
+                @Html.DisplayFor(model => model.ContactInfo.City),
+                @Html.DisplayFor(model => model.ContactInfo.State)
+                @Html.DisplayFor(model => model.ContactInfo.Zip)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NotUnitAffiliated)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NotUnitAffiliated)
+            </dd>
+            @if (!Model.NotUnitAffiliated)
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.PersonType)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.PersonType)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.UnitType)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.UnitType)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Unit)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Unit)
+                </dd>
+            }
+        </dl>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.PersonId }, new { @class = "btn btn-info" })
+           @* @Html.ActionLink("Add Child", "AddPerson", new { id = Model.PersonId }, new { @class = "btn btn-info", })*@
+            @*@Html.ActionLink("Back to List", "Index")*@
+        </p>
+    </div>
+    <div class="col-md-6">
+        <h4>Members</h4>
+        <ul class="list-group">
+            @foreach (var member in Model.Members)
+            {
+
+                <li href="#" class="list-group-item">
+                    <h4 class="list-group-item-heading">@member.FirstName  @member.LastName</h4>
+                    <p class="list-group-item-text">
+                        <strong>Unit:</strong> @member.UnitType @member.Unit | <strong>Rank:</strong> @member.UnitRank
+                    </p>
+                    @Html.ActionLink("Register", "EventSelection", "Registration", new { id = member.PersonId }, new { @class = "btn btn-info" })
+                    @Html.ActionLink("Edit", "Edit", new { id = member.PersonId }, new { @class = "btn btn-info" })
+                    @Html.ActionLink("Remove", "Delete", new { personId = member.PersonId }, new { @class = "btn btn-warning", @onclick = "return confirm('Are you sure you wish to delete this person?');" })
+                </li>
+
+
+            }
+        </ul>
+
+    </div>
+</div>
+
+

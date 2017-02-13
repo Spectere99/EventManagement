@@ -15,6 +15,8 @@ namespace EventManagement.Models
         public IEnumerable<EventViewModel> EventList { get; set; }
         public EventDTO Event { get; set; }
         public PersonDTO Person { get; set; }
+        public string ConfirmationNumber { get; set; }
+
     }
 
     public class ReservationViewModel

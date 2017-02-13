@@ -202,6 +202,8 @@ namespace EventManagement.Controllers
                             registrations.Add(registration);
                             registrationReader.Save(registrations);
 
+                            registrationEntry.ConfirmationNumber = registration.ConfirmationNumber;
+
                             return View(registrationEntry);
                         }
                         ReservationDTO reservation = new ReservationDTO()
