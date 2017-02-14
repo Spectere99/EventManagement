@@ -346,7 +346,7 @@ namespace EventManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
+                var user = await UserManager.FindByEmailAsync(model.Email);
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
@@ -355,10 +355,11 @@ namespace EventManagement.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                //var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);	
+	            SendForgotPasswordEmail(user, code);
                 // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
@@ -638,8 +639,27 @@ namespace EventManagement.Controllers
             new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Email));
             m.Subject = "Email confirmation";
-            m.Body = string.Format("Dear {0} <BR/>Thank you for your registration, please click on thebelow link to complete your registration: <a href=\"{1}\"title=\"User Email Confirm\">{1}</a>"
+            m.Body = string.Format("Dear {0} <BR/>Thank you for your registration, please click on the below link to complete your registration: <a href=\"{1}\"title=\"User Email Confirm\">CONFIRM ACCOUNT</a>"
                                 , personName, callbackUrl);
+            m.IsBodyHtml = true;
+            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.proeventlistings.com");
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new System.Net.NetworkCredential("admin@proeventlistings.com", "Sp3ct3r399");
+
+            smtp.EnableSsl = false;
+            smtp.Send(m);
+        }
+
+        private void SendForgotPasswordEmail(ApplicationUser user, string code)
+        {
+            var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+
+            System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
+            new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
+            new System.Net.Mail.MailAddress(user.Email));
+            m.Subject = "Password Reset Request";
+            m.Body = string.Format("Dear {0} <BR/>Please click on the below link to reset your password: <a href=\"{1}\"title=\"User Email Confirm\"> RESET PASSWORD</a>",
+                               user.UserName, callbackUrl);
             m.IsBodyHtml = true;
             System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.proeventlistings.com");
             smtp.UseDefaultCredentials = false;
