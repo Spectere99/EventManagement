@@ -92,6 +92,16 @@ namespace EventManagement.Controllers
                 return View(model);
             }
 
+            var user = await UserManager.FindByNameAsync(model.UserName);
+            if (user != null)
+            {
+                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                {
+                    ModelState.AddModelError("", "You need to confirm your email");
+                    model.EmailConfirmed = false;
+                    return View(model);
+                }
+            }
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
@@ -114,6 +124,15 @@ namespace EventManagement.Controllers
             }
         }
 
+        [AllowAnonymous]
+        public ActionResult ResendValidationCode(string id)
+        {
+            var user = UserManager.FindByName(id);
+            string confirmCode = UserManager.GenerateEmailConfirmationToken(user.Id);
+            SendValidationCodeEmail(user, user.UserName, confirmCode);
+
+            return RedirectToAction("ConfirmEmail", "Account", new { userId = user.Id, code = confirmCode });
+        }
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
@@ -266,27 +285,15 @@ namespace EventManagement.Controllers
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    string confirmCode = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    SendValidationCodeEmail(user, model.FirstName + " " + model.LastName, confirmCode);
 
-                    //System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
-                    //new System.Net.Mail.MailAddress("rflowers@saber98.com", "Web Registration"),
-                    //new System.Net.Mail.MailAddress(user.Email));
-                    //m.Subject = "Email confirmation";
-                    //m.Body = string.Format("Dear {0} <BR/>Thank you for your registration, please click on thebelow link to complete your registration: <a href=\"{1}\"title=\"User Email Confirm\">{1}</a>"
-                    //                    ,user.UserName, callbackUrl);
-                    //m.IsBodyHtml = true;
-                    //System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("smtp.saber98.com");
-                    //smtp.UseDefaultCredentials = false;
-                    //smtp.Credentials = new System.Net.NetworkCredential("rflowersr@saber98.com", "Sp3ct3r399");
-                    
-                    //smtp.EnableSsl = false;
-                    //smtp.Send(m);
-                    //return RedirectToAction("ConfirmEmail", "Account", new {Email = user.Email});
+                    return RedirectToAction("RegistrationComplete", "Account", new {email = user.Email});
+                    //return RedirectToAction("ConfirmEmail", "Account", new { userId = user.Id, code = confirmCode });
 
                      //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     
-                    return RedirectToLocal(model.ReturnUrl);
+                    //return RedirectToLocal(model.ReturnUrl);
                 }
                 AddErrors(result);
             }
@@ -303,6 +310,12 @@ namespace EventManagement.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
+        public ActionResult RegistrationComplete(string email)
+        {
+            ViewBag.registrationEmail = email;
+            return View();
+        }
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
@@ -616,5 +629,24 @@ namespace EventManagement.Controllers
 
         
         #endregion
+
+        private void SendValidationCodeEmail(ApplicationUser user, string personName, string code)
+        {
+            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+
+            System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
+            new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
+            new System.Net.Mail.MailAddress(user.Email));
+            m.Subject = "Email confirmation";
+            m.Body = string.Format("Dear {0} <BR/>Thank you for your registration, please click on thebelow link to complete your registration: <a href=\"{1}\"title=\"User Email Confirm\">{1}</a>"
+                                , personName, callbackUrl);
+            m.IsBodyHtml = true;
+            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.proeventlistings.com");
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new System.Net.NetworkCredential("admin@proeventlistings.com", "Sp3ct3r399");
+
+            smtp.EnableSsl = false;
+            smtp.Send(m);
+        }
     }
 }

@@ -1,5 +1,5 @@
 ﻿@using System.CodeDom
-@model EventManagement.Models.RegisterViewModel
+@model EventManagement.Models.LoginViewModel
 @{
     ViewBag.Title = "_Register";
 }
@@ -9,7 +9,6 @@
     <hr />
 <div class="col-md-offset-2 col-md-10">
     @Html.ActionLink("Click Here", "Register", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, htmlAttributes: new { id = "registerLink", @class = "btn btn-default" })
-    <input type="submit" class="btn btn-default" value="Click Here"/>
 </div>
 
         @section Scripts {
