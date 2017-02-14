@@ -1,5 +1,5 @@
 ﻿@model EventManagement.Models.OrganizationViewModel
-
+@using GridMvc.Html
 @{
     ViewBag.Title = "Index";
 }
@@ -116,30 +116,42 @@
             }
         </dl>
         <p>
-            @Html.ActionLink("Edit", "Edit", new { id = Model.PersonId }, new { @class = "btn btn-info" })
+           @* @Html.ActionLink("Edit", "Edit", new { id = Model.PersonId }, new { @class = "btn btn-info" })*@
            @* @Html.ActionLink("Add Child", "AddPerson", new { id = Model.PersonId }, new { @class = "btn btn-info", })*@
             @*@Html.ActionLink("Back to List", "Index")*@
         </p>
     </div>
-    <div class="col-md-6">
+    <div class="pre-scrollable col-md-6">
         <h4>Members</h4>
-        <ul class="list-group">
+        @Html.Grid(Model.Members).Columns(columns =>
+            {
+                columns.Add(foo => foo.FirstName).Sortable(true).SetWidth(60).Filterable(true);
+                columns.Add(foo => foo.LastName).Sortable(true).SetWidth(60).Filterable(true);
+                columns.Add(foo => foo.UnitRank).Sortable(true).SetWidth(50).Filterable(true);
+                columns.Add().Encoded(false)
+                        .Sanitized(false)
+                        .SetWidth(30)
+                        .RenderValueAs(o => @Html.ActionLink("Register", "EventSelection", "Registration", new { id = o.PersonId }, new { @class = "btn btn-info btn-sm" }));
+            }).WithPaging(20)
+        @*<ul class="list-group">
+           
+              
             @foreach (var member in Model.Members)
             {
 
                 <li href="#" class="list-group-item">
-                    <h4 class="list-group-item-heading">@member.FirstName  @member.LastName</h4>
+                    <h4 class="list-group-item-heading">@member.FirstName @member.LastName</h4>
                     <p class="list-group-item-text">
                         <strong>Unit:</strong> @member.UnitType @member.Unit | <strong>Rank:</strong> @member.UnitRank
                     </p>
-                    @Html.ActionLink("Register", "EventSelection", "Registration", new { id = member.PersonId }, new { @class = "btn btn-info" })
-                    @Html.ActionLink("Edit", "Edit", new { id = member.PersonId }, new { @class = "btn btn-info" })
-                    @Html.ActionLink("Remove", "Delete", new { personId = member.PersonId }, new { @class = "btn btn-warning", @onclick = "return confirm('Are you sure you wish to delete this person?');" })
+                    @Html.ActionLink("Register", "EventSelection", "Registration", new {id = member.PersonId}, new {@class = "btn btn-info"})
+                    @Html.ActionLink("Edit", "Edit", new {id = member.PersonId}, new {@class = "btn btn-info"})
+                    @Html.ActionLink("Remove", "Delete", new {personId = member.PersonId}, new {@class = "btn btn-warning", @onclick = "return confirm('Are you sure you wish to delete this person?');"})
                 </li>
 
 
             }
-        </ul>
+        </ul>*@
 
     </div>
 </div>
