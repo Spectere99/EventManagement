@@ -117,7 +117,6 @@ namespace DALTester
                 State = "SC",
                 Zip = "12345",
                 HomePhone = "(000)000-0000",
-                BusinessPhone = "(000)000-0000",
                 CellPhone = "(000)000-0000"
             };
 

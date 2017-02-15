@@ -17,6 +17,7 @@ namespace Common.Mapper
         private int _ordLastUpdate;
         private int _ordEventId;
         private int _ordPersonId;
+        private int _ordRegistrationCode;
         
         protected override ReservationDTO Map(IDataRecord record)
         {
@@ -35,6 +36,9 @@ namespace Common.Mapper
 
                 var personId = (DBNull.Value == record[_ordPersonId]) ? CommonBase.IntNullValue : (int)record[_ordPersonId];
                 e.Person = personReader.GetById(personId).FirstOrDefault();
+                e.RegistrationCode = (DBNull.Value == record[_ordRegistrationCode])
+                    ? CommonBase.StringNullValue
+                    : (string) record[_ordRegistrationCode];
                 e.IsNew = false;
                 return e;
             }
@@ -52,8 +56,9 @@ namespace Common.Mapper
             _ordLastUpdate = reader.GetOrdinal("LastUpdated");
             _ordEventId = reader.GetOrdinal("Events_EventID");
             _ordPersonId = reader.GetOrdinal("Person_PersonID");
-            
-           
+            _ordRegistrationCode = reader.GetOrdinal("RegistrationCode");
+
+
 
         }
     }

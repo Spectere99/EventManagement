@@ -339,4 +339,10 @@
   <data name="GetRegistrationsByEventId" xml:space="preserve">
     <value>selRegistrationByEventID</value>
   </data>
+  <data name="GetReservationByRegCode" xml:space="preserve">
+    <value>selReservationByRegistrationCode</value>
+  </data>
+  <data name="GetReservationsByEventID" xml:space="preserve">
+    <value>selReservationsByEventID</value>
+  </data>
 </root>

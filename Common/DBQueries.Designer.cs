@@ -394,11 +394,29 @@ namespace Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to selReservationByRegistrationCode.
+        /// </summary>
+        internal static string GetReservationByRegCode {
+            get {
+                return ResourceManager.GetString("GetReservationByRegCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to selReservations.
         /// </summary>
         internal static string GetReservations {
             get {
                 return ResourceManager.GetString("GetReservations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to selReservationsByEventID.
+        /// </summary>
+        internal static string GetReservationsByEventID {
+            get {
+                return ResourceManager.GetString("GetReservationsByEventID", resourceCulture);
             }
         }
         

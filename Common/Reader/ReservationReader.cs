@@ -85,8 +85,7 @@ namespace Common.Reader
                         command.Parameters.Add(CreateParameter("pReservationDate", item.ReservationDate));
                         command.Parameters.Add(CreateParameter("pEventID", item.Event.EventId));
                         command.Parameters.Add(CreateParameter("pPersonID", item.Person.PersonId));
-                        
-                        
+                        command.Parameters.Add(CreateParameter("pRegistrationCode", item.RegistrationCode, 64));
                         
                         ExecuteNoReader(command);
                     }
@@ -115,6 +114,48 @@ namespace Common.Reader
                     throw;
                 }
                 
+            }
+        }
+
+        public ReservationDTO GetByRegistrationCode(string registrationCode)
+        {
+            using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetReservationByRegCode))
+            {
+                try
+                {
+                    command.Parameters.Add(CreateParameter("pRegistrationCode", registrationCode, 64));
+                    var resultList = Execute(command);
+                    return resultList.FirstOrDefault();
+
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+
+            }
+        }
+
+        public List<ReservationDTO> GetByEventId(int eventId)
+        {
+            using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetReservationsByEventID))
+            {
+                try
+                {
+                    command.Parameters.Add(CreateParameter("pEventID", eventId));
+                    var resultList = Execute(command);
+                    return resultList;
+
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+
             }
         }
     }

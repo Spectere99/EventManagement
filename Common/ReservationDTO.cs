@@ -15,6 +15,7 @@ namespace Common
         public DateTime LastUpdated { get; set; }
         public EventDTO Event { get; set; }
         public PersonDTO Person { get; set; }
+        public string RegistrationCode { get; set; }
 
         public ReservationDTO()
         {
@@ -23,17 +24,19 @@ namespace Common
             LastUpdated = DateTimeNullValue;
             Event = null;
             Person = null;
+            RegistrationCode = null;
             IsNew = true;
         }
 
         public ReservationDTO(int reservationId, DateTime reservationDate, DateTime lastUpdated, EventDTO eventObj,
-            PersonDTO person)
+            PersonDTO person, string registrationCode)
         {
             ReservationId = reservationId;
             ReservationDate = reservationDate;
             LastUpdated = lastUpdated;
             Event = eventObj;
             Person = person;
+            RegistrationCode = registrationCode;
             IsNew = ReservationId.Equals(IntNullValue);
         }
     }

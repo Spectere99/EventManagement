@@ -1168,6 +1168,7 @@
     <Content Include="Views\Registration\ExistingRegistration.cshtml" />
     <Content Include="Views\Organization\Index.cshtml" />
     <Content Include="Views\Account\RegistrationComplete.cshtml" />
+    <Content Include="Views\Registration\ConfirmationFailed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
