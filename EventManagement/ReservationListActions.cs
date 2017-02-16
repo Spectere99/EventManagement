@@ -44,10 +44,13 @@ namespace EventManagement
             var totalVolunteerDays = unitVolunteers.Sum(s => s.VolunteerDays);
             double volunteerCount = totalVolunteerDays / 5.0; //Specific to Summer DayCamp.  Need to make more Generic.
 
-            var availableSlots = (volunteerCount * 5) - registrationListUnitCount;
-
+            double availableSlots = 0;
+            if (Math.Abs(((volunteerCount*5)%5)) == 0)
+            {
+                availableSlots = (volunteerCount*5) - registrationListUnitCount;
+            }
+           
             var reservations = GetNextAvailableReservations(eventId, (int)availableSlots);
-            //After checking.  If slots are available, will send emails to waiting list users.
             return reservations;
         }
         public void RemoveReservationCode(string code)
@@ -71,6 +74,7 @@ namespace EventManagement
             {
                 var confirmationCode = Utilities.GenerateConfirmationCode();  //We are using the Confirmation code for the registration code.
                 reservation.RegistrationCode = confirmationCode;
+                reservation.CodeExpiration = DateTime.Now.AddDays(2);
                 openReservations.Add(reservation);
             }
             //Need to update the reservations with the updated Confirmation codes

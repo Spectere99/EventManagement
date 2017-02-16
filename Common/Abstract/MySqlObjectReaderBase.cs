@@ -149,6 +149,23 @@ namespace Common.Abstract
             return parameter;
         }
 
+        protected MySqlParameter CreateParameter(string name, DateTime? value)
+        {
+            if (value == null)
+            {
+                return CreateNullParamter(name, MySqlDbType.DateTime);
+            }
+
+            MySqlParameter parameter = new MySqlParameter
+            {
+                MySqlDbType = MySqlDbType.DateTime,
+                ParameterName = name,
+                Value = value,
+                Direction = ParameterDirection.Input
+            };
+            return parameter;
+        }
+
         protected MySqlParameter CreateParameter(string name, string value, int size)
         {
             if (value == CommonBase.StringNullValue)

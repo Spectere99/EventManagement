@@ -151,6 +151,30 @@ namespace EventManagement.Controllers
             return RedirectToAction("Login", "Account");
         }
 
+        public ActionResult ExpireWaitingListCodes()
+        {
+            //pull the list of reservations and check the CodeExpiration property.
+            // If they are past the current date, clear the code
+            ReservationReader reservationReader = new ReservationReader();
+
+            var reservations = reservationReader.GetList();
+            List<ReservationDTO> resetReservations = new List<ReservationDTO>();
+            foreach (ReservationDTO reservation in reservations)
+            {
+                if (reservation.CodeExpiration != null)
+                {
+                    if (DateTime.Now > reservation.CodeExpiration)
+                    {
+                        reservation.RegistrationCode = null;
+                        resetReservations.Add(reservation);
+                    }
+                }
+            }
+
+            reservationReader.Save(resetReservations);
+            return null;
+        }
+
         public ActionResult ConvertReservation(int userId, string code)
         {
             ReservationListActions reservationListActions = new ReservationListActions();
@@ -168,6 +192,8 @@ namespace EventManagement.Controllers
                 registrationViewModel.ConfirmationNumber = code;
                 TempData["EventRegistant"] = registrationViewModel;
                 Session["RegistrationEvent"] = reservation.Event;
+
+                reservationReader.Remove(new List<ReservationDTO>() {reservation});
 
                 return RedirectToAction("RegistrantConfirm", "Registration");
             }
@@ -253,6 +279,7 @@ namespace EventManagement.Controllers
                         };
 
                         TempData["ReservationViewModel"] = reservationViewModel;
+                        SendWaitingListConfirmEmail(reservationViewModel);
                         return RedirectToAction("WaitingListConfirm");       
                     }
                 }
@@ -284,11 +311,31 @@ namespace EventManagement.Controllers
                         newVolunteer.VolunteerDays = model.VolunteerDays;
 
                         volunteerList.Add(newVolunteer);
-                        eventVolunteerReader.Save(volunteerList);
 
                         volunteerEntry.Person = person;
                         volunteerEntry.Event = newVolunteer.Event;
-                        
+                        volunteerEntry.VolunteerDays = model.VolunteerDays;
+                        RegistrationValidator regValidator = new RegistrationValidator();
+                        //Check to see if a registration exists for this person already.
+                        bool existingRegistration = regValidator.CheckForExistingVolunteer(person, volunteerEntry.Event.EventId);
+
+                        if (existingRegistration)
+                        {
+                            ReservationViewModel tempReservationModel = new ReservationViewModel
+                            {
+                                Person = person,
+                                Event = model.Event,
+                                ReservationDate = DateTime.Now
+                            };
+
+                            TempData["ReservationViewModel"] = tempReservationModel;
+                            return RedirectToAction("ExistingRegistration");
+                        }
+
+                        eventVolunteerReader.Save(volunteerList);
+
+                        SendVolunteerConfirmEmail(volunteerEntry);
+
                         //Need to check for Open Reservations for this person's unit and send notifications
                         ReservationListActions reservationListActions = new ReservationListActions();
                         List<ReservationDTO> openReservations = reservationListActions.GetReservationOpenings(person, model.Event.EventId);
@@ -365,6 +412,27 @@ namespace EventManagement.Controllers
             smtp.Send(m);
         }
 
+        private void SendWaitingListConfirmEmail(ReservationViewModel user)
+        {
+            //var callbackUrl = Url.Action("ConvertReservation", "Registration", new { userId = user.Person.PersonId, code = user.RegistrationCode }, protocol: Request.Url.Scheme);
+
+            System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
+            new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
+            new System.Net.Mail.MailAddress(user.Person.ParentPerson.ContactInfo.Email));
+            m.Subject = "Waiting List Confirmation";
+            m.Body = string.Format("Dear {0} <BR/>You are currently on the waiting list for {1}.  <BR/>" +
+                                   "As soon as enough volunteers from your Unit register, more slots will open up and you will be notified." +
+                                   "At that time, you will be able to register in one click. <BR/>" +
+                                   "Please note that waiting list slots are notifed based on the order that they signed up for the event."
+                                   , user.Person.ParentPerson.FirstName + " " + user.Person.ParentPerson.LastName, user.Event.Name);
+            m.IsBodyHtml = true;
+            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.proeventlistings.com");
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new System.Net.NetworkCredential("admin@proeventlistings.com", "Sp3ct3r399");
+
+            smtp.EnableSsl = false;
+            smtp.Send(m);
+        }
         private void SendRegistrationConfirmEmail(RegistrationViewModel user)
         {
             //var callbackUrl = Url.Action("ConvertReservation", "Registration", new { userId = user.Person.PersonId, code = user.RegistrationCode }, protocol: Request.Url.Scheme);
@@ -378,6 +446,28 @@ namespace EventManagement.Controllers
                                    " Please use the following link to pay: <a href=\"{3}\"title=\"User Email Confirm\">PAY HERE</a><BR/><BR/>" +
                                    " Your registration will not final until you have paid your camp fees."
                                    , user.Person.ParentPerson.FirstName, user.Event.Name, user.ConfirmationNumber, "http://www.paypal.com");
+            m.IsBodyHtml = true;
+            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.proeventlistings.com");
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new System.Net.NetworkCredential("admin@proeventlistings.com", "Sp3ct3r399");
+
+            smtp.EnableSsl = false;
+            smtp.Send(m);
+        }
+
+        private void SendVolunteerConfirmEmail(VolunteerRegistrationViewModel user)
+        {
+            //var callbackUrl = Url.Action("ConvertReservation", "Registration", new { userId = user.Person.PersonId, code = user.RegistrationCode }, protocol: Request.Url.Scheme);
+
+            System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
+            new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
+            new System.Net.Mail.MailAddress(user.Person.ContactInfo.Email));
+            m.Subject = "Registration Confirmed";
+            m.Body = string.Format("Dear {0} <BR/>Thank you for volunteering at {1} this year.<BR/>" +
+                                   "You have volunteered for {2} days! <BR/> Be prepared to enrich the lives of young cub scouts!<BR/>" +
+                                   "You will be contacted by the Camp coordinator with details on special training, and other instructions. <BR/>" +
+                                   "Once again Thank you!"
+                                   , user.Person.FirstName, user.Event.Name, user.VolunteerDays);
             m.IsBodyHtml = true;
             System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.proeventlistings.com");
             smtp.UseDefaultCredentials = false;

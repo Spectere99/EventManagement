@@ -71,5 +71,22 @@ namespace EventManagement
                 throw;
             }
         }
+
+        public bool CheckForExistingVolunteer(PersonDTO registrant, int eventId)
+        {
+            try
+            {
+                EventVolunteerReader volunteerReader = new EventVolunteerReader();
+
+                List<EventVolunteerDTO> volunteerList = volunteerReader.GetByEventId(eventId);
+
+                return volunteerList.Any(p => p.Person.PersonId == registrant.PersonId);
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
     }
 }

@@ -86,6 +86,7 @@ namespace Common.Reader
                         command.Parameters.Add(CreateParameter("pEventID", item.Event.EventId));
                         command.Parameters.Add(CreateParameter("pPersonID", item.Person.PersonId));
                         command.Parameters.Add(CreateParameter("pRegistrationCode", item.RegistrationCode, 64));
+                        command.Parameters.Add(CreateParameter("pCodeExpiration", item.CodeExpiration));
                         
                         ExecuteNoReader(command);
                     }

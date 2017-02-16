@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DALTester", "DALTester\DALTester.csproj", "{C22D062D-BB7F-4C4E-8FE0-97633DB74C04}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpireRegistrationCodes", "ExpireRegistrationCodes\ExpireRegistrationCodes.csproj", "{F2B456A6-287D-40CE-B0D8-BBF510B98089}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C22D062D-BB7F-4C4E-8FE0-97633DB74C04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C22D062D-BB7F-4C4E-8FE0-97633DB74C04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C22D062D-BB7F-4C4E-8FE0-97633DB74C04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2B456A6-287D-40CE-B0D8-BBF510B98089}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2B456A6-287D-40CE-B0D8-BBF510B98089}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2B456A6-287D-40CE-B0D8-BBF510B98089}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2B456A6-287D-40CE-B0D8-BBF510B98089}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
