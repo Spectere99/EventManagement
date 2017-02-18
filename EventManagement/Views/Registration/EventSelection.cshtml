@@ -17,13 +17,14 @@
         <div class="row">
             <div id="eventSelection" class="col-md-4">
                 @Html.DropDownListFor(m => m.EventList, new SelectList(Model.EventList, "EventId", "EventName"), "Select ...", new { @class = "form-control" })  @*onchange = "GetVenueDetails(this.value);",*@
-                <dl class="dl-horizontal">
-                    @Html.Label("EventDate", " ", new { id = "EventDate" })
-                    @Html.Label("VenueName", "Event Not Selected", new { id = "VenueName" })
-                    @Html.Label("VenueAddress1", " ", new { id = "VenueAddress1" })
-                    @Html.Label("VenueAddress2", " ", new { id = "VenueAddress2" })
-                    @Html.Label("VenueCity", " ", new { id = "VenueCity" }), @Html.Label("VenueState", " ", new { id = "VenueState" }) @Html.Label("VenueZip", " ", new { id = "VenueZip" })
-                </dl>
+                <div class="dl-horizontal">
+                    <br/>
+                    @Html.Label("EventDate", " ", new {id = "EventDate"})<br/>
+                    @Html.Label("VenueName", "Event Not Selected", new {id = "VenueName"})<br/>
+                    @Html.Label("VenueAddress1", " ", new {id = "VenueAddress1"})<br/>
+                    @Html.Label("VenueAddress2", " ", new {id = "VenueAddress2"})<br/>
+                    @Html.Label("VenueCity", " ", new {id = "VenueCity"}), @Html.Label("VenueState", " ", new {id = "VenueState"}) @Html.Label("VenueZip", " ", new {id = "VenueZip"})
+                </div>
             </div>
          </div>
         <div class="row">
@@ -31,7 +32,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Next" class="btn btn-default" />
+                <input type="submit" value="Register for Selected Event" class="btn btn-default" />
             </div>
         </div>
     </p>

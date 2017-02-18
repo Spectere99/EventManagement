@@ -15,7 +15,28 @@ namespace EventManagement.Controllers
         // GET: Person
         public ActionResult Index()
         {
-            return View();
+            PersonViewModel personViewModel = new PersonViewModel();
+            PersonReader personReader = new PersonReader();
+            var userId = User.Identity.GetUserId();
+            //Get person based on their user id
+            var person = personReader.GetByUserId(userId).FirstOrDefault();
+
+            if (person != null)
+            {
+                personViewModel = TranslatePersonDTO(person);
+                //Need to load the children now.
+                var children = personReader.GetByParentId(person.PersonId);
+                personViewModel.Children = new List<PersonViewModel>();
+
+                foreach (var child in children)
+                {
+                    var childViewModel = TranslatePersonDTO(child);
+                    personViewModel.Children.Add(childViewModel);
+                }
+                personViewModel.NotUnitAffiliated = person.Unit.UnitType.UnitTypeId.Equals(-1);
+            }
+
+            return View(personViewModel);
         }
 
         [HttpGet]

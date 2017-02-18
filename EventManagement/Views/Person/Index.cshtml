@@ -1,34 +1,150 @@
-﻿@model EventManagement.Models.PersonViewModel
+﻿@using GridMvc.Html
+@model EventManagement.Models.PersonViewModel
+
 @{
-    Layout = null;
-
-    var person1 = new {firstName = "Robert", lastName = "Flowers"};
-
-    
+    ViewBag.Title = "Family";
 }
 
+<h2>@ViewBag.Title</h2>
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
 <div>
-    Person List:
-    <table>
-        <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-        </tr>
-        <tr>
-                <td>Model.FirstName</td>
-                <td>Model.LastName</td>    
-        </tr>
-            
-    </table>
+    <h4>Your Details</h4>
+    <hr />
+    @if (@TempData["RedirectMsg"] != string.Empty)
+    {
+        <span class="label label-success">@TempData["RedirectMsg"]</span>
+    }
+    <div class="row row-eq-height">
+        <div class="col-md-5">
+            <dl class="dl-horizontal">
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.FirstName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.MiddleName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.MiddleName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.LastName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ContactInfo.HomePhone)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ContactInfo.HomePhone)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ContactInfo.CellPhone)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ContactInfo.CellPhone)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ContactInfo.Email)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ContactInfo.Email)
+                </dd>
+
+                <dt>
+                    @*@Html.DisplayNameFor(model => model.ContactInfo.Address1)*@
+                    @Html.DisplayName("Address")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ContactInfo.Address1)
+                </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.ContactInfo.Address2)
+                </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.ContactInfo.City),
+                    @Html.DisplayFor(model => model.ContactInfo.State)
+                    @Html.DisplayFor(model => model.ContactInfo.Zip)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.NotUnitAffiliated)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.NotUnitAffiliated)
+                </dd>
+                @if (!Model.NotUnitAffiliated)
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PersonType)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PersonType)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.UnitType)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.UnitType)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Unit)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Unit)
+                    </dd>
+                }
+            </dl>
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.PersonId }, new { @class = "btn btn-info" })
+                @Html.ActionLink("Add Child", "AddPerson", new { id = Model.PersonId }, new { @class = "btn btn-info", })
+                @*@Html.ActionLink("Back to List", "Index")*@
+            </p>
+        </div>
+        <div class="col-md-7">
+            <h4>Children</h4>
+            @Html.Grid(Model.Children).Columns(columns =>
+            {
+                columns.Add(foo => foo.FirstName).Sortable(true).SetWidth(60).Filterable(true);
+                columns.Add(foo => foo.LastName).Sortable(true).SetWidth(60).Filterable(true);
+                columns.Add(foo => foo.UnitRank).Sortable(true).SetWidth(50).Filterable(true);
+                columns.Add().Encoded(false)
+                    .Sanitized(false)
+                    .SetWidth(30)
+                    .RenderValueAs(o => @Html.ActionLink("Register", "EventSelection", "Registration", new { id = o.PersonId }, new { @class = "btn btn-info btn-sm" }));
+                columns.Add().Encoded(false)
+                    .Sanitized(false)
+                    .SetWidth(30)
+                    .RenderValueAs(o => @Html.ActionLink("Edit", "Edit", new { id = o.PersonId }, new { @class = "btn btn-info btn-sm" }));
+                columns.Add().Encoded(false)
+                    .Sanitized(false)
+                    .SetWidth(30)
+                    .RenderValueAs(o => @Html.ActionLink("Remove", "Delete", new { personId = o.PersonId }, new { @class = "btn btn-warning btn-sm", @onclick = "return confirm('Are you sure you wish to delete this person?');" }));
+            }).WithPaging(20)
+        </div>
+    </div>
 </div>
-</body>
-</html>
+
+

@@ -290,65 +290,75 @@ namespace EventManagement.Controllers
         {
             VolunteerRegistrationViewModel volunteerEntry = TempData["VolunteerRegistant"] as VolunteerRegistrationViewModel;
             model.Event = Session["RegistrationEvent"] as EventDTO;
-            if (model.Event != null) //if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                Session["RegistrationEvent"] = null;
-                if (volunteerEntry != null)
+                if (model.Event != null) //if (ModelState.IsValid)
                 {
-                    PersonReader personReader = new PersonReader();
-                    EventVolunteerReader eventVolunteerReader = new EventVolunteerReader();
-
-                    var person = personReader.GetById(volunteerEntry.Person.PersonId).FirstOrDefault();
-
-                    if (person != null)
+                    Session["RegistrationEvent"] = null;
+                    if (volunteerEntry != null)
                     {
-                        //Need to check for existing registration.
-                        List<EventVolunteerDTO> volunteerList = new List<EventVolunteerDTO>();
+                        PersonReader personReader = new PersonReader();
+                        EventVolunteerReader eventVolunteerReader = new EventVolunteerReader();
 
-                        EventVolunteerDTO newVolunteer = new EventVolunteerDTO();
-                        newVolunteer.Event = model.Event;
-                        newVolunteer.Person = person;
-                        newVolunteer.VolunteerDays = model.VolunteerDays;
+                        var person = personReader.GetById(volunteerEntry.Person.PersonId).FirstOrDefault();
 
-                        volunteerList.Add(newVolunteer);
-
-                        volunteerEntry.Person = person;
-                        volunteerEntry.Event = newVolunteer.Event;
-                        volunteerEntry.VolunteerDays = model.VolunteerDays;
-                        RegistrationValidator regValidator = new RegistrationValidator();
-                        //Check to see if a registration exists for this person already.
-                        bool existingRegistration = regValidator.CheckForExistingVolunteer(person, volunteerEntry.Event.EventId);
-
-                        if (existingRegistration)
+                        if (person != null)
                         {
-                            ReservationViewModel tempReservationModel = new ReservationViewModel
+                            //Need to check for existing registration.
+                            List<EventVolunteerDTO> volunteerList = new List<EventVolunteerDTO>();
+
+                            EventVolunteerDTO newVolunteer = new EventVolunteerDTO();
+                            newVolunteer.Event = model.Event;
+                            newVolunteer.Person = person;
+                            newVolunteer.VolunteerDays = model.VolunteerDays;
+
+                            volunteerList.Add(newVolunteer);
+
+                            volunteerEntry.Person = person;
+                            volunteerEntry.Event = newVolunteer.Event;
+                            volunteerEntry.VolunteerDays = model.VolunteerDays;
+                            RegistrationValidator regValidator = new RegistrationValidator();
+                            //Check to see if a registration exists for this person already.
+                            bool existingRegistration = regValidator.CheckForExistingVolunteer(person,
+                                volunteerEntry.Event.EventId);
+
+                            if (existingRegistration)
                             {
-                                Person = person,
-                                Event = model.Event,
-                                ReservationDate = DateTime.Now
-                            };
+                                ReservationViewModel tempReservationModel = new ReservationViewModel
+                                {
+                                    Person = person,
+                                    Event = model.Event,
+                                    ReservationDate = DateTime.Now
+                                };
 
-                            TempData["ReservationViewModel"] = tempReservationModel;
-                            return RedirectToAction("ExistingRegistration");
+                                TempData["ReservationViewModel"] = tempReservationModel;
+                                return RedirectToAction("ExistingRegistration");
+                            }
+
+                            eventVolunteerReader.Save(volunteerList);
+
+                            SendVolunteerConfirmEmail(volunteerEntry);
+
+                            //Need to check for Open Reservations for this person's unit and send notifications
+                            ReservationListActions reservationListActions = new ReservationListActions();
+                            List<ReservationDTO> openReservations = reservationListActions.GetReservationOpenings(
+                                person, model.Event.EventId);
+
+                            foreach (ReservationDTO reservation in openReservations)
+                            {
+                                SendReservationOpeningEmail(reservation);
+                            }
+
+                            return View(volunteerEntry);
                         }
-
-                        eventVolunteerReader.Save(volunteerList);
-
-                        SendVolunteerConfirmEmail(volunteerEntry);
-
-                        //Need to check for Open Reservations for this person's unit and send notifications
-                        ReservationListActions reservationListActions = new ReservationListActions();
-                        List<ReservationDTO> openReservations = reservationListActions.GetReservationOpenings(person, model.Event.EventId);
-
-                        foreach (ReservationDTO reservation in openReservations)
-                        {
-                            SendReservationOpeningEmail(reservation);
-                        }
-
-                        return View(volunteerEntry);
                     }
                 }
+                TempData["ErrorMsg"] = "Please select an Event.";
+                TempData["PersonId"] = volunteerEntry.Person.PersonId;
+                return View();
             }
+            TempData["ErrorMsg"] = "Please select a Valid number of Days.";
+            TempData["PersonId"] = volunteerEntry.Person.PersonId;
             return View();  //Need to redirect to Error Page because Event was not selected.
         }
 

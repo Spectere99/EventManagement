@@ -1,5 +1,7 @@
 ﻿@using System.ComponentModel
+@using Common
 @using EventManagement.Models
+@using GridMvc.Html
 @model EventManagement.Models.AttendeeViewList
 
 @{
@@ -7,33 +9,43 @@
 }
 
 <h2>Attendee Selection</h2>
-
-
-<ul class="list-group">
-    <li href="#" class="list-group-item">
-        @Html.ActionLink("Add Child", "AddPerson", "Person", new {id = Model.ParentId}, new {@class = "btn btn-info",})
-        @*@Html.ActionLink("Back to List", "Index")*@
-    </li>
-    @foreach (var item in Model.AttendeeList)
+<p>
+    Select the person to register.  A person can volunteer if they are not a Cub Scout.
+</p>
+@helper CustomeRenderButton(AttendeeViewModel person)
+{
+    if (person.PersonType != "Cub Scout")
     {
-        <li href="#" class="list-group-item">
-            <h4 class="list-group-item-heading">@item.FirstName @item.LastName</h4>
-            <p class="list-group-item-text">
-                Unit: @item.UnitType @item.Unit <br/>
-                Rank: @item.UnitRank
-            </p>
-            @if (item.PersonType == "Cub Scout")
-            {
-                @Html.ActionLink("Register", "EventSelection", "Registration", new {id = item.PersonId}, new {@class = "btn btn-info"})
-            }
-            @if (item.PersonType != "Cub Scout")
-            {
-                @Html.ActionLink("Volunteer", "EventVolunteerSelection", "Registration", new { id = item.PersonId }, new { @class = "btn btn-info" })
-            }
-        </li>
+        @Html.ActionLink("Volunteer", "EventVolunteerSelection", "Registration", new { id = person.PersonId }, new { @class = "btn btn-default" })
     }
+    if (person.PersonType == "Cub Scout")
+    {
+        @Html.ActionLink("Register", "EventSelection", "Registration", new { id = person.PersonId }, new { @class = "btn btn-primary" })
+    }
+}
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            
+        </div>
+        <div class="col-md-8">
+            @Html.Grid(Model.AttendeeList).Columns(columns =>
+                {
+                    columns.Add(foo => foo.FirstName).Sortable(true).SetWidth(40).Filterable(false);
+                    columns.Add(foo => foo.LastName).Sortable(true).SetWidth(50).Filterable(false);
+                    columns.Add(foo => foo.UnitRank).Sortable(true).SetWidth(20).Filterable(false);
+                    columns.Add().Encoded(false)
+                        .Sanitized(false)
+                        .SetWidth(20)
+                        .RenderValueAs(o => CustomeRenderButton(o));
+            })
+        </div>
+        <div class="col-md-2">
 
-</ul>
+        </div>
+    </div>
+    
 
+</div>
 
 

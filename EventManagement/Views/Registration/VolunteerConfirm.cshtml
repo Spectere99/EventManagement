@@ -23,7 +23,7 @@
         @if (Model != null)
         {
             <div class="panel-default">
-                Thank you for Volunteering for @Model.Event.Name !!!!
+                Thank you for Volunteering for @Model.Event.Name !!!! <br/>
                 Your confirmation will be sent via email to @Model.Person.ContactInfo.Email
             </div>
             <div class="form-group">
@@ -35,11 +35,11 @@
         else
         {
             <div class="panel-default">
-                Please select a valid Event
+                @TempData["ErrorMsg"]
             </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Next" class="btn btn-default" />
+                    @Html.ActionLink("Start Over","EventVolunteerSelection","Registration", new { id = (int)@TempData["PersonId"] }, new { @class = "btn btn-info" })
                 </div>
             </div>
         }
