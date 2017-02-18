@@ -7,13 +7,13 @@ namespace EventManagement.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class MySqlIdentity : IMigrationMetadata
+    public sealed partial class DefaultConnection : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(MySqlIdentity));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(DefaultConnection));
         
         string IMigrationMetadata.Id
         {
-            get { return "201611230154085_MySqlIdentity"; }
+            get { return "201702182104334_DefaultConnection"; }
         }
         
         string IMigrationMetadata.Source

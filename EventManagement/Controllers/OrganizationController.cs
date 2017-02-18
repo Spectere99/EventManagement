@@ -10,7 +10,7 @@ using Microsoft.AspNet.Identity;
 
 namespace EventManagement.Controllers
 {
-    public class OrganizationController : Controller
+    public class OrganizationController : ApplicationBaseController
     {
         // GET: Organization
         public ActionResult Index()

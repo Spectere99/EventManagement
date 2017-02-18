@@ -13,7 +13,7 @@ using WebGrease.Css.Ast.Selectors;
 
 namespace EventManagement.Controllers
 {
-    public class RegistrationController : Controller
+    public class RegistrationController : ApplicationBaseController
     {
         // GET: Registration
         // Sets up for the user to select the event that they want to register for.

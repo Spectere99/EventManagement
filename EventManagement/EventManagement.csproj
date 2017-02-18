@@ -226,6 +226,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\ApplicationBaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LookupController.cs" />
     <Compile Include="Controllers\MaintenanceController.cs" />
@@ -238,9 +239,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201611230154085_MySqlIdentity.cs" />
-    <Compile Include="Migrations\201611230154085_MySqlIdentity.Designer.cs">
-      <DependentUpon>201611230154085_MySqlIdentity.cs</DependentUpon>
+    <Compile Include="Migrations\201702182104334_DefaultConnection.cs" />
+    <Compile Include="Migrations\201702182104334_DefaultConnection.Designer.cs">
+      <DependentUpon>201702182104334_DefaultConnection.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\MySqlHistoryContext.cs" />
@@ -279,6 +280,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\jumbotron_background.jpg" />
     <Content Include="js\person.js" />
     <Content Include="js\register.js" />
     <Content Include="js\registration.js" />
@@ -1173,6 +1175,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="themes\" />
+    <Folder Include="Views\ApplicationBase\" />
     <Folder Include="Views\DataViews\" />
     <Folder Include="Views\Lookup\" />
   </ItemGroup>
@@ -1183,15 +1187,15 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611230154085_MySqlIdentity.resx">
-      <DependentUpon>201611230154085_MySqlIdentity.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{14ce2c04-7380-4b0c-9e75-7fe0dd8cfa89}</Project>
       <Name>Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201702182104334_DefaultConnection.resx">
+      <DependentUpon>201702182104334_DefaultConnection.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -13,7 +13,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace EventManagement.Controllers
 {
-    public class RoleController : Controller
+    public class RoleController : ApplicationBaseController
     {
         private ApplicationDbContext _context;
         private ApplicationUserManager _userManager;

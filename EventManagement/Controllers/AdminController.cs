@@ -11,7 +11,7 @@ using EventManagement.Models;
 
 namespace EventManagement.Controllers
 {
-    public class AdminController : Controller
+    public class AdminController : ApplicationBaseController
     {
         private ApplicationDbContext _context;
         private ApplicationUserManager _userManager;

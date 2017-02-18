@@ -7,7 +7,7 @@ using Common.Reader;
 
 namespace EventManagement.Controllers
 {
-    public class LookupController : Controller
+    public class LookupController : ApplicationBaseController
     {
         [HttpGet]
         public ActionResult GetVenueDetails(int eventId)
@@ -32,7 +32,7 @@ namespace EventManagement.Controllers
             var theEvent = eventReader.GetById(eventId).SingleOrDefault();
             if (theEvent != null)
             {
-                var dates = theEvent.Start + " thru " + theEvent.End;
+                var dates = theEvent.Start.ToString("f") + " - " + theEvent.End.ToString("f");
                 return Json(dates, JsonRequestBehavior.AllowGet);
             }
             return null;

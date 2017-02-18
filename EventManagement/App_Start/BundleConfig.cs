@@ -41,6 +41,7 @@ namespace EventManagement
             bundles.Add(new StyleBundle("~/Content/css").Include(
                  "~/Content/bootstrap.css",
                  "~/Content/Site.css"));
+
         }
     }
 }

@@ -16,16 +16,17 @@
                             if (venue != null) {
                                 var vdata = venue;
                                 $("#VenueName").text(vdata.Name);
-                                $("#VenueAddress1").text(vdata.ContactInfo.Address1);
-                                $("#VenueAddress2").text(vdata.ContactInfo.Address2);
+                                var addressText = vdata.ContactInfo.Address1;
+                                if (vdata.ContactInfo.Address2.length > 0) {
+                                    addressText = addressText + "<br/>" + vdata.ContactInfo.Address2;}
+                                $("#VenueAddress").text(addressText);
+                                //$("#VenueAddress2").text(vdata.ContactInfo.Address2);
                                 $("#VenueCity").text(vdata.ContactInfo.City);
                                 $("#VenueState").text(vdata.ContactInfo.State);
                                 $("#VenueZip").text(vdata.ContactInfo.Zip);
-
-                                $("#venueDetails").show();
                             }
                         },
-                        error: function (xhr) {
+                        error: function(xhr) {
                             alert(xhr.responseText);
                         }
                     });
@@ -39,13 +40,17 @@
                             if (eventDates != null) {
                                 var eDates = eventDates;
                                 $("#EventDate").text(eDates);
+
+                                $("#details")[0].style.display = "block";
                             }
                         },
-                        error: function (xhr) {
+                        error: function(xhr) {
                             alert(xhr.responseText);
                         }
                     });
-                    
+                   
+                } else {
+                    $("#details")[0].style.display = "none";
                 }
             });
 
