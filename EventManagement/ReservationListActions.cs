@@ -45,10 +45,15 @@ namespace EventManagement
             double volunteerCount = totalVolunteerDays / 5.0; //Specific to Summer DayCamp.  Need to make more Generic.
 
             double availableSlots = 0;
-            if (Math.Abs(((volunteerCount*5)%5)) == 0)
+            if (totalVolunteerDays > 5)
             {
-                availableSlots = (volunteerCount*5) - registrationListUnitCount;
+                int possibleSlots = totalVolunteerDays/5;
+                availableSlots = (possibleSlots * 5) - registrationListUnitCount;
             }
+            //if (Math.Abs(((volunteerCount*5)%5)) == 0)
+            //{
+            //    availableSlots = (volunteerCount*5) - registrationListUnitCount;
+            //}
            
             var reservations = GetNextAvailableReservations(eventId, (int)availableSlots);
             return reservations;

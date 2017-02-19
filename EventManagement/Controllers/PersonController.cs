@@ -172,7 +172,7 @@ namespace EventManagement.Controllers
                     personList.Add(person);
 
                     personReader.Save(personList);
-                    TempData["RedirectMsg"] = "Child Addes Successfully!";
+                    TempData["RedirectMsg"] = "Child Added Successfully!";
                     return RedirectToAction("PersonDetails");    
                 }
                 TempData["RedirectMsg"] = "ERROR - Parent Not Found";

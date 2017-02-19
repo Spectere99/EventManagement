@@ -118,8 +118,9 @@
                 }
             </dl>
             <p>
-                @Html.ActionLink("Edit", "Edit", new { id = Model.PersonId }, new { @class = "btn btn-info" })
-                @Html.ActionLink("Add Child", "AddPerson", new { id = Model.PersonId }, new { @class = "btn btn-info", })
+                @Html.ActionLink("Edit", "Edit", new {id = Model.PersonId}, new {@class = "btn btn-info"})
+                @Html.ActionLink("Add Child", "AddPerson", new {id = Model.PersonId}, new {@class = "btn btn-info",})
+                <a class="btn btn-default" href="../Registration/AttendeeSelection">Click Here to Register!</a>
                 @*@Html.ActionLink("Back to List", "Index")*@
             </p>
         </div>

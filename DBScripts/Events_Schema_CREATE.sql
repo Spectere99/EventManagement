@@ -20,6 +20,8 @@ USE `events` ;
 -- -----------------------------------------------------
 -- Table `events`.`__migrationhistory`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `events`.`__migrationhistory` ;
+
 CREATE TABLE IF NOT EXISTS `events`.`__migrationhistory` (
   `MigrationId` VARCHAR(150) NOT NULL,
   `ContextKey` VARCHAR(300) NOT NULL,
@@ -33,6 +35,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `events`.`aspnetroles`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `events`.`aspnetroles` ;
+
 CREATE TABLE IF NOT EXISTS `events`.`aspnetroles` (
   `Id` VARCHAR(128) NOT NULL,
   `Name` VARCHAR(256) NOT NULL,
@@ -45,6 +49,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `events`.`aspnetusers`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `events`.`aspnetusers` ;
+
 CREATE TABLE IF NOT EXISTS `events`.`aspnetusers` (
   `Id` VARCHAR(128) NOT NULL,
   `Hometown` LONGTEXT NULL DEFAULT NULL,
@@ -59,6 +65,8 @@ CREATE TABLE IF NOT EXISTS `events`.`aspnetusers` (
   `LockoutEnabled` TINYINT(1) NOT NULL,
   `AccessFailedCount` INT(11) NOT NULL,
   `UserName` VARCHAR(256) NOT NULL,
+  `FirstName` VARCHAR(65) NULL DEFAULT NULL,
+  `LastName` VARCHAR(65) NULL DEFAULT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE INDEX `UserNameIndex` USING HASH (`UserName` ASC))
 ENGINE = InnoDB
@@ -68,6 +76,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `events`.`aspnetuserclaims`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `events`.`aspnetuserclaims` ;
+
 CREATE TABLE IF NOT EXISTS `events`.`aspnetuserclaims` (
   `Id` INT(11) NOT NULL AUTO_INCREMENT,
   `UserId` VARCHAR(128) NOT NULL,
@@ -87,6 +97,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `events`.`aspnetuserlogins`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `events`.`aspnetuserlogins` ;
+
 CREATE TABLE IF NOT EXISTS `events`.`aspnetuserlogins` (
   `LoginProvider` VARCHAR(128) NOT NULL,
   `ProviderKey` VARCHAR(128) NOT NULL,
@@ -105,6 +117,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `events`.`aspnetuserroles`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `events`.`aspnetuserroles` ;
+
 CREATE TABLE IF NOT EXISTS `events`.`aspnetuserroles` (
   `UserId` VARCHAR(128) NOT NULL,
   `RoleId` VARCHAR(128) NOT NULL,
@@ -128,6 +142,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `events`.`contactinfo`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `events`.`contactinfo` ;
+
 CREATE TABLE IF NOT EXISTS `events`.`contactinfo` (
   `ContactInfoID` INT(11) NOT NULL AUTO_INCREMENT,
   `ContactName` VARCHAR(45) NOT NULL,
@@ -148,6 +164,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `events`.`eventtypes`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `events`.`eventtypes` ;
+
 CREATE TABLE IF NOT EXISTS `events`.`eventtypes` (
   `EventTypeID` INT(11) NOT NULL AUTO_INCREMENT,
   `EventType` VARCHAR(45) NOT NULL,
@@ -160,6 +178,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `events`.`events`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `events`.`events` ;
+
 CREATE TABLE IF NOT EXISTS `events`.`events` (
   `EventID` INT(11) NOT NULL AUTO_INCREMENT,
   `VenueID` INT(11) NOT NULL,
@@ -189,6 +209,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `events`.`persontypes`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `events`.`persontypes` ;
+
 CREATE TABLE IF NOT EXISTS `events`.`persontypes` (
   `PersonTypeID` INT(11) NOT NULL AUTO_INCREMENT,
   `PersonType` VARCHAR(45) NOT NULL,
@@ -202,6 +224,8 @@ COMMENT = 'Stores what type of person is available (Leader, Parent, etc)';
 -- -----------------------------------------------------
 -- Table `events`.`person`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `events`.`person` ;
+
 CREATE TABLE IF NOT EXISTS `events`.`person` (
   `PersonID` INT(11) NOT NULL AUTO_INCREMENT,
   `FirstName` VARCHAR(45) NOT NULL,
@@ -237,6 +261,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `events`.`positions`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `events`.`positions` ;
+
 CREATE TABLE IF NOT EXISTS `events`.`positions` (
   `PositionID` INT(11) NOT NULL AUTO_INCREMENT,
   `Position` VARCHAR(45) NOT NULL,
@@ -249,6 +275,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `events`.`eventstaff`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `events`.`eventstaff` ;
+
 CREATE TABLE IF NOT EXISTS `events`.`eventstaff` (
   `EventStaffID` INT(11) NOT NULL AUTO_INCREMENT,
   `LastUpdated` DATETIME NOT NULL,
@@ -281,6 +309,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `events`.`eventvolunteers`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `events`.`eventvolunteers` ;
+
 CREATE TABLE IF NOT EXISTS `events`.`eventvolunteers` (
   `EventVolunteerID` INT(11) NOT NULL AUTO_INCREMENT,
   `LastUpdated` DATETIME NOT NULL,
@@ -301,13 +331,15 @@ CREATE TABLE IF NOT EXISTS `events`.`eventvolunteers` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 27
+AUTO_INCREMENT = 28
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
 -- Table `events`.`registrations`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `events`.`registrations` ;
+
 CREATE TABLE IF NOT EXISTS `events`.`registrations` (
   `RegistrationID` INT(11) NOT NULL AUTO_INCREMENT,
   `RegistrationDate` DATETIME NOT NULL,
@@ -336,6 +368,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `events`.`reservations`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `events`.`reservations` ;
+
 CREATE TABLE IF NOT EXISTS `events`.`reservations` (
   `ReservationID` INT(11) NOT NULL AUTO_INCREMENT,
   `ReservationDate` DATETIME NOT NULL,
@@ -366,6 +400,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `events`.`unittypes`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `events`.`unittypes` ;
+
 CREATE TABLE IF NOT EXISTS `events`.`unittypes` (
   `UnitTypeID` INT(11) NOT NULL AUTO_INCREMENT,
   `UnitType` VARCHAR(45) NULL DEFAULT NULL,
@@ -378,6 +414,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `events`.`unitranks`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `events`.`unitranks` ;
+
 CREATE TABLE IF NOT EXISTS `events`.`unitranks` (
   `UnitRankID` INT(11) NOT NULL AUTO_INCREMENT,
   `UnitRank` VARCHAR(45) NOT NULL,
@@ -397,6 +435,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `events`.`units`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `events`.`units` ;
+
 CREATE TABLE IF NOT EXISTS `events`.`units` (
   `UnitID` INT(11) NOT NULL AUTO_INCREMENT,
   `UnitNumber` INT(11) NOT NULL,
@@ -418,6 +458,8 @@ COMMENT = 'Table of Unit groupings for organization of people.';
 -- -----------------------------------------------------
 -- Table `events`.`venue`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `events`.`venue` ;
+
 CREATE TABLE IF NOT EXISTS `events`.`venue` (
   `VenueID` INT(11) NOT NULL AUTO_INCREMENT,
   `Name` VARCHAR(60) NOT NULL,
@@ -434,6 +476,9 @@ USE `events` ;
 -- procedure delContactInfo
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`delContactInfo`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `delContactInfo`(IN pContactInfoID INT)
@@ -448,6 +493,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure delEvent
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`delEvent`;
 
 DELIMITER $$
 USE `events`$$
@@ -464,6 +512,9 @@ DELIMITER ;
 -- procedure delEventStaff
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`delEventStaff`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `delEventStaff`(IN pEventStaffID INT)
@@ -478,6 +529,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure delEventType
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`delEventType`;
 
 DELIMITER $$
 USE `events`$$
@@ -494,6 +548,9 @@ DELIMITER ;
 -- procedure delEventVolunteers
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`delEventVolunteers`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `delEventVolunteers`(IN pEventVolunteerID INT)
@@ -509,6 +566,9 @@ DELIMITER ;
 -- procedure delPerson
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`delPerson`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `delPerson`(IN pPersonID INT)
@@ -523,6 +583,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure delPersonType
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`delPersonType`;
 
 DELIMITER $$
 USE `events`$$
@@ -548,6 +611,9 @@ DELIMITER ;
 -- procedure delPosition
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`delPosition`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `delPosition`(IN pPositionID INT)
@@ -562,6 +628,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure delRegistration
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`delRegistration`;
 
 DELIMITER $$
 USE `events`$$
@@ -578,6 +647,9 @@ DELIMITER ;
 -- procedure delReservation
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`delReservation`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `delReservation`(IN pReservationID INT)
@@ -592,6 +664,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure delUnit
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`delUnit`;
 
 DELIMITER $$
 USE `events`$$
@@ -608,6 +683,9 @@ DELIMITER ;
 -- procedure delUnitRank
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`delUnitRank`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `delUnitRank`(IN pUnitRankID INT)
@@ -621,6 +699,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure delUnitType
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`delUnitType`;
 
 DELIMITER $$
 USE `events`$$
@@ -637,6 +718,9 @@ DELIMITER ;
 -- procedure delVenue
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`delVenue`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `delVenue`(IN pVenueID INT)
@@ -651,6 +735,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure insContactInfo
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`insContactInfo`;
 
 DELIMITER $$
 USE `events`$$
@@ -695,6 +782,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure insEvent
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`insEvent`;
 
 DELIMITER $$
 USE `events`$$
@@ -745,6 +835,9 @@ DELIMITER ;
 -- procedure insEventStaff
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`insEventStaff`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insEventStaff`( IN pPositionID INT
@@ -772,6 +865,9 @@ DELIMITER ;
 -- procedure insEventType
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`insEventType`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insEventType`(IN pEventType VARCHAR(45), OUT oEventTypeID INT)
@@ -790,6 +886,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure insEventVolunteer
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`insEventVolunteer`;
 
 DELIMITER $$
 USE `events`$$
@@ -814,6 +913,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure insPerson
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`insPerson`;
 
 DELIMITER $$
 USE `events`$$
@@ -860,6 +962,9 @@ DELIMITER ;
 -- procedure insPersonType
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`insPersonType`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insPersonType`(IN pPersonType VARCHAR(45), OUT oPersonTypeID INT)
@@ -880,6 +985,9 @@ DELIMITER ;
 -- procedure insPosition
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`insPosition`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insPosition`(IN pPosition VARCHAR(45), OUT oPositionID INT)
@@ -898,6 +1006,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure insRegistration
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`insRegistration`;
 
 DELIMITER $$
 USE `events`$$
@@ -929,6 +1040,9 @@ DELIMITER ;
 -- procedure insReservation
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`insReservation`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insReservation`( IN pReservationDate DATETIME
@@ -956,6 +1070,9 @@ DELIMITER ;
 -- procedure insUnit
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`insUnit`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insUnit`(IN pUnitNumber INT, IN pUnitTypeID INT, OUT oUnitID INT)
@@ -975,6 +1092,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure insUnitRank
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`insUnitRank`;
 
 DELIMITER $$
 USE `events`$$
@@ -997,6 +1117,9 @@ DELIMITER ;
 -- procedure insUnitType
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`insUnitType`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insUnitType`(IN pUnitType VARCHAR(45), OUT oUnitTypeID INT)
@@ -1015,6 +1138,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure insVenue
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`insVenue`;
 
 DELIMITER $$
 USE `events`$$
@@ -1057,6 +1183,9 @@ DELIMITER ;
 -- procedure selContactInfo
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`selContactInfo`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selContactInfo`()
@@ -1080,6 +1209,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure selContactInfoByID
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`selContactInfoByID`;
 
 DELIMITER $$
 USE `events`$$
@@ -1105,6 +1237,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure selEventByID
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`selEventByID`;
 
 DELIMITER $$
 USE `events`$$
@@ -1133,6 +1268,9 @@ DELIMITER ;
 -- procedure selEventStaff
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`selEventStaff`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selEventStaff`()
@@ -1151,6 +1289,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure selEventStaffByID
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`selEventStaffByID`;
 
 DELIMITER $$
 USE `events`$$
@@ -1172,6 +1313,9 @@ DELIMITER ;
 -- procedure selEventTypeByID
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`selEventTypeByID`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selEventTypeByID`(IN pEventTypeID INT)
@@ -1189,6 +1333,9 @@ DELIMITER ;
 -- procedure selEventTypes
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`selEventTypes`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selEventTypes`()
@@ -1204,6 +1351,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure selEventVolunteerByEventID
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`selEventVolunteerByEventID`;
 
 DELIMITER $$
 USE `events`$$
@@ -1225,6 +1375,9 @@ DELIMITER ;
 -- procedure selEventVolunteerByID
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`selEventVolunteerByID`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selEventVolunteerByID`(IN pEventVolunteerID INT)
@@ -1245,6 +1398,9 @@ DELIMITER ;
 -- procedure selEventVolunteers
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`selEventVolunteers`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selEventVolunteers`()
@@ -1263,6 +1419,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure selEvents
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`selEvents`;
 
 DELIMITER $$
 USE `events`$$
@@ -1290,6 +1449,9 @@ DELIMITER ;
 -- procedure selPersonByID
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`selPersonByID`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selPersonByID`(IN pPersonID INT)
@@ -1315,6 +1477,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure selPersonByParentID
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`selPersonByParentID`;
 
 DELIMITER $$
 USE `events`$$
@@ -1343,6 +1508,9 @@ DELIMITER ;
 -- procedure selPersonByUserId
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`selPersonByUserId`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selPersonByUserId`(IN pUserId VARCHAR(45))
@@ -1369,6 +1537,9 @@ DELIMITER ;
 -- procedure selPersonType
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`selPersonType`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selPersonType`()
@@ -1386,6 +1557,9 @@ DELIMITER ;
 -- procedure selPersonTypeByID
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`selPersonTypeByID`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selPersonTypeByID`(IN pPersonTypeID INT)
@@ -1401,6 +1575,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure selPersons
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`selPersons`;
 
 DELIMITER $$
 USE `events`$$
@@ -1427,6 +1604,9 @@ DELIMITER ;
 -- procedure selPositionByID
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`selPositionByID`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selPositionByID`(IN pPositionID INT)
@@ -1444,6 +1624,9 @@ DELIMITER ;
 -- procedure selPositions
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`selPositions`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selPositions`()
@@ -1459,6 +1642,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure selRegistrationByEventID
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`selRegistrationByEventID`;
 
 DELIMITER $$
 USE `events`$$
@@ -1481,6 +1667,9 @@ DELIMITER ;
 -- procedure selRegistrationByID
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`selRegistrationByID`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selRegistrationByID`(IN pRegistrationID INT)
@@ -1502,6 +1691,9 @@ DELIMITER ;
 -- procedure selRegistrations
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`selRegistrations`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selRegistrations`()
@@ -1521,6 +1713,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure selReservation
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`selReservation`;
 
 DELIMITER $$
 USE `events`$$
@@ -1542,6 +1737,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure selReservationByID
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`selReservationByID`;
 
 DELIMITER $$
 USE `events`$$
@@ -1565,6 +1763,9 @@ DELIMITER ;
 -- procedure selReservationByRegistrationCode
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`selReservationByRegistrationCode`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selReservationByRegistrationCode`(IN pRegistrationCode VARCHAR(64))
@@ -1585,6 +1786,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure selReservations
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`selReservations`;
 
 DELIMITER $$
 USE `events`$$
@@ -1607,6 +1811,9 @@ DELIMITER ;
 -- procedure selReservationsByEventID
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`selReservationsByEventID`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selReservationsByEventID`(IN pEventID INT)
@@ -1628,6 +1835,9 @@ DELIMITER ;
 -- procedure selUnitByID
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`selUnitByID`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selUnitByID`(IN pUnitID INT)
@@ -1645,6 +1855,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure selUnitRankByID
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`selUnitRankByID`;
 
 DELIMITER $$
 USE `events`$$
@@ -1666,6 +1879,9 @@ DELIMITER ;
 -- procedure selUnitRanks
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`selUnitRanks`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selUnitRanks`()
@@ -1683,6 +1899,9 @@ DELIMITER ;
 -- procedure selUnitType
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`selUnitType`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selUnitType`()
@@ -1698,6 +1917,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure selUnitTypeByID
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`selUnitTypeByID`;
 
 DELIMITER $$
 USE `events`$$
@@ -1716,6 +1938,9 @@ DELIMITER ;
 -- procedure selUnits
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`selUnits`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selUnits`()
@@ -1732,6 +1957,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure selVenueByID
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`selVenueByID`;
 
 DELIMITER $$
 USE `events`$$
@@ -1752,6 +1980,9 @@ DELIMITER ;
 -- procedure selVenues
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`selVenues`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selVenues`()
@@ -1769,6 +2000,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure updContactInfo
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`updContactInfo`;
 
 DELIMITER $$
 USE `events`$$
@@ -1803,6 +2037,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure updEvent
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`updEvent`;
 
 DELIMITER $$
 USE `events`$$
@@ -1841,6 +2078,9 @@ DELIMITER ;
 -- procedure updEventStaff
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`updEventStaff`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updEventStaff`(IN pEventStaffID INT
@@ -1864,6 +2104,9 @@ DELIMITER ;
 -- procedure updEventType
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`updEventType`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updEventType`(IN pEventTypeID INT, IN pEventType VARCHAR(45))
@@ -1880,6 +2123,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure updEventVolunteer
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`updEventVolunteer`;
 
 DELIMITER $$
 USE `events`$$
@@ -1900,6 +2146,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure updPerson
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`updPerson`;
 
 DELIMITER $$
 USE `events`$$
@@ -1935,6 +2184,9 @@ DELIMITER ;
 -- procedure updPersonType
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`updPersonType`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updPersonType`(IN pPersonTypeID INT, IN pPersonType VARCHAR(45))
@@ -1952,6 +2204,9 @@ DELIMITER ;
 -- procedure updPosition
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`updPosition`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updPosition`(IN pPositionID INT, IN pPosition VARCHAR(45))
@@ -1968,6 +2223,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure updRegistration
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`updRegistration`;
 
 DELIMITER $$
 USE `events`$$
@@ -1993,6 +2251,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure updReservation
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`updReservation`;
 
 DELIMITER $$
 USE `events`$$
@@ -2021,6 +2282,9 @@ DELIMITER ;
 -- procedure updUnit
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`updUnit`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updUnit`(IN pUnitID INT, IN pUnitNumber INT, IN pUnitTypeID INT)
@@ -2038,6 +2302,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure updUnitRank
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`updUnitRank`;
 
 DELIMITER $$
 USE `events`$$
@@ -2057,6 +2324,9 @@ DELIMITER ;
 -- procedure updUnitType
 -- -----------------------------------------------------
 
+USE `events`;
+DROP procedure IF EXISTS `events`.`updUnitType`;
+
 DELIMITER $$
 USE `events`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updUnitType`(IN pUnitTypeID INT, IN pUnitType VARCHAR(45))
@@ -2073,6 +2343,9 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure updVenue
 -- -----------------------------------------------------
+
+USE `events`;
+DROP procedure IF EXISTS `events`.`updVenue`;
 
 DELIMITER $$
 USE `events`$$

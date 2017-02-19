@@ -38,7 +38,7 @@ namespace EventManagement.Models
         public IEnumerable<EventViewModel> EventList { get; set; }
         public EventDTO Event { get; set; }
         [Required, Display(Name="Days Volunteering")]
-        [Range(1, 5, ErrorMessage = "Please enter a number between 1 and 5 days.")]
+        [Range(typeof(int), "1", "5", ErrorMessage = "Please enter a number between 1 and 5 days.")]
         public int VolunteerDays { get; set; }
         public PersonDTO Person { get; set; }
     }

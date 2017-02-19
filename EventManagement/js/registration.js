@@ -17,8 +17,11 @@
                                 var vdata = venue;
                                 $("#VenueName").text(vdata.Name);
                                 var addressText = vdata.ContactInfo.Address1;
-                                if (vdata.ContactInfo.Address2.length > 0) {
-                                    addressText = addressText + "<br/>" + vdata.ContactInfo.Address2;}
+                                if (vdata.ContactInfo.Address2 !== null) {
+                                    if (vdata.ContactInfo.Address2.length > 0) {
+                                        addressText = addressText + "<br/>" + vdata.ContactInfo.Address2;
+                                    }
+                                }
                                 $("#VenueAddress").text(addressText);
                                 //$("#VenueAddress2").text(vdata.ContactInfo.Address2);
                                 $("#VenueCity").text(vdata.ContactInfo.City);

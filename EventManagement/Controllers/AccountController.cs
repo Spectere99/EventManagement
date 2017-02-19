@@ -182,22 +182,28 @@ namespace EventManagement.Controllers
         public ActionResult Register(string returnUrl)
         {
             //Set State List
-            
-            Session["EventStartPage"] = returnUrl;
-            PersonTypeReader personTypeReader = new PersonTypeReader();
-            UnitTypeReader unitTypeReader = new UnitTypeReader();
-
-            var personTypes = personTypeReader.GetList().Where(p=>p.PersonTypeId > 0).ToList();
-            var unitTypes = unitTypeReader.GetList().Where(p=>p.UnitTypeId > 0).ToList();
-
-           RegisterViewModel registerViewModel = new RegisterViewModel()
+            try
             {
-                StateList = Utilities.States,
-                PersonTypeList = personTypes,
-                UnitTypeList = unitTypes
-            };
+                Session["EventStartPage"] = returnUrl;
+                PersonTypeReader personTypeReader = new PersonTypeReader();
+                UnitTypeReader unitTypeReader = new UnitTypeReader();
 
-            return View(registerViewModel);
+                var personTypes = personTypeReader.GetList().Where(p => p.PersonTypeId > 0).ToList();
+                var unitTypes = unitTypeReader.GetList().Where(p => p.UnitTypeId > 0).ToList();
+
+                RegisterViewModel registerViewModel = new RegisterViewModel()
+                {
+                    StateList = Utilities.States,
+                    PersonTypeList = personTypes,
+                    UnitTypeList = unitTypes
+                };
+
+                return View(registerViewModel);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         //

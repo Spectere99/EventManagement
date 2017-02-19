@@ -284,13 +284,15 @@ namespace EventManagement.Controllers
                     }
                 }
             }
+            TempData["ErrorMsg"] = "Please select a Valid number of Days.";
+            TempData["PersonId"] = registrationEntry.Person.PersonId;
             return View();
         }
         public ActionResult VolunteerConfirm(VolunteerRegistrationViewModel model)
         {
             VolunteerRegistrationViewModel volunteerEntry = TempData["VolunteerRegistant"] as VolunteerRegistrationViewModel;
             model.Event = Session["RegistrationEvent"] as EventDTO;
-            if (ModelState.IsValid)
+            if (model.VolunteerDays > 0 && model.VolunteerDays <= 5)
             {
                 if (model.Event != null) //if (ModelState.IsValid)
                 {
@@ -354,9 +356,9 @@ namespace EventManagement.Controllers
                     }
                 }
                 TempData["ErrorMsg"] = "Please select an Event.";
-                TempData["PersonId"] = volunteerEntry.Person.PersonId;
-                return View();
-            }
+                    TempData["PersonId"] = volunteerEntry.Person.PersonId;
+                    return View();
+                }
             TempData["ErrorMsg"] = "Please select a Valid number of Days.";
             TempData["PersonId"] = volunteerEntry.Person.PersonId;
             return View();  //Need to redirect to Error Page because Event was not selected.
@@ -410,8 +412,8 @@ namespace EventManagement.Controllers
             new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Person.ParentPerson.ContactInfo.Email));
             m.Subject = "Registration Opening - Notification";
-            m.Body = string.Format("Dear {0} <BR/>A spot for {1} has become available. Click on the below link to complete your registration: <a href=\"{2}\"title=\"User Email Confirm\">REGISTER</a><BR/><BR/>" +
-                                   "This link expires in 48 hours.  After that time your spot will be given to another person."
+            m.Body = string.Format("Dear {0} <BR/>A spot for {1} has become available. Click on the below link to complete your scout's registration: <a href=\"{2}\"title=\"User Email Confirm\">REGISTER</a><BR/><BR/>" +
+                                   "This link expires in 48 hours.  After that time your scout's spot will be given to another person."
                                 , user.Person.ParentPerson.FirstName, user.Event.Name, callbackUrl);
             m.IsBodyHtml = true;
             System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.proeventlistings.com");
@@ -430,7 +432,7 @@ namespace EventManagement.Controllers
             new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Person.ParentPerson.ContactInfo.Email));
             m.Subject = "Waiting List Confirmation";
-            m.Body = string.Format("Dear {0} <BR/>You are currently on the waiting list for {1}.  <BR/>" +
+            m.Body = string.Format("Dear {0} <BR/>Your scout is currently on the waiting list for {1}.  <BR/>" +
                                    "As soon as enough volunteers from your Unit register, more slots will open up and you will be notified." +
                                    "At that time, you will be able to register in one click. <BR/>" +
                                    "Please note that waiting list slots are notifed based on the order that they signed up for the event."
@@ -451,7 +453,7 @@ namespace EventManagement.Controllers
             new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Person.ParentPerson.ContactInfo.Email));
             m.Subject = "Registration Confirmed";
-            m.Body = string.Format("Dear {0} <BR/>Congratulations!  Your registration to {1} has been confirmed.  <BR/>" +
+            m.Body = string.Format("Dear {0} <BR/>Congratulations!  Your scout's registration to {1} has been confirmed.  <BR/>" +
                                    "Your confirmation number is: {2}. <BR/> Please make sure you have paid through the council web site." +
                                    " Please use the following link to pay: <a href=\"{3}\"title=\"User Email Confirm\">PAY HERE</a><BR/><BR/>" +
                                    " Your registration will not final until you have paid your camp fees."

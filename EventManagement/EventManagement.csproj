@@ -236,6 +236,7 @@
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Filters\ErrorFilters.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1088,6 +1089,7 @@
     <Content Include="Scripts\angular-animate.min.js.map" />
     <Content Include="Scripts\angular.min.js.map" />
     <None Include="Properties\PublishProfiles\Local_IIS.pubxml" />
+    <None Include="Properties\PublishProfiles\ProEventListings.com.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -1172,6 +1174,8 @@
     <Content Include="Views\Organization\Index.cshtml" />
     <Content Include="Views\Account\RegistrationComplete.cshtml" />
     <Content Include="Views\Registration\ConfirmationFailed.cshtml" />
+    <Content Include="Views\Shared\_Grid.cshtml" />
+    <Content Include="Views\Shared\_GridPager.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
