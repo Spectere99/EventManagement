@@ -125,7 +125,9 @@ namespace Common.Reader
                             ? CreateParameter("pUnitID", -1)
                             : CreateParameter("pUnitID", item.Unit.UnitId));
                         command.Parameters.Add(CreateParameter("pUserID", item.UserId, 45));
+                        command.Parameters.Add(CreateParameter("pNotes", item.Notes, 4000));
                         command.Parameters.Add(CreateOutputParameter("oPersonID", MySqlDbType.Int32));
+                        
 
                         ExecuteNoReader(command);
 
@@ -159,6 +161,7 @@ namespace Common.Reader
                             ? CreateParameter("pUnitID", -1)
                             : CreateParameter("pUnitID", item.Unit.UnitId));
                         command.Parameters.Add(CreateParameter("pUserID", item.UserId, 45));
+                        command.Parameters.Add(CreateParameter("pNotes", item.Notes, 4000));
                         
                         
                         ExecuteNoReader(command);

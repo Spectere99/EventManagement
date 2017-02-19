@@ -4932,16 +4932,17 @@ a.list-group-item.active > .badge,
     margin-bottom: 30px;
     font-size: 21px;
     font-weight: 200;
-    line-height: 2.1428571435;
+    line-height: 1.1428571435;
     color: inherit;
     background-color: #eeeeee;
+    background-image: url("../Images/jumbotron_background.png")
 }
 
 .jumbotron-billboard .img {
     margin-bottom: 0px;
     opacity: 0.2;
     color: #fff;
-    background: #000 url('../Images/jumbotron_background.jpg') center center;
+    background: #000 url("../Images/jumbotron_background.jpg") center center;
     width: 100%;
     height: 100%;
     background-size: cover;

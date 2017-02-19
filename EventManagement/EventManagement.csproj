@@ -282,6 +282,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Images\jumbotron_background.jpg" />
+    <Content Include="Images\jumbotron_background.png" />
     <Content Include="js\person.js" />
     <Content Include="js\register.js" />
     <Content Include="js\registration.js" />

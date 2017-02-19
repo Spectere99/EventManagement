@@ -26,12 +26,10 @@
                 Thank you for Volunteering for @Model.Event.Name !!!! <br/>
                 Your confirmation will be sent via email to @Model.Person.ContactInfo.Email<br />
                 (Please make sure to check your SPAM folder!)
-
             </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    @Html.ActionLink("Back to Home Page", "Index", "Home");
-                </div>
+            <hr />
+            <div class="row">
+                @Html.ActionLink("Back to Home Page", "Index", "Home");
             </div>
         }
         else
@@ -39,10 +37,9 @@
             <div class="panel-default">
                 @TempData["ErrorMsg"]
             </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
+            <hr />
+            <div class="row">
                     @Html.ActionLink("Start Over","EventVolunteerSelection","Registration", new { id = (int)@TempData["PersonId"] }, new { @class = "btn btn-info" })
-                </div>
             </div>
         }
         

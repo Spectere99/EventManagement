@@ -37,6 +37,11 @@
                 @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "Last" })
                 @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
             </div>
+            <div class="col-md-4 form-group">
+                @Html.LabelFor(m => m.Notes)
+                @Html.TextAreaFor(m => m.Notes, new { @class = "form-control", placeholder = "Any allergies, etc?" })
+                @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+            </div>
         </div>
         <div class="row">
             <div class="col-md-4">
@@ -68,7 +73,7 @@
         
         <div class="form-group">
             <div class="col-md-5">
-                @Html.ActionLink("Cancel", "PersonDetails", new { id = Model.PersonId }, new { @class = "btn btn-default" })
+                @Html.ActionLink("Cancel", "Index", new { id = Model.PersonId }, new { @class = "btn btn-default" })
                 <input type="submit" value="Add" class="btn btn-primary"/>
             </div>
             </div>

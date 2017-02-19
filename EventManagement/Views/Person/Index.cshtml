@@ -82,7 +82,9 @@
                     @Html.DisplayFor(model => model.ContactInfo.State)
                     @Html.DisplayFor(model => model.ContactInfo.Zip)
                 </dd>
-
+                <dd>
+                    @Html.DisplayFor(model => model.Notes)
+                </dd>
                 <dt>
                     @Html.DisplayNameFor(model => model.NotUnitAffiliated)
                 </dt>
@@ -120,7 +122,8 @@
             <p>
                 @Html.ActionLink("Edit", "Edit", new {id = Model.PersonId}, new {@class = "btn btn-info"})
                 @Html.ActionLink("Add Child", "AddPerson", new {id = Model.PersonId}, new {@class = "btn btn-info",})
-                <a class="btn btn-default" href="../Registration/AttendeeSelection">Click Here to Register!</a>
+                @Html.ActionLink("Register/Volunteer", "AttendeeSelection", "Registration", null ,new { @class = "btn btn-default" })
+                
                 @*@Html.ActionLink("Back to List", "Index")*@
             </p>
         </div>
@@ -130,7 +133,7 @@
             {
                 columns.Add(foo => foo.FirstName).Sortable(true).SetWidth(60).Filterable(true);
                 columns.Add(foo => foo.LastName).Sortable(true).SetWidth(60).Filterable(true);
-                columns.Add(foo => foo.UnitRank).Sortable(true).SetWidth(50).Filterable(true);
+                columns.Add(foo => foo.Rank).Sortable(true).SetWidth(50).Filterable(true);
                 columns.Add().Encoded(false)
                     .Sanitized(false)
                     .SetWidth(30)

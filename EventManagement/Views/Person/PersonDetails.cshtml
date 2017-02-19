@@ -82,7 +82,9 @@
                     @Html.DisplayFor(model => model.ContactInfo.State)
                     @Html.DisplayFor(model => model.ContactInfo.Zip)
                 </dd>
-
+                <dd>
+                    @Html.DisplayFor(model => model.Notes)
+                </dd>
                 <dt>
                     @Html.DisplayNameFor(model => model.NotUnitAffiliated)
                 </dt>
@@ -129,7 +131,7 @@
             {
                 columns.Add(foo => foo.FirstName).Sortable(true).SetWidth(60).Filterable(true);
                 columns.Add(foo => foo.LastName).Sortable(true).SetWidth(60).Filterable(true);
-                columns.Add(foo => foo.UnitRank).Sortable(true).SetWidth(50).Filterable(true);
+                columns.Add(foo => foo.Rank).Sortable(true).SetWidth(50).Filterable(true);
                 columns.Add().Encoded(false)
                     .Sanitized(false)
                     .SetWidth(30)
@@ -147,22 +149,6 @@
             <div>
                 &nbsp;
             </div>
-            @*<ul class="list-group">
-                    @foreach (var child in Model.Children)
-                    {
-
-                        <li href="#" class="list-group-item">
-                            <h4 class="list-group-item-heading">@child.FirstName  @child.LastName</h4>
-                            <p class="list-group-item-text">
-                                Unit: @child.UnitType @child.Unit <br />
-                                Rank: @child.UnitRank
-                            </p>
-                            @Html.ActionLink("Register", "EventSelection", "Registration", new { id = child.PersonId }, new { @class = "btn btn-info" })
-                            @Html.ActionLink("Edit", "Edit", new { id = child.PersonId }, new { @class = "btn btn-info" })
-                            @Html.ActionLink("Remove", "Delete", new { personId = child.PersonId }, new { @class = "btn btn-warning", @onclick = "return confirm('Are you sure you wish to delete this person?');"  })
-                        </li>
-                    }
-                </ul>*@
 
         </div>
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - York Day Camp</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @Styles.Render("~/Content/css")
@@ -30,20 +30,22 @@
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
                     <li>@Html.ActionLink("About", "Index", "Home", new { area = "" }, null)</li>
                 </ul>
+               
+                @*<div class="navbar_custom navbar-inverse navbar-sub-custom">
+                <div class="container">
+                    
+                </div>
+                </div>*@
                 @Html.Partial("_LoginPartial")
-
+                @if (Session["MyMenu"] == null)
+                {
+                    Session["MyMenu"] = Html.Partial("~/Views/Shared/_Menu.cshtml");
+                }
+                @Session["MyMenu"]
             </div>
         </div>
     </div>
-<div class="navbar_custom navbar-inverse navbar-sub-custom">
-    <div class="container">
-        @if (Session["MyMenu"] == null)
-        {
-            Session["MyMenu"] = Html.Partial("~/Views/Shared/_Menu.cshtml");
-        }
-        @Session["MyMenu"]
-    </div>
-</div>
+
 <div class="container body-content">
     @RenderBody()
 

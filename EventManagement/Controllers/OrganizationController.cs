@@ -31,7 +31,7 @@ namespace EventManagement.Controllers
 
                 foreach (var member in members)
                 {
-                    var childViewModel = translatePersonDTOToPersonViewModel(member);
+                    var childViewModel = TranslatePersonDTOToPersonViewModel(member);
                     orgViewModel.Members.Add(childViewModel);
                 }
                 orgViewModel.NotUnitAffiliated = person.Unit.UnitType.UnitTypeId.Equals(-1);
@@ -68,7 +68,7 @@ namespace EventManagement.Controllers
             return orgViewModel;
         }
 
-        private PersonViewModel translatePersonDTOToPersonViewModel(PersonDTO person)
+        private PersonViewModel TranslatePersonDTOToPersonViewModel(PersonDTO person)
         {
             PersonViewModel personViewModel = new PersonViewModel
             {
@@ -79,19 +79,20 @@ namespace EventManagement.Controllers
                 PersonType = person.PersonType.Type,
                 UnitType = person.Unit.UnitType.Type,
                 Unit = person.Unit.UnitNumber.ToString(),
-                UnitRank = person.Rank.Rank,
-                ContactInfo = new ContactInfoViewModel
-                {
-                    ContactName = person.ContactInfo.Name,
-                    Email = person.ContactInfo.Email,
-                    Address1 = person.ContactInfo.Address1,
-                    Address2 = person.ContactInfo.Address2,
-                    CellPhone = person.ContactInfo.CellPhone,
-                    HomePhone = person.ContactInfo.HomePhone,
-                    City = person.ContactInfo.City,
-                    State = person.ContactInfo.State,
-                    Zip = person.ContactInfo.Zip
-                }
+                Rank = person.Rank.Rank,
+                ContactInfoId = person.ContactInfo.ContactInfoId
+                //ContactInfo = new ContactInfoViewModel
+                //{
+                //    ContactName = person.ContactInfo.Name,
+                //    Email = person.ContactInfo.Email,
+                //    Address1 = person.ContactInfo.Address1,
+                //    Address2 = person.ContactInfo.Address2,
+                //    CellPhone = person.ContactInfo.CellPhone,
+                //    HomePhone = person.ContactInfo.HomePhone,
+                //    City = person.ContactInfo.City,
+                //    State = person.ContactInfo.State,
+                //    Zip = person.ContactInfo.Zip
+                //}
             };
 
             return personViewModel;

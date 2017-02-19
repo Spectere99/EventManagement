@@ -23,6 +23,7 @@ namespace Common.Mapper
         private int _ordUnitRankId;
         private int _ordUnitId;
         private int _ordUserId;
+        private int _ordNotes;
         
         protected override PersonDTO Map(IDataRecord record)
         {
@@ -58,7 +59,9 @@ namespace Common.Mapper
                 e.Unit = unitReader.GetById(unitId).FirstOrDefault();
 
                 e.UserId = (DBNull.Value == record[_ordUserId]) ? CommonBase.StringNullValue : (string)record[_ordUserId];
-
+                
+                //New Additions
+                e.Notes = (DBNull.Value == record[_ordNotes]) ? CommonBase.StringNullValue : (string) record[_ordNotes];
                 e.IsNew = false;
                 return e;
             }
@@ -82,6 +85,9 @@ namespace Common.Mapper
             _ordUnitRankId = reader.GetOrdinal("unitranks_UnitRankID");
             _ordUnitId = reader.GetOrdinal("units_UnitID");
             _ordUserId = reader.GetOrdinal("user_id");
+
+            //New Additions
+            _ordNotes = reader.GetOrdinal("Notes");
 
         }
     }

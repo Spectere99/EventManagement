@@ -129,7 +129,7 @@ namespace EventManagement.Controllers
             }
 
             TempData["RedirectMsg"] = "Parent Not found in database.";
-            return RedirectToAction("PersonDetails");
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -161,6 +161,7 @@ namespace EventManagement.Controllers
                         FirstName = model.FirstName,
                         MiddleName = model.MiddleName,
                         LastName = model.LastName,
+                        Notes = model.Notes,
                         LastUpdated = DateTime.Now,
                         ContactInfo = contactInfo.FirstOrDefault(),
                         ParentPerson = parent,
@@ -173,7 +174,7 @@ namespace EventManagement.Controllers
 
                     personReader.Save(personList);
                     TempData["RedirectMsg"] = "Child Added Successfully!";
-                    return RedirectToAction("PersonDetails");    
+                    return RedirectToAction("Index");    
                 }
                 TempData["RedirectMsg"] = "ERROR - Parent Not Found";
             }
@@ -192,23 +193,75 @@ namespace EventManagement.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Edit(int id, FormCollection formValues)
+        public ActionResult Edit(int id, PersonViewModel model)
         {
-            return RedirectToAction("PersonDetails");
+            PersonReader personReader = new PersonReader();
+            PersonTypeReader personTypeReader = new PersonTypeReader();
+            UnitTypeReader unitTypeReader = new UnitTypeReader();
+            ContactInfoReader contactInfoReader = new ContactInfoReader();
+            var oldPerson = personReader.GetById(model.PersonId).SingleOrDefault();
+            
+            if (ModelState.IsValid)
+            {
+                PersonDTO person = TranslatePersonViewModel(model);
+                person.PersonId = id;
+                person.UserId = (oldPerson != null)? oldPerson.UserId : "";
+                person.IsNew = false;
+
+                List<PersonDTO> personList = new List<PersonDTO>();
+
+                personList.Add(person);
+
+                personReader.Save(personList);
+
+                TempData["RedirectMsg"] = "Record Updated Successfully!";
+
+                model.ContactInfo = new ContactInfoViewModel();
+                //Need to build the Contact Object again before the return trip.
+                ContactInfoDTO contact = contactInfoReader.GetById(model.ContactInfoId).SingleOrDefault();
+                if (contact != null)
+                {
+                    model.ContactInfo = new ContactInfoViewModel
+                    {
+                        ContactName = contact.Name,
+                        Email = contact.Email,
+                        Address1 = contact.Address1,
+                        Address2 = contact.Address2,
+                        CellPhone = contact.CellPhone,
+                        HomePhone = contact.HomePhone,
+                        City = contact.City,
+                        State = contact.State,
+                        Zip = contact.Zip
+                    };
+                }
+                return RedirectToAction("Index");
+            }
+
+            //Invalid Entries
+            var personTypes = personTypeReader.GetList().Where(p => p.PersonTypeId > 2).ToList();
+            var unitTypes = unitTypeReader.GetList().Where(p => p.UnitTypeId > 0).ToList();
+
+            model.PersonTypeList = personTypes;
+            model.UnitTypeList = unitTypes;
+
+            return View(model);
         }
 
         private PersonViewModel TranslatePersonDTO(PersonDTO person)
         {
-            PersonViewModel personViewModel = new PersonViewModel
+           PersonViewModel personViewModel = new PersonViewModel
             {
                 PersonId = person.PersonId,
                 FirstName = person.FirstName,
                 MiddleName = person.MiddleName,
                 LastName = person.LastName,
+                Notes = person.Notes,
                 PersonType = person.PersonType.Type,
                 UnitType = person.Unit.UnitType.Type,
                 Unit = person.Unit.UnitNumber.ToString(),
-                UnitRank = person.Rank.Rank,
+                Rank = person.Rank.Rank,
+                ParentPersonId = (person.ParentPerson != null) ? person.ParentPerson.PersonId : 0,
+                ContactInfoId = person.ContactInfo.ContactInfoId,
                 ContactInfo = new ContactInfoViewModel
                 {
                     ContactName = person.ContactInfo.Name,
@@ -221,10 +274,59 @@ namespace EventManagement.Controllers
                     State = person.ContactInfo.State,
                     Zip = person.ContactInfo.Zip
                 }
+                
             };
 
             return personViewModel;
         }
 
+        private PersonDTO TranslatePersonViewModel(PersonViewModel personView)
+        {
+            UnitTypeReader unitTypeReader = new UnitTypeReader();
+            UnitReader unitReader = new UnitReader();
+            UnitRankReader unitRankReader = new UnitRankReader();
+            PersonTypeReader personTypeReader = new PersonTypeReader();
+            PersonReader personReader = new PersonReader();
+            
+
+            UnitTypeDTO unitType = unitTypeReader.GetList().SingleOrDefault(p => p.Type == personView.UnitType);
+            UnitRankDTO unitRank = unitRankReader.GetList().SingleOrDefault(p => p.Rank == personView.Rank);
+            UnitDTO unit =
+                unitReader.GetList()
+                    .Where(o => o.UnitType == unitType)
+                    .SingleOrDefault(p => p.UnitNumber == int.Parse(personView.Unit));
+            PersonTypeDTO personType = personTypeReader.GetList().SingleOrDefault(p => p.Type == personView.PersonType);
+            PersonDTO parent = personReader.GetById(personView.ParentPersonId).SingleOrDefault();
+
+            
+
+            PersonDTO personDTO = new PersonDTO();
+            {
+                personDTO.PersonId = personView.PersonId;
+                personDTO.FirstName = personView.FirstName;
+                personDTO.MiddleName = personView.MiddleName;
+                personDTO.LastName = personView.LastName;
+                personDTO.Notes = personView.Notes;
+                personDTO.LastUpdated = DateTime.Now;
+                personDTO.Unit = unit;
+                personDTO.Rank = unitRank;
+                personDTO.PersonType = personType;
+                personDTO.ParentPerson = parent;
+            }
+
+            if (parent != null)
+            {
+                personDTO.ContactInfo = parent.ContactInfo;
+            }
+            else
+            {
+                ContactInfoReader contactInfoReader = new ContactInfoReader();
+
+                personDTO.ContactInfo = contactInfoReader.GetById(personView.ContactInfoId).SingleOrDefault();
+            }
+
+            return personDTO;
+            
+        }
     }
 }

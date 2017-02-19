@@ -20,6 +20,7 @@ namespace Common
         public UnitRankDTO Rank { get; set; }
         public UnitDTO Unit { get; set; }
         public string UserId { get; set; }
+        public string Notes { get; set; }
 
         public PersonDTO()
         {
