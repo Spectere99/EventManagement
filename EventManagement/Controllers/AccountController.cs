@@ -187,15 +187,17 @@ namespace EventManagement.Controllers
                 Session["EventStartPage"] = returnUrl;
                 PersonTypeReader personTypeReader = new PersonTypeReader();
                 UnitTypeReader unitTypeReader = new UnitTypeReader();
+                UnitReader unitReader = new UnitReader();
 
                 var personTypes = personTypeReader.GetList().Where(p => p.PersonTypeId > 0).ToList();
                 var unitTypes = unitTypeReader.GetList().Where(p => p.UnitTypeId > 0).ToList();
-
+                var units = unitReader.GetList().Where(p => p.UnitType.UnitTypeId == unitTypes[0].UnitTypeId).ToList();
                 RegisterViewModel registerViewModel = new RegisterViewModel()
                 {
                     StateList = Utilities.States,
                     PersonTypeList = personTypes,
-                    UnitTypeList = unitTypes
+                    UnitTypeList = unitTypes,
+                    UnitList = units
                 };
 
                 return View(registerViewModel);
@@ -217,6 +219,25 @@ namespace EventManagement.Controllers
             PersonReader personReader = new PersonReader();
             PersonTypeReader personTypeReader = new PersonTypeReader();
             UnitReader unitReader = new UnitReader();
+            //Because we can have people that are unaffiliated, we can have a valid model, but still not 
+            // work for the application.  We need to check if the person is not affiliated and then we 
+            // can determine if we can let it pass or not.
+            if (!model.NotUnitAffiliated)
+            {
+                if (model.PersonType == null || model.PersonType.Length <= 0)
+                {
+                    ModelState.AddModelError("Classification", "Person Classification MUST be populated.");
+                }
+                if (model.UnitType == null || model.UnitType.Length <= 0)
+                {
+                    ModelState.AddModelError("UnitType", "Unit Type MUST be selected.");
+                }
+                if (model.Unit == null || model.Unit.Length <= 0)
+                {
+                    ModelState.AddModelError("Unit", "Unit MUST be selected.");
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName};
@@ -305,12 +326,22 @@ namespace EventManagement.Controllers
             }
             personTypeReader = new PersonTypeReader();
             UnitTypeReader unitTypeReader = new UnitTypeReader();
-
+           
             var personTypes = personTypeReader.GetList().Where(p => p.PersonTypeId > 0).ToList();
             var unitTypes = unitTypeReader.GetList().Where(p => p.UnitTypeId > 0).ToList();
-
+            List<UnitDTO> units = null;
+            if (model.UnitType != null)
+            {
+                units = unitReader.GetList().Where(p => p.UnitType.UnitTypeId == int.Parse(model.UnitType)).ToList();
+            }
+            else
+            {
+                units = unitReader.GetList().Where(p => p.UnitType.UnitTypeId == unitTypes[0].UnitTypeId).ToList();
+            }
+            model.NotUnitAffiliated = false;
             model.PersonTypeList = personTypes;
             model.UnitTypeList = unitTypes;
+            model.UnitList = units;
             model.StateList = Utilities.States;
             // If we got this far, something failed, redisplay form
             return View(model);

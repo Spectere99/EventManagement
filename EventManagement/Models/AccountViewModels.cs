@@ -150,6 +150,7 @@ namespace EventManagement.Models
 
         public bool NotUnitAffiliated { get; set; }
 
+        [Required]
         [Display(Name = "Classification")]
         public string PersonType { get; set; }
         [Display(Name = "Classification")]

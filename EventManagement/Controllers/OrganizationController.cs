@@ -26,10 +26,10 @@ namespace EventManagement.Controllers
                 orgViewModel = TranslatePersonDTO(person);
                 //Need to load the children now.
                 var unitMembers = personReader.GetList().Where(p => p.Unit.UnitId == person.Unit.UnitId);
-                var members = unitMembers.Where(p=>p.PersonType.Type == "Cub Scout");
+                //var members = unitMembers.Where(p=>p.PersonType.Type == "Cub Scout");
                 orgViewModel.Members = new List<PersonViewModel>();
 
-                foreach (var member in members)
+                foreach (var member in unitMembers)
                 {
                     var childViewModel = TranslatePersonDTOToPersonViewModel(member);
                     orgViewModel.Members.Add(childViewModel);
