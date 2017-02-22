@@ -24,6 +24,7 @@ namespace Common.Mapper
         private int _ordUnitId;
         private int _ordUserId;
         private int _ordNotes;
+        private int _ordBirthDate;
         
         protected override PersonDTO Map(IDataRecord record)
         {
@@ -62,6 +63,7 @@ namespace Common.Mapper
                 
                 //New Additions
                 e.Notes = (DBNull.Value == record[_ordNotes]) ? CommonBase.StringNullValue : (string) record[_ordNotes];
+                e.BirthDate = (DBNull.Value == record[_ordBirthDate]) ? CommonBase.DateTimeNullValue : (DateTime)record[_ordBirthDate];
                 e.IsNew = false;
                 return e;
             }
@@ -88,6 +90,7 @@ namespace Common.Mapper
 
             //New Additions
             _ordNotes = reader.GetOrdinal("Notes");
+            _ordBirthDate = reader.GetOrdinal("BirthDate");
 
         }
     }

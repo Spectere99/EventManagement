@@ -88,13 +88,10 @@
         <div class="col-md-4">
             @Html.LabelFor(model => model.UnitTypeList, htmlAttributes: new { id="lblUnitTypeList"})
             @Html.DropDownList("UnitType", Model.UnitTypeList.Select(i => new SelectListItem { Text = i.Type.ToString(), Value = i.UnitTypeId.ToString() }), "Select ...", new { @class = "form-control", @onchange = "FillUnits()" })<br />
-            @*@Html.DropDownListFor(model => model.UnitType, new SelectList(Model.UnitTypeList, "UnitTypeId", "Type"), "Select ...", new { @class = "form-control", @onchange="FillUnits()" })<br />*@
         </div>
         <div class="col-md-4">
             @Html.LabelFor(model => model.UnitList, htmlAttributes: new { id="lblUnitList"})
             @Html.DropDownList("Unit", Model.UnitList.Select(i => new SelectListItem { Text = i.UnitNumber.ToString(), Value = i.UnitId.ToString() }), "Select ...", new { @class = "form-control"})
-            @*<select id="Unit" name="Unit" disabled="disabled" , class="form-control"></select><br />    , disabled = "disabled" *@
-            @*@Html.DropDownListFor(model => model.UnitList, Enumerable.Empty<SelectListItem>(), new { disabled="true", @class = "form-control" })*@
         </div>
     </div>
     <hr/>

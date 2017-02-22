@@ -47,7 +47,11 @@ namespace EventManagement.Controllers
                 }
                 
             }
-
+            else
+            {
+                HandleErrorInfo handleErrorInfo = new HandleErrorInfo(new Exception(string.Format("Person record was not found for login account <{0}>", User.Identity.Name)), "Registration", "AttendeeSelection");
+                return View("Error", handleErrorInfo);
+            }
             return View(attendeeList);
         }
         

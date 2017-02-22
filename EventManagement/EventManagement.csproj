@@ -327,8 +327,10 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\calendar.png" />
     <Content Include="Images\jumbotron_background.jpg" />
     <Content Include="Images\jumbotron_background.png" />
+    <Content Include="js\addperson.js" />
     <Content Include="js\person.js" />
     <Content Include="js\register.js" />
     <Content Include="js\registration.js" />
@@ -1117,6 +1119,7 @@
     <Content Include="Scripts\i18n\angular-locale_zu-za.js" />
     <Content Include="Scripts\i18n\angular-locale_zu.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />

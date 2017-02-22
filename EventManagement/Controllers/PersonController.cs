@@ -35,6 +35,11 @@ namespace EventManagement.Controllers
                 }
                 personViewModel.NotUnitAffiliated = person.Unit.UnitType.UnitTypeId.Equals(-1);
             }
+            else
+            {
+                HandleErrorInfo handleErrorInfo = new HandleErrorInfo(new Exception(string.Format("Person record was not found for login account <{0}>", User.Identity.Name)),"Person", "Index");
+                return View("Error", handleErrorInfo);
+            }
 
             return View(personViewModel);
         }
@@ -72,6 +77,9 @@ namespace EventManagement.Controllers
         public ActionResult Edit(int id)
         {
             PersonReader personReader = new PersonReader();
+            PersonTypeReader personTypeReader = new PersonTypeReader();
+            UnitReader unitReader = new UnitReader();
+            UnitRankReader unitRankReader = new UnitRankReader();
 
             var person = personReader.GetById(id).FirstOrDefault();
             if (person != null)
@@ -79,9 +87,35 @@ namespace EventManagement.Controllers
                 PersonViewModel personViewModel = TranslatePersonDTO(person);
 
                 personViewModel.NotUnitAffiliated = person.Unit.UnitType.UnitTypeId.Equals(-1);
+                UnitTypeReader unitTypeReader = new UnitTypeReader();
 
+                var personTypes = personTypeReader.GetList().Where(p => p.PersonTypeId > 0).ToList();
+                var unitTypes = unitTypeReader.GetList().Where(p => p.UnitTypeId > 0).ToList();
+
+                List<UnitDTO> units = null;
+                List<UnitRankDTO> unitRanks = null;
+                if (personViewModel.UnitType != null)
+                {
+                    units = unitReader.GetList().Where(p => p.UnitType.Type == personViewModel.UnitType).ToList();
+                    unitRanks = unitRankReader.GetList().Where(p => p.UnitType.Type == personViewModel.UnitType).ToList();
+                }
+                else
+                {
+                    units = unitReader.GetList().Where(p => p.UnitType.UnitTypeId == unitTypes[0].UnitTypeId).ToList();
+                    unitRanks = unitRankReader.GetList().Where(p => p.UnitType.UnitTypeId == unitTypes[0].UnitTypeId).ToList();
+                }
+                personViewModel.NotUnitAffiliated = false;
+                personViewModel.PersonTypeList = personTypes;
+                personViewModel.PersonType = person.PersonType.PersonTypeId.ToString();
+                personViewModel.UnitTypeList = unitTypes;
+                personViewModel.UnitType = person.Unit.UnitType.UnitTypeId.ToString();
+                personViewModel.UnitList = units;
+                personViewModel.Unit = person.Unit.UnitId.ToString();
+                personViewModel.UnitRankList = unitRanks;
+                personViewModel.Rank = person.Rank.UnitRankId.ToString();
                 return View(personViewModel);
             }
+            
             return View();
         }
 
@@ -122,7 +156,9 @@ namespace EventManagement.Controllers
                     ParentPersonId = id,
                     ContactInfoId = parentPerson.ContactInfo.ContactInfoId,
                     PersonTypeList = personTypes,
-                    UnitTypeList = unitTypes
+                    UnitTypeList = unitTypes,
+                    BirthDay = DateTime.Now.AddYears(-5)
+                    
                 };
 
                 return View(personChildViewModel);
@@ -162,6 +198,7 @@ namespace EventManagement.Controllers
                         MiddleName = model.MiddleName,
                         LastName = model.LastName,
                         Notes = model.Notes,
+                        BirthDate = model.BirthDay,
                         LastUpdated = DateTime.Now,
                         ContactInfo = contactInfo.FirstOrDefault(),
                         ParentPerson = parent,
@@ -197,8 +234,9 @@ namespace EventManagement.Controllers
         {
             PersonReader personReader = new PersonReader();
             PersonTypeReader personTypeReader = new PersonTypeReader();
-            UnitTypeReader unitTypeReader = new UnitTypeReader();
             ContactInfoReader contactInfoReader = new ContactInfoReader();
+            UnitRankReader unitRankReader = new UnitRankReader();
+
             var oldPerson = personReader.GetById(model.PersonId).SingleOrDefault();
             
             if (ModelState.IsValid)
@@ -238,11 +276,34 @@ namespace EventManagement.Controllers
             }
 
             //Invalid Entries
-            var personTypes = personTypeReader.GetList().Where(p => p.PersonTypeId > 2).ToList();
+            UnitTypeReader unitTypeReader = new UnitTypeReader();
+            UnitReader unitReader = new UnitReader();
+
+            var personTypes = personTypeReader.GetList().Where(p => p.PersonTypeId > 0).ToList();
             var unitTypes = unitTypeReader.GetList().Where(p => p.UnitTypeId > 0).ToList();
 
+            List<UnitDTO> units = null;
+            List<UnitRankDTO> unitRanks = null;
+            if (model.UnitType != null)
+            {
+                units = unitReader.GetList().Where(p => p.UnitType.Type == model.UnitType).ToList();
+                unitRanks = unitRankReader.GetList().Where(p => p.UnitType.Type == model.UnitType).ToList();
+            }
+            else
+            {
+                units = unitReader.GetList().Where(p => p.UnitType.UnitTypeId == unitTypes[0].UnitTypeId).ToList();
+                unitRanks = unitRankReader.GetList().Where(p => p.UnitType.UnitTypeId == unitTypes[0].UnitTypeId).ToList();
+            }
+            var personType = personTypeReader.GetById(int.Parse(model.PersonType));
+            var unit = unitReader.GetById(int.Parse(model.Unit));
+            var unitType = unitTypeReader.GetById(int.Parse(model.UnitType));
+            var unitRank = unitRankReader.GetById(int.Parse(model.Rank));
+            model.NotUnitAffiliated = false;
             model.PersonTypeList = personTypes;
+            model.PersonType = model.PersonType;
             model.UnitTypeList = unitTypes;
+            model.UnitList = units;
+            model.UnitRankList = unitRanks;
 
             return View(model);
         }
@@ -256,6 +317,7 @@ namespace EventManagement.Controllers
                 MiddleName = person.MiddleName,
                 LastName = person.LastName,
                 Notes = person.Notes,
+                BirthDay = person.BirthDate,
                 PersonType = person.PersonType.Type,
                 UnitType = person.Unit.UnitType.Type,
                 Unit = person.Unit.UnitNumber.ToString(),
@@ -289,13 +351,10 @@ namespace EventManagement.Controllers
             PersonReader personReader = new PersonReader();
             
 
-            UnitTypeDTO unitType = unitTypeReader.GetList().SingleOrDefault(p => p.Type == personView.UnitType);
-            UnitRankDTO unitRank = unitRankReader.GetList().SingleOrDefault(p => p.Rank == personView.Rank);
-            UnitDTO unit =
-                unitReader.GetList()
-                    .Where(o => o.UnitType == unitType)
-                    .SingleOrDefault(p => p.UnitNumber == int.Parse(personView.Unit));
-            PersonTypeDTO personType = personTypeReader.GetList().SingleOrDefault(p => p.Type == personView.PersonType);
+            UnitTypeDTO unitType = unitTypeReader.GetById(int.Parse(personView.UnitType)).SingleOrDefault();
+            UnitRankDTO unitRank = unitRankReader.GetById(int.Parse(personView.Rank)).SingleOrDefault();
+            UnitDTO unit = unitReader.GetById(int.Parse(personView.Unit)).SingleOrDefault();
+            PersonTypeDTO personType = personTypeReader.GetById(int.Parse(personView.PersonType)).SingleOrDefault();
             PersonDTO parent = personReader.GetById(personView.ParentPersonId).SingleOrDefault();
 
             
@@ -307,6 +366,7 @@ namespace EventManagement.Controllers
                 personDTO.MiddleName = personView.MiddleName;
                 personDTO.LastName = personView.LastName;
                 personDTO.Notes = personView.Notes;
+                personDTO.BirthDate = personView.BirthDay;
                 personDTO.LastUpdated = DateTime.Now;
                 personDTO.Unit = unit;
                 personDTO.Rank = unitRank;

@@ -4,7 +4,7 @@ namespace Common.Base
 {
     public class CommonBase
     {
-        public static DateTime DateTimeNullValue = DateTime.MinValue;
+        public static DateTime DateTimeNullValue = DateTime.Parse("1/1/1900");
         public static Guid GuidNullValue = Guid.Empty;
         public static int IntNullValue = int.MinValue;
         public static float FloatNullValue = float.MinValue;

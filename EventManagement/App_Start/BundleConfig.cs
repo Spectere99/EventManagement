@@ -13,6 +13,11 @@ namespace EventManagement
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                 "~/Scripts/jquery-{version}.js"));
 
+            //Added By RWF for JQueryUI
+            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+                     "~/Scripts/jquery-ui-{version}.js"));
+
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                 "~/Scripts/jquery.unobtrusive*",
                 "~/Scripts/jquery.validate*"));
@@ -39,8 +44,20 @@ namespace EventManagement
                 "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                 "~/Content/bootstrap.css",
-                 "~/Content/Site.css"));
+                "~/Content/bootstrap.css",
+                "~/Content/Site.css",
+                "~/Content/themes/base/core.css",
+                "~/Content/themes/base/resizable.css",
+                "~/Content/themes/base/selectable.css",
+                "~/Content/themes/base/accordion.css",
+                "~/Content/themes/base/autocomplete.css",
+                "~/Content/themes/base/button.css",
+                "~/Content/themes/base/dialog.css",
+                "~/Content/themes/base/slider.css",
+                "~/Content/themes/base/tabs.css",
+                "~/Content/themes/base/datepicker.css",
+                "~/Content/themes/base/progressbar.css",
+                "~/Content/themes/base/theme.css"));
 
         }
     }

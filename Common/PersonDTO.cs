@@ -21,7 +21,7 @@ namespace Common
         public UnitDTO Unit { get; set; }
         public string UserId { get; set; }
         public string Notes { get; set; }
-
+        public DateTime BirthDate { get; set; }
         public PersonDTO()
         {
             PersonId = IntNullValue;
@@ -35,11 +35,14 @@ namespace Common
             Rank = new UnitRankDTO();
             Unit = new UnitDTO();
             UserId = StringNullValue;
+            Notes = StringNullValue;
+            BirthDate = DateTime.Parse("1/1/1900");
             IsNew = true;
         }
 
         public PersonDTO(int personId, string firstName, string middleName, string lastName, DateTime lastUpdated,
-            ContactInfoDTO contactInfo, PersonDTO parentPerson, PersonTypeDTO personType, UnitRankDTO rank, UnitDTO unit, string userId)
+            ContactInfoDTO contactInfo, PersonDTO parentPerson, PersonTypeDTO personType, UnitRankDTO rank, UnitDTO unit, string userId
+            , string notes, DateTime birthDate)
         {
             PersonId = personId;
             FirstName = firstName;
@@ -52,6 +55,8 @@ namespace Common
             Rank = rank;
             Unit = unit;
             UserId = userId;
+            Notes = notes;
+            BirthDate = birthDate;
             IsNew = PersonId.Equals(IntNullValue);
         }
     }
