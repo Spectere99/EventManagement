@@ -78,11 +78,19 @@ namespace Common.Reader
             {
                 if (item.IsNew) //Insert
                 {
-                    using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.InsEventVolunteer))
+                   using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.InsEventVolunteer))
                     {
                         command.Parameters.Add(CreateParameter("pEventID", item.Event.EventId));
                         command.Parameters.Add(CreateParameter("pPersonID", item.Person.PersonId));
                         command.Parameters.Add(CreateParameter("pvolunteerDays", item.VolunteerDays));
+                        command.Parameters.Add(CreateParameter("pMondayVol", item.Monday?"Y":"N", 1));
+                        command.Parameters.Add(CreateParameter("pTuesdayVol", item.Tuesday ? "Y" : "N", 1));
+                        command.Parameters.Add(CreateParameter("pWednesdayVol", item.Wednesday ? "Y" : "N", 1));
+                        command.Parameters.Add(CreateParameter("pThursdayVol", item.Thursday ? "Y" : "N", 1));
+                        command.Parameters.Add(CreateParameter("pFridayVol", item.Friday ? "Y" : "N", 1));
+                        command.Parameters.Add(CreateParameter("pSaturdayVol", item.Saturday ? "Y" : "N", 1));
+                        command.Parameters.Add(CreateParameter("pSundayVol", item.Sunday ? "Y" : "N", 1));
+                        
                         command.Parameters.Add(CreateOutputParameter("oEventVolunteerID", MySqlDbType.Int32));
                         
 
@@ -102,6 +110,14 @@ namespace Common.Reader
                         command.Parameters.Add(CreateParameter("pEventID", item.Event.EventId));
                         command.Parameters.Add(CreateParameter("pPersonID", item.Person.PersonId));
                         command.Parameters.Add(CreateParameter("pvolunteerDays", item.VolunteerDays));
+                        command.Parameters.Add(CreateParameter("pMondayVol", item.Monday ? "Y" : "N", 1));
+                        command.Parameters.Add(CreateParameter("pTuesdayVol", item.Tuesday ? "Y" : "N", 1));
+                        command.Parameters.Add(CreateParameter("pWednesdayVol", item.Wednesday ? "Y" : "N", 1));
+                        command.Parameters.Add(CreateParameter("pThursdayVol", item.Thursday ? "Y" : "N", 1));
+                        command.Parameters.Add(CreateParameter("pFridayVol", item.Friday ? "Y" : "N", 1));
+                        command.Parameters.Add(CreateParameter("pSaturdayVol", item.Saturday ? "Y" : "N", 1));
+                        command.Parameters.Add(CreateParameter("pSundayVol", item.Sunday ? "Y" : "N", 1));
+                        
 
                         ExecuteNoReader(command);
                     }

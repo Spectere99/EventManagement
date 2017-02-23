@@ -296,6 +296,9 @@ namespace EventManagement.Controllers
         {
             VolunteerRegistrationViewModel volunteerEntry = TempData["VolunteerRegistant"] as VolunteerRegistrationViewModel;
             model.Event = Session["RegistrationEvent"] as EventDTO;
+
+            model.VolunteerDays = CountVolunteerDays(model);
+
             if (model.VolunteerDays > 0 && model.VolunteerDays <= 5)
             {
                 if (model.Event != null) //if (ModelState.IsValid)
@@ -316,6 +319,13 @@ namespace EventManagement.Controllers
                             EventVolunteerDTO newVolunteer = new EventVolunteerDTO();
                             newVolunteer.Event = model.Event;
                             newVolunteer.Person = person;
+                            newVolunteer.Monday = model.MondayVolunteer;
+                            newVolunteer.Tuesday = model.TuesdayVolunteer;
+                            newVolunteer.Wednesday = model.WednesdayVolunteer;
+                            newVolunteer.Thursday = model.ThursdayVolunteer;
+                            newVolunteer.Friday = model.FridayVolunteer;
+                            newVolunteer.Saturday = model.SaturdayVolunteer;
+                            newVolunteer.Sunday = model.SundayVolunteer;
                             newVolunteer.VolunteerDays = model.VolunteerDays;
 
                             volunteerList.Add(newVolunteer);
@@ -323,6 +333,7 @@ namespace EventManagement.Controllers
                             volunteerEntry.Person = person;
                             volunteerEntry.Event = newVolunteer.Event;
                             volunteerEntry.VolunteerDays = model.VolunteerDays;
+                            
                             RegistrationValidator regValidator = new RegistrationValidator();
                             //Check to see if a registration exists for this person already.
                             bool existingRegistration = regValidator.CheckForExistingVolunteer(person,
@@ -408,6 +419,20 @@ namespace EventManagement.Controllers
             return attendeeViewModel;
         }
 
+        private int CountVolunteerDays(VolunteerRegistrationViewModel volunteer)
+        {
+            int dayCount = 0;
+
+            dayCount = dayCount + ((volunteer.MondayVolunteer) ? 1 : 0);
+            dayCount = dayCount + ((volunteer.TuesdayVolunteer) ? 1 : 0);
+            dayCount = dayCount + ((volunteer.WednesdayVolunteer) ? 1 : 0);
+            dayCount = dayCount + ((volunteer.ThursdayVolunteer) ? 1 : 0); 
+            dayCount = dayCount + ((volunteer.FridayVolunteer) ? 1 : 0);
+            dayCount = dayCount + ((volunteer.SaturdayVolunteer) ? 1 : 0); 
+            dayCount = dayCount + ((volunteer.SundayVolunteer) ? 1 : 0);
+
+            return dayCount;
+        }
         private void SendReservationOpeningEmail(ReservationDTO user)
         {
             var callbackUrl = Url.Action("ConvertReservation", "Registration", new { userId = user.Person.PersonId, code = user.RegistrationCode }, protocol: Request.Url.Scheme);

@@ -37,7 +37,23 @@ namespace EventManagement.Models
     {
         public IEnumerable<EventViewModel> EventList { get; set; }
         public EventDTO Event { get; set; }
-        [Required, Display(Name="Days Volunteering")]
+
+        [Display(Name="Mon.")]
+        public bool MondayVolunteer { get; set; }
+        [Display(Name = "Tues.")]
+        public bool TuesdayVolunteer { get; set; }
+        [Display(Name = "Wed.")]
+        public bool WednesdayVolunteer { get; set; }
+        [Display(Name = "Thurs.")]
+        public bool ThursdayVolunteer { get; set; }
+        [Display(Name = "Fri.")]
+        public bool FridayVolunteer { get; set; }
+        [Display(Name = "Sat.")]
+        public bool SaturdayVolunteer { get; set; }
+        [Display(Name = "Sun.")]
+        public bool SundayVolunteer { get; set; }
+
+        [Display(Name="Days Volunteering")]
         [Range(typeof(int), "1", "5", ErrorMessage = "Please enter a number between 1 and 5 days.")]
         public int VolunteerDays { get; set; }
         public PersonDTO Person { get; set; }
