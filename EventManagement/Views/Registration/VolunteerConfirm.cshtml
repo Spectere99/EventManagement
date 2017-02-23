@@ -13,12 +13,10 @@
 </head>
 <h2>Volunteer Entry Confirmation</h2>
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
+@using (Html.BeginForm())
+{ 
     <div class="form-horizontal">
-        <h4>ReservationViewModel</h4>
+        
         <hr />
         @if (Model != null)
         {

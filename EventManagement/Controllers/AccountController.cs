@@ -131,7 +131,7 @@ namespace EventManagement.Controllers
             string confirmCode = UserManager.GenerateEmailConfirmationToken(user.Id);
             SendValidationCodeEmail(user, user.UserName, confirmCode);
 
-            return RedirectToAction("ConfirmEmail", "Account", new { userId = user.Id, code = confirmCode });
+            return RedirectToAction("RegistrationComplete", "Account", new { userId = user.Id, code = confirmCode });
         }
         //
         // GET: /Account/VerifyCode
@@ -212,7 +212,6 @@ namespace EventManagement.Controllers
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             ContactInfoReader contactInfoReader = new ContactInfoReader();
@@ -282,6 +281,7 @@ namespace EventManagement.Controllers
                             PersonType = null,
                             Rank = null,
                             Unit = null,
+                            BirthDate = DateTime.Parse("1/1/1900"),
                             UserId = user.Id
                         };
                         personList.Add(person);    
@@ -301,6 +301,7 @@ namespace EventManagement.Controllers
                             PersonType = personType[0],
                             Rank = null,
                             Unit = unit[0],
+                            BirthDate = DateTime.Parse("1/1/1900"),
                             UserId = user.Id
                         };
                         personList.Add(person);    

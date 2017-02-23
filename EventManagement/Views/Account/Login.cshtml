@@ -17,7 +17,7 @@
                 if (Model != null && !Model.EmailConfirmed)
                 {
                     <div class="form-group">
-                        @Html.ActionLink("Resend Validation Code", "ResendValidationCode", new { id=Model.UserName})
+                        @Html.ActionLink("Resend Validation Code", "ResendValidationCode", new { id=Model.UserName}, new { @class="btn btn-info"})
                     </div>     
                 }
                 <div class="form-group">
@@ -57,11 +57,11 @@
             }
         </section>
     </div>
-    <div class="col-md-5">
+    @*<div class="col-md-5">
         <section id="socialLoginForm">
             @Html.Partial("_Register")
         </section>
-    </div>
+    </div>*@
     @*<div class="col-md-4">
         <section id="socialLoginForm">
             @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
