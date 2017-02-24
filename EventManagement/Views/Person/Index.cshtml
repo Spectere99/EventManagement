@@ -121,7 +121,7 @@
                 }
             </dl>
             <p>
-                @Html.ActionLink("Edit", "Edit", new {id = Model.PersonId}, new {@class = "btn btn-info"})
+                @Html.ActionLink("Edit", "EditSelf", new {id = Model.PersonId}, new {@class = "btn btn-info"})
                 @Html.ActionLink("Add Child", "AddPerson", new {id = Model.PersonId}, new {@class = "btn btn-info",})
                 @Html.ActionLink("Register/Volunteer", "AttendeeSelection", "Registration", null ,new { @class = "btn btn-default" })
                 

@@ -19,7 +19,7 @@ namespace EventManagement.Models
         [Required, Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Required, Display(Name = "Date of Birth")]
+        [Display(Name = "Date of Birth")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime BirthDay { get; set; }
@@ -39,13 +39,13 @@ namespace EventManagement.Models
         public List<UnitTypeDTO> UnitTypeList { get; set; }
 
         //Unit Value and Lookup List
-        [Required, Display(Name = "Unit")]
+        [Display(Name = "Unit")]
         public string Unit { get; set; }
         [Display(Name = "Unit")]
         public List<UnitDTO> UnitList { get; set; }
 
         //Rank Value and Lookup List
-        [Required, Display(Name = "Rank")]
+        [Display(Name = "Rank")]
         public string Rank { get; set; }
         [Display(Name = "Rank")]
         public List<UnitRankDTO> UnitRankList { get; set; }

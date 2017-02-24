@@ -184,17 +184,21 @@ namespace EventManagement.Controllers
             ReservationListActions reservationListActions = new ReservationListActions();
             //Get the reservation and validate the code
             ReservationReader reservationReader = new ReservationReader();
+            EventReader eventReader = new EventReader();
+            
             if (reservationListActions.ValidateReservationByCode(code))
             {
                 ReservationDTO reservation = reservationReader.GetByRegistrationCode(code);
-    
+                var eventVal = eventReader.GetById(reservation.Event.EventId);
                 //Build a registrationViewModel to send to RegistrantConfirm page
 
                 RegistrationViewModel registrationViewModel = new RegistrationViewModel();
                 registrationViewModel.Person = reservation.Person;
-                registrationViewModel.Event = reservation.Event;
+                registrationViewModel.EventView = TranslateEventDTO(reservation.Event);
+                registrationViewModel.Event = registrationViewModel.EventView.EventId.ToString();
                 registrationViewModel.ConfirmationNumber = code;
                 TempData["EventRegistant"] = registrationViewModel;
+                //Need to change this to something other than Session Value
                 Session["RegistrationEvent"] = reservation.Event;
 
                 reservationReader.Remove(new List<ReservationDTO>() {reservation});
@@ -208,30 +212,35 @@ namespace EventManagement.Controllers
         {
             RegistrationViewModel registrationEntry = null;
             registrationEntry = TempData["EventRegistant"] as RegistrationViewModel;
-            model.Event = Session["RegistrationEvent"] as EventDTO;    
+            //model.Event = Session["RegistrationEvent"] as EventDTO;    
             
             if (model.Event != null)
             {
-                Session["RegistrationEvent"] = null;
+               
                 if (registrationEntry != null)
                 {
                     registrationEntry.Event = model.Event;
                     PersonReader personReader = new PersonReader();
+                    EventReader eventReader = new EventReader();
                     var person = personReader.GetById(registrationEntry.Person.PersonId).FirstOrDefault();
+                    var eventDto = eventReader.GetById(int.Parse(model.Event));
+                    model.EventView = TranslateEventDTO(eventDto.SingleOrDefault());
+
+                    registrationEntry.EventView = TranslateEventDTO(eventDto.SingleOrDefault());
 
                     if (person != null)
                     {
 
                         RegistrationValidator regValidator = new RegistrationValidator();
                         //Check to see if a registration exists for this person already.
-                        bool existingRegistration = regValidator.CheckForExistingRegistration(person,registrationEntry.Event.EventId);
+                        bool existingRegistration = regValidator.CheckForExistingRegistration(person,registrationEntry.EventView.EventId);
 
                         if (existingRegistration)
                         {
                             ReservationViewModel tempReservationModel = new ReservationViewModel
                             {
                                 Person = person,
-                                Event = model.Event,
+                                Event = TranslateEventDTO(eventDto.SingleOrDefault()),
                                 ReservationDate = DateTime.Now
                             };
 
@@ -239,7 +248,7 @@ namespace EventManagement.Controllers
                             return RedirectToAction("ExistingRegistration");  
                         }
                         //Check for Registration slots being open (ie. Enough volunteers from that person's unit).
-                        bool validRegistration = regValidator.DayCampRegistrationValid(person, registrationEntry.Event.EventId);
+                        bool validRegistration = regValidator.DayCampRegistrationValid(person, registrationEntry.EventView.EventId);
                         
                         //Register the person  or Redirect to waiting list.
                         if (validRegistration)
@@ -249,7 +258,7 @@ namespace EventManagement.Controllers
                             RegistrationDTO registration = new RegistrationDTO()
                             {
                                 ConfirmationNumber = confirmationCode,
-                                Event = model.Event,
+                                Event = eventDto.SingleOrDefault(),
                                 Person = person,
                                 RegistrationDate = DateTime.Now
                             };
@@ -266,7 +275,7 @@ namespace EventManagement.Controllers
                         }
                         ReservationDTO reservation = new ReservationDTO()
                         {
-                            Event = model.Event,
+                            Event = eventDto.SingleOrDefault(),
                             Person = person,
                             ReservationDate = DateTime.Now
                         };
@@ -278,7 +287,7 @@ namespace EventManagement.Controllers
                         ReservationViewModel reservationViewModel = new ReservationViewModel
                         {
                             Person = person,
-                            Event = model.Event,
+                            Event = model.EventView,
                             ReservationDate = reservation.ReservationDate
                         };
 
@@ -295,7 +304,7 @@ namespace EventManagement.Controllers
         public ActionResult VolunteerConfirm(VolunteerRegistrationViewModel model)
         {
             VolunteerRegistrationViewModel volunteerEntry = TempData["VolunteerRegistant"] as VolunteerRegistrationViewModel;
-            model.Event = Session["RegistrationEvent"] as EventDTO;
+            //model.Event = Session["RegistrationEvent"] as EventDTO;
 
             model.VolunteerDays = CountVolunteerDays(model);
 
@@ -307,8 +316,10 @@ namespace EventManagement.Controllers
                     if (volunteerEntry != null)
                     {
                         PersonReader personReader = new PersonReader();
+                        EventReader eventReader = new EventReader();
                         EventVolunteerReader eventVolunteerReader = new EventVolunteerReader();
 
+                        var eventDTO = eventReader.GetById(int.Parse(model.Event));
                         var person = personReader.GetById(volunteerEntry.Person.PersonId).FirstOrDefault();
 
                         if (person != null)
@@ -317,7 +328,7 @@ namespace EventManagement.Controllers
                             List<EventVolunteerDTO> volunteerList = new List<EventVolunteerDTO>();
 
                             EventVolunteerDTO newVolunteer = new EventVolunteerDTO();
-                            newVolunteer.Event = model.Event;
+                            newVolunteer.Event = eventDTO.SingleOrDefault();
                             newVolunteer.Person = person;
                             newVolunteer.Monday = model.MondayVolunteer;
                             newVolunteer.Tuesday = model.TuesdayVolunteer;
@@ -331,20 +342,21 @@ namespace EventManagement.Controllers
                             volunteerList.Add(newVolunteer);
 
                             volunteerEntry.Person = person;
-                            volunteerEntry.Event = newVolunteer.Event;
+                            volunteerEntry.Event = model.Event;
+                            volunteerEntry.EventView = TranslateEventDTO(newVolunteer.Event);
                             volunteerEntry.VolunteerDays = model.VolunteerDays;
                             
                             RegistrationValidator regValidator = new RegistrationValidator();
                             //Check to see if a registration exists for this person already.
                             bool existingRegistration = regValidator.CheckForExistingVolunteer(person,
-                                volunteerEntry.Event.EventId);
+                                int.Parse(volunteerEntry.Event));
 
                             if (existingRegistration)
                             {
                                 ReservationViewModel tempReservationModel = new ReservationViewModel
                                 {
                                     Person = person,
-                                    Event = model.Event,
+                                    Event = volunteerEntry.EventView,
                                     ReservationDate = DateTime.Now
                                 };
 
@@ -359,7 +371,7 @@ namespace EventManagement.Controllers
                             //Need to check for Open Reservations for this person's unit and send notifications
                             ReservationListActions reservationListActions = new ReservationListActions();
                             List<ReservationDTO> openReservations = reservationListActions.GetReservationOpenings(
-                                person, model.Event.EventId);
+                                person, int.Parse(model.Event));
 
                             foreach (ReservationDTO reservation in openReservations)
                             {
@@ -419,6 +431,68 @@ namespace EventManagement.Controllers
             return attendeeViewModel;
         }
 
+        private EventDTO TranslateEventViewModel(EventViewModel eventViewModel)
+        {
+            EventDTO eventDTO = new EventDTO
+            {
+                Name = eventViewModel.EventName,
+                Description = eventViewModel.Description,
+                End = eventViewModel.EventEnd,
+                Start = eventViewModel.EventStart,
+                EventId = eventViewModel.EventId,
+                EventType = new EventTypeDTO
+                {
+                    EventTypeId = eventViewModel.EventType.EventTypeId,
+                    IsNew = false,
+                    Type = eventViewModel.EventType.EventType
+                },
+                LastUpdated = eventViewModel.LastUpdated,
+                RegistrationDeadline = eventViewModel.RegistrationDeadline,
+                RequiredStaffCount = eventViewModel.RequiredStaff,
+                RequiredVolunteersCount = eventViewModel.RequiredVolunteers,
+                StaffPaymentRequired = eventViewModel.StaffPaymentRequired,
+                Venue = new VenueDTO
+                {
+                    Contact = eventViewModel.Venue.Contact,
+                    ContactInfo = null,
+                    Name = eventViewModel.Venue.Name,
+                    VenueId = eventViewModel.Venue.VenueId
+                }
+            };
+
+            return eventDTO;
+        }
+
+        private EventViewModel TranslateEventDTO(EventDTO eventDTO)
+        {
+            EventViewModel eventViewModel = new EventViewModel
+            {
+                Description = eventDTO.Description,
+                EventEnd = eventDTO.End,
+                EventId = eventDTO.EventId,
+                EventName = eventDTO.Name,
+                EventStart = eventDTO.Start,
+                EventType = new EventTypeModel
+                {
+                    EventType = eventDTO.EventType.Type,
+                    EventTypeId = eventDTO.EventType.EventTypeId
+                },
+                LastUpdated = eventDTO.LastUpdated,
+                RegistrationDeadline = eventDTO.RegistrationDeadline,
+                RequiredStaff = eventDTO.RequiredStaffCount,
+                RequiredVolunteers = eventDTO.RequiredVolunteersCount,
+                StaffPaymentRequired = eventDTO.StaffPaymentRequired,
+                Venue = new VenueModel
+                {
+                    Contact = eventDTO.Venue.Contact,
+                    Name = eventDTO.Venue.Name,
+                    VenueId = eventDTO.Venue.VenueId
+                }
+            };
+            
+            return eventViewModel;
+            
+        }
         private int CountVolunteerDays(VolunteerRegistrationViewModel volunteer)
         {
             int dayCount = 0;
@@ -465,7 +539,7 @@ namespace EventManagement.Controllers
                                    "As soon as enough volunteers from your Unit register, more slots will open up and you will be notified." +
                                    "At that time, you will be able to register in one click. <BR/>" +
                                    "Please note that waiting list slots are notifed based on the order that they signed up for the event."
-                                   , user.Person.ParentPerson.FirstName + " " + user.Person.ParentPerson.LastName, user.Event.Name);
+                                   , user.Person.ParentPerson.FirstName + " " + user.Person.ParentPerson.LastName, user.Event.EventName);
             m.IsBodyHtml = true;
             System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.proeventlistings.com");
             smtp.UseDefaultCredentials = false;
@@ -481,12 +555,13 @@ namespace EventManagement.Controllers
             System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
             new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Person.ParentPerson.ContactInfo.Email));
+            m.To.Add("yorkdaycamp@gmail.com");
             m.Subject = "Registration Confirmed";
             m.Body = string.Format("Dear {0} <BR/>Congratulations!  Your scout's registration to {1} has been confirmed.  <BR/>" +
                                    "Your confirmation number is: {2}. <BR/> Please make sure you have paid through the council web site." +
                                    " Please use the following link to pay: <a href=\"{3}\"title=\"User Email Confirm\">PAY HERE</a><BR/><BR/>" +
                                    " Your registration will not final until you have paid your camp fees."
-                                   , user.Person.ParentPerson.FirstName, user.Event.Name, user.ConfirmationNumber, "http://www.paypal.com");
+                                   , user.Person.ParentPerson.FirstName, user.EventView.EventName, user.ConfirmationNumber, "http://www.paypal.com");
             m.IsBodyHtml = true;
             System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.proeventlistings.com");
             smtp.UseDefaultCredentials = false;
@@ -503,12 +578,14 @@ namespace EventManagement.Controllers
             System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
             new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Person.ContactInfo.Email));
+            m.To.Add("yorkdaycamp@gmail.com");
+
             m.Subject = "Registration Confirmed";
             m.Body = string.Format("Dear {0} <BR/>Thank you for volunteering at {1} this year.<BR/>" +
                                    "You have volunteered for {2} days! <BR/> Be prepared to enrich the lives of young cub scouts!<BR/>" +
                                    "You will be contacted by the Camp coordinator with details on special training, and other instructions. <BR/>" +
                                    "Once again Thank you!"
-                                   , user.Person.FirstName, user.Event.Name, user.VolunteerDays);
+                                   , user.Person.FirstName, user.EventView.EventName, user.VolunteerDays);
             m.IsBodyHtml = true;
             System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.proeventlistings.com");
             smtp.UseDefaultCredentials = false;
