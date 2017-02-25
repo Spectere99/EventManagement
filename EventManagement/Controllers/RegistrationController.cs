@@ -534,6 +534,9 @@ namespace EventManagement.Controllers
             System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
             new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Person.ParentPerson.ContactInfo.Email));
+            m.To.Add("yorkdaycamp@gmail.com");
+            //m.To.Add("taylor.thomas@scouting.org");
+            //m.To.Add("morgan.hawkins@scouting.org");
             m.Subject = "Waiting List Confirmation";
             m.Body = string.Format("Dear {0} <BR/>Your scout is currently on the waiting list for {1}.  <BR/>" +
                                    "As soon as enough volunteers from your Unit register, more slots will open up and you will be notified." +
@@ -556,12 +559,22 @@ namespace EventManagement.Controllers
             new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Person.ParentPerson.ContactInfo.Email));
             m.To.Add("yorkdaycamp@gmail.com");
+            //m.To.Add("taylor.thomas@scouting.org");
+            //m.To.Add("morgan.hawkins@scouting.org");
             m.Subject = "Registration Confirmed";
             m.Body = string.Format("Dear {0} <BR/>Congratulations!  Your scout's registration to {1} has been confirmed.  <BR/>" +
-                                   "Your confirmation number is: {2}. <BR/> Please make sure you have paid through the council web site." +
+                                   "Your confirmation number is: {2}. <BR/> Please make sure you have paid through the council web site.<BR/>" +
                                    " Please use the following link to pay: <a href=\"{3}\"title=\"User Email Confirm\">PAY HERE</a><BR/><BR/>" +
-                                   " Your registration will not final until you have paid your camp fees."
-                                   , user.Person.ParentPerson.FirstName, user.EventView.EventName, user.ConfirmationNumber, "http://www.paypal.com");
+                                   " Your registration will not final until you have paid your camp fees. <BR/>" +
+                                   " DETAILS: <BR/>" +
+                                   "   Scout Name: {4} {5} {6}<BR/>" +
+                                   "   Unit: {7} {8} <BR/>" +
+                                   "   Rank: {9} <BR/>" +
+                                   "   Confirmation Number: {2}<BR/>"
+                                   , user.Person.ParentPerson.FirstName, user.EventView.EventName, user.ConfirmationNumber, "http://palmettocouncil.org/special-events/2015-cub-day-camp"
+                                   , user.Person.FirstName, user.Person.MiddleName, user.Person.LastName
+                                   , user.Person.Unit.UnitType.Type, user.Person.Unit.UnitNumber
+                                   , user.Person.Rank.Rank);
             m.IsBodyHtml = true;
             System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.proeventlistings.com");
             smtp.UseDefaultCredentials = false;
@@ -579,13 +592,21 @@ namespace EventManagement.Controllers
             new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Person.ContactInfo.Email));
             m.To.Add("yorkdaycamp@gmail.com");
-
+            //m.To.Add("taylor.thomas@scouting.org");
+            //m.To.Add("morgan.hawkins@scouting.org");
             m.Subject = "Registration Confirmed";
             m.Body = string.Format("Dear {0} <BR/>Thank you for volunteering at {1} this year.<BR/>" +
                                    "You have volunteered for {2} days! <BR/> Be prepared to enrich the lives of young cub scouts!<BR/>" +
                                    "You will be contacted by the Camp coordinator with details on special training, and other instructions. <BR/>" +
-                                   "Once again Thank you!"
-                                   , user.Person.FirstName, user.EventView.EventName, user.VolunteerDays);
+                                   " Please use the following link to select your t-shirt sizes and quantities: <a href=\"{3}\"title=\"User Email Confirm\">PAY HERE</a><BR/><BR/>" +
+                                   "Once again, Thank you! <BR/><BR/>" +
+                                   " DETAILS: <BR/>" +
+                                   "   Volunteer Name: {4} {5} {6}<BR/>" +
+                                   "   Unit: {7} {8} <BR/>"
+                                   , user.Person.FirstName, user.EventView.EventName, user.VolunteerDays
+                                   , "http://palmettocouncil.org/special-events/2017-day-camp-shirts"
+                                   , user.Person.FirstName, user.Person.MiddleName, user.Person.LastName
+                                   , user.Person.Unit.UnitType.Type, user.Person.Unit.UnitNumber);
             m.IsBodyHtml = true;
             System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.proeventlistings.com");
             smtp.UseDefaultCredentials = false;
