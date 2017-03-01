@@ -76,6 +76,40 @@
                 @Html.DropDownListFor(model => model.Rank, Enumerable.Empty<SelectListItem>(), new { disabled = "true", @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Rank, "", new { @class = "text-danger" })<br />
             </div>
+            <div class="col-md-4">
+                <table id="CubRanks" class="table" style="display: none">
+                    <tr>
+                        <th>Rank</th>
+                        <th>Grade</th>
+                        <th>Ages</th>
+                    </tr>
+                    <tr>
+                        <th scope="row">Tiger</th>
+                        <td>Going into 1st Grade</td>
+                        <td>6-7</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Wolf</th>
+                        <td>Going into 2nd Grade</td>
+                        <td>7-8</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Bear</th>
+                        <td>Going into 3rd Grade</td>
+                        <td>8-9</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Webelos</th>
+                        <td>Going into 4th Grade</td>
+                        <td>9-10</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Arrow of Light</th>
+                        <td>Going into 5th Grade</td>
+                        <td>10-11</td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <div class="form-group">
             <div class="col-md-5">

@@ -45,7 +45,7 @@ namespace EventManagement
             double volunteerCount = totalVolunteerDays / 5.0; //Specific to Summer DayCamp.  Need to make more Generic.
 
             double availableSlots = 0;
-            if (totalVolunteerDays > 5)
+            if (totalVolunteerDays >= 5)
             {
                 int possibleSlots = totalVolunteerDays/5;
                 availableSlots = (possibleSlots * 5) - registrationListUnitCount;

@@ -21,6 +21,8 @@
                             }
                             $("#Unit").html(items);
                             $("#Unit").prop("disabled", false);
+                            var selectedText = $("#UnitType option:selected").text();
+                            $("#CubRanks").toggle(selectedText == "Pack");
                         },
                         error: function (xhr) {
                             alert(xhr.responseText);
@@ -85,6 +87,8 @@ function FillUnits() {
                 }
                 $("#Unit").html(items);
                 $("#Unit").prop("disabled", false);
+                var selectedText = $("#UnitType option:selected").text();
+                $("#CubRanks").toggle(selectedText == "Pack");
             },
             error: function (xhr) {
                 alert(xhr.responseText);

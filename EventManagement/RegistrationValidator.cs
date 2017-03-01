@@ -60,7 +60,7 @@ namespace EventManagement
             try
             {
                 RegistrationReader registrationReader = new RegistrationReader();
-
+                
                 List<RegistrationDTO> registrationList = registrationReader.GetByEventId(eventId);
 
                 return registrationList.Any(p => p.Person.PersonId == registrant.PersonId);
@@ -71,7 +71,22 @@ namespace EventManagement
                 throw;
             }
         }
+        public bool CheckForExistingReservation(PersonDTO registrant, int eventId)
+        {
+            try
+            {
+                ReservationReader reservationReader = new ReservationReader();
 
+                List<ReservationDTO> reservationlList = reservationReader.GetByEventId(eventId);
+
+                return reservationlList.Any(p => p.Person.PersonId == registrant.PersonId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         public bool CheckForExistingVolunteer(PersonDTO registrant, int eventId)
         {
             try
