@@ -31,12 +31,12 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
-                    <li>@Html.ActionLink("About", "Index", "Home", new { area = "" }, null)</li>
+                    @*<li>@Html.ActionLink("About", "Index", "Home", new { area = "" }, null)</li>*@
                 </ul>
-               
+
                 @*<div class="navbar_custom navbar-inverse navbar-sub-custom">
                 <div class="container">
-                    
+
                 </div>
                 </div>*@
                 @Html.Partial("_LoginPartial")
@@ -62,8 +62,12 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryui")
+
     @Scripts.Render("~/bundles/bootstrap")
-    
+    <link href=@Url.Content("~/Content/dxtheme/dx.common.css") rel="stylesheet" />
+    <link href=@Url.Content("~/Content/dxtheme/dx.light.compact.css") rel="stylesheet" />
+    <script src=@Url.Content("~/Scripts/grid/jszip.min.js")></script>
+    <script src=@Url.Content("~/Scripts/grid/dx.all.js")></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

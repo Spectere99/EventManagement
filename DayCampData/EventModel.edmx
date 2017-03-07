@@ -1,0 +1,1355 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="eventsModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="contactinfo">
+          <Key>
+            <PropertyRef Name="ContactInfoID" />
+          </Key>
+          <Property Name="ContactInfoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ContactName" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="HomePhone" Type="varchar" MaxLength="15" />
+          <Property Name="CellPhone" Type="varchar" MaxLength="15" />
+          <Property Name="Email" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="Address1" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address2" Type="varchar" MaxLength="50" />
+          <Property Name="City" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="State" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="Zip" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="events">
+          <Key>
+            <PropertyRef Name="EventID" />
+            <PropertyRef Name="EventTypes_EventTypeID" />
+          </Key>
+          <Property Name="EventID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VenueID" Type="int" Nullable="false" />
+          <Property Name="EventName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="EventStart" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="EventEnd" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="EventDescription" Type="varchar" MaxLength="2000" />
+          <Property Name="LastUpdate" Type="datetime" Precision="0" />
+          <Property Name="EventTypes_EventTypeID" Type="int" Nullable="false" />
+          <Property Name="StaffPaymentRequired" Type="bit" />
+          <Property Name="RegistrationDeadline" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="RequiredStaff" Type="int" Nullable="false" />
+          <Property Name="RequiredVolunteers" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="eventstaff">
+          <Key>
+            <PropertyRef Name="EventStaffID" />
+            <PropertyRef Name="positions_PositionID" />
+            <PropertyRef Name="events_EventID" />
+            <PropertyRef Name="person_PersonID" />
+          </Key>
+          <Property Name="EventStaffID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LastUpdated" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="positions_PositionID" Type="int" Nullable="false" />
+          <Property Name="events_EventID" Type="int" Nullable="false" />
+          <Property Name="person_PersonID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="eventtypes">
+          <Key>
+            <PropertyRef Name="EventTypeID" />
+          </Key>
+          <Property Name="EventTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventType" Type="varchar" MaxLength="45" Nullable="false" />
+        </EntityType>
+        <EntityType Name="eventvolunteers">
+          <Key>
+            <PropertyRef Name="EventVolunteerID" />
+            <PropertyRef Name="events_EventID" />
+            <PropertyRef Name="person_PersonID" />
+          </Key>
+          <Property Name="EventVolunteerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LastUpdated" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="events_EventID" Type="int" Nullable="false" />
+          <Property Name="person_PersonID" Type="int" Nullable="false" />
+          <Property Name="volunteerDays" Type="int" Nullable="false" />
+          <Property Name="MondayVol" Type="varchar" MaxLength="1" />
+          <Property Name="TuesdayVol" Type="varchar" MaxLength="1" />
+          <Property Name="WednesdayVol" Type="varchar" MaxLength="1" />
+          <Property Name="ThursdayVol" Type="varchar" MaxLength="1" />
+          <Property Name="FridayVol" Type="varchar" MaxLength="1" />
+          <Property Name="SaturdayVol" Type="varchar" MaxLength="1" />
+          <Property Name="SundayVol" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="person">
+          <Key>
+            <PropertyRef Name="PersonID" />
+            <PropertyRef Name="contactInfo_ContactInfoID" />
+            <PropertyRef Name="persontype_PersonTypeID" />
+            <PropertyRef Name="unitranks_UnitRankID" />
+            <PropertyRef Name="units_UnitID" />
+          </Key>
+          <Property Name="PersonID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="MiddleName" Type="varchar" MaxLength="45" />
+          <Property Name="LastName" Type="varchar" MaxLength="45" />
+          <Property Name="LastUpdate" Type="datetime" Precision="0" />
+          <Property Name="contactInfo_ContactInfoID" Type="int" Nullable="false" />
+          <Property Name="ParentPersonID" Type="int" />
+          <Property Name="persontype_PersonTypeID" Type="int" Nullable="false" />
+          <Property Name="unitranks_UnitRankID" Type="int" Nullable="false" />
+          <Property Name="units_UnitID" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="varchar" MaxLength="45" />
+          <Property Name="Notes" Type="varchar" MaxLength="4000" />
+          <Property Name="BirthDate" Type="date" />
+        </EntityType>
+        <EntityType Name="persontypes">
+          <Key>
+            <PropertyRef Name="PersonTypeID" />
+          </Key>
+          <Property Name="PersonTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonType" Type="varchar" MaxLength="45" Nullable="false" />
+        </EntityType>
+        <EntityType Name="positions">
+          <Key>
+            <PropertyRef Name="PositionID" />
+          </Key>
+          <Property Name="PositionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Position" Type="varchar" MaxLength="45" Nullable="false" />
+        </EntityType>
+        <EntityType Name="registrations">
+          <Key>
+            <PropertyRef Name="RegistrationID" />
+            <PropertyRef Name="Events_EventID" />
+            <PropertyRef Name="Person_PersonID" />
+          </Key>
+          <Property Name="RegistrationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RegistrationDate" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="Confirmation" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="LastUpdated" Type="datetime" Precision="0" />
+          <Property Name="Events_EventID" Type="int" Nullable="false" />
+          <Property Name="Person_PersonID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="reservations">
+          <Key>
+            <PropertyRef Name="ReservationID" />
+            <PropertyRef Name="Events_EventID" />
+            <PropertyRef Name="Person_PersonID" />
+          </Key>
+          <Property Name="ReservationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReservationDate" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="LastUpdated" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="Events_EventID" Type="int" Nullable="false" />
+          <Property Name="Person_PersonID" Type="int" Nullable="false" />
+          <Property Name="RegistrationCode" Type="varchar" MaxLength="64" />
+          <Property Name="CodeExpiration" Type="datetime" Precision="0" />
+        </EntityType>
+        <EntityType Name="unitranks">
+          <Key>
+            <PropertyRef Name="UnitRankID" />
+            <PropertyRef Name="unittypes_UnitTypeID" />
+          </Key>
+          <Property Name="UnitRankID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UnitRank" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="unittypes_UnitTypeID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="units">
+          <Key>
+            <PropertyRef Name="UnitID" />
+            <PropertyRef Name="UnitNumber" />
+            <PropertyRef Name="unittypes_UnitTypeID" />
+          </Key>
+          <Property Name="UnitID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UnitNumber" Type="int" Nullable="false" />
+          <Property Name="unittypes_UnitTypeID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="unittypes">
+          <Key>
+            <PropertyRef Name="UnitTypeID" />
+          </Key>
+          <Property Name="UnitTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UnitType" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="venue">
+          <Key>
+            <PropertyRef Name="VenueID" />
+          </Key>
+          <Property Name="VenueID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="Contact" Type="varchar" MaxLength="45" />
+          <Property Name="contactinfo_ContactInfoID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.events.dbveventcounts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="dbveventcounts">
+          <Key>
+            <PropertyRef Name="EventId" />
+            <PropertyRef Name="EventName" />
+          </Key>
+          <Property Name="EventId" Type="int" Nullable="false" />
+          <Property Name="EventName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="VolunteerCount" Type="bigint" />
+          <Property Name="ReservationCount" Type="bigint" />
+          <Property Name="RegistrationCount" Type="bigint" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.events.dbveventvolunteerdetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="dbveventvolunteerdetails">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="UnitNumber" />
+            <PropertyRef Name="Email" />
+            <PropertyRef Name="Address1" />
+            <PropertyRef Name="City" />
+            <PropertyRef Name="State" />
+            <PropertyRef Name="Zip" />
+            <PropertyRef Name="volunteerDays" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="MiddleName" Type="varchar" MaxLength="45" />
+          <Property Name="LastName" Type="varchar" MaxLength="45" />
+          <Property Name="BirthDate" Type="date" />
+          <Property Name="UnitType" Type="varchar" MaxLength="45" />
+          <Property Name="UnitNumber" Type="int" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="HomePhone" Type="varchar" MaxLength="15" />
+          <Property Name="CellPhone" Type="varchar" MaxLength="15" />
+          <Property Name="Address1" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address2" Type="varchar" MaxLength="50" />
+          <Property Name="City" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="State" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="Zip" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="volunteerDays" Type="int" Nullable="false" />
+          <Property Name="MondayVol" Type="varchar" MaxLength="1" />
+          <Property Name="TuesdayVol" Type="varchar" MaxLength="1" />
+          <Property Name="WednesdayVol" Type="varchar" MaxLength="1" />
+          <Property Name="ThursdayVol" Type="varchar" MaxLength="1" />
+          <Property Name="FridayVol" Type="varchar" MaxLength="1" />
+          <Property Name="SaturdayVol" Type="varchar" MaxLength="1" />
+          <Property Name="SundayVol" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.events.dbveventvolunteertrend' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="dbveventvolunteertrend">
+          <Key>
+            <PropertyRef Name="events_EventID" />
+            <PropertyRef Name="Count(*)" />
+            <PropertyRef Name="LastUpdated" />
+          </Key>
+          <Property Name="events_EventID" Type="int" Nullable="false" />
+          <Property Name="Count(*)" Type="bigint" Nullable="false" />
+          <Property Name="LastUpdated" Type="datetime" Precision="0" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.events.dbvregistrationdetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="dbvregistrationdetails">
+          <Key>
+            <PropertyRef Name="RegistrationID" />
+            <PropertyRef Name="RegistrationDate" />
+            <PropertyRef Name="Confirmation" />
+            <PropertyRef Name="Events_EventID" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="UnitRank" />
+            <PropertyRef Name="UnitNumber" />
+            <PropertyRef Name="Email" />
+            <PropertyRef Name="Address1" />
+            <PropertyRef Name="City" />
+            <PropertyRef Name="State" />
+            <PropertyRef Name="Zip" />
+          </Key>
+          <Property Name="RegistrationID" Type="int" Nullable="false" />
+          <Property Name="RegistrationDate" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="Confirmation" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Events_EventID" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="MiddleName" Type="varchar" MaxLength="45" />
+          <Property Name="LastName" Type="varchar" MaxLength="45" />
+          <Property Name="BirthDate" Type="date" />
+          <Property Name="UnitRank" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="UnitType" Type="varchar" MaxLength="45" />
+          <Property Name="UnitNumber" Type="int" Nullable="false" />
+          <Property Name="Notes" Type="varchar" MaxLength="4000" />
+          <Property Name="Email" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="HomePhone" Type="varchar" MaxLength="15" />
+          <Property Name="CellPhone" Type="varchar" MaxLength="15" />
+          <Property Name="ParentName" Type="varchar" MaxLength="91" />
+          <Property Name="Address1" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address2" Type="varchar" MaxLength="50" />
+          <Property Name="City" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="State" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="Zip" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.events.dbvregistrationtrend' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="dbvregistrationtrend">
+          <Key>
+            <PropertyRef Name="events_EventID" />
+            <PropertyRef Name="Count(*)" />
+          </Key>
+          <Property Name="events_EventID" Type="int" Nullable="false" />
+          <Property Name="Count(*)" Type="bigint" Nullable="false" />
+          <Property Name="LastUpdated" Type="datetime" Precision="0" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.events.dbvreservationdetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="dbvreservationdetails">
+          <Key>
+            <PropertyRef Name="ReservationID" />
+            <PropertyRef Name="ReservationDate" />
+            <PropertyRef Name="Events_EventID" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="UnitRank" />
+            <PropertyRef Name="UnitNumber" />
+            <PropertyRef Name="Email" />
+            <PropertyRef Name="Address1" />
+            <PropertyRef Name="City" />
+            <PropertyRef Name="State" />
+            <PropertyRef Name="Zip" />
+          </Key>
+          <Property Name="ReservationID" Type="int" Nullable="false" />
+          <Property Name="ReservationDate" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="RegistrationCode" Type="varchar" MaxLength="64" />
+          <Property Name="Events_EventID" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="MiddleName" Type="varchar" MaxLength="45" />
+          <Property Name="LastName" Type="varchar" MaxLength="45" />
+          <Property Name="BirthDate" Type="date" />
+          <Property Name="UnitRank" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="UnitType" Type="varchar" MaxLength="45" />
+          <Property Name="UnitNumber" Type="int" Nullable="false" />
+          <Property Name="Notes" Type="varchar" MaxLength="4000" />
+          <Property Name="Email" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="HomePhone" Type="varchar" MaxLength="15" />
+          <Property Name="CellPhone" Type="varchar" MaxLength="15" />
+          <Property Name="ParentName" Type="varchar" MaxLength="91" />
+          <Property Name="Address1" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address2" Type="varchar" MaxLength="50" />
+          <Property Name="City" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="State" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="Zip" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.events.dbvreservationtrend' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="dbvreservationtrend">
+          <Key>
+            <PropertyRef Name="events_EventID" />
+            <PropertyRef Name="Count(*)" />
+            <PropertyRef Name="LastUpdated" />
+          </Key>
+          <Property Name="events_EventID" Type="int" Nullable="false" />
+          <Property Name="Count(*)" Type="bigint" Nullable="false" />
+          <Property Name="LastUpdated" Type="datetime" Precision="0" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_Events_EventTypes">
+          <End Role="eventtypes" Type="Self.eventtypes" Multiplicity="1" />
+          <End Role="events" Type="Self.events" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="eventtypes">
+              <PropertyRef Name="EventTypeID" />
+            </Principal>
+            <Dependent Role="events">
+              <PropertyRef Name="EventTypes_EventTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'fk_eventstaff_events1' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="fk_eventstaff_events1" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'fk_eventstaff_person1' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="fk_eventstaff_person1" />-->
+        <Association Name="fk_eventstaff_positions1">
+          <End Role="positions" Type="Self.positions" Multiplicity="1" />
+          <End Role="eventstaff" Type="Self.eventstaff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="positions">
+              <PropertyRef Name="PositionID" />
+            </Principal>
+            <Dependent Role="eventstaff">
+              <PropertyRef Name="positions_PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'fk_eventvolunteers_events1' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="fk_eventvolunteers_events1" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'fk_eventvolunteers_person1' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="fk_eventvolunteers_person1" />-->
+        <Association Name="fk_Person_ContactInfo1">
+          <End Role="contactinfo" Type="Self.contactinfo" Multiplicity="1" />
+          <End Role="person" Type="Self.person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contactinfo">
+              <PropertyRef Name="ContactInfoID" />
+            </Principal>
+            <Dependent Role="person">
+              <PropertyRef Name="contactInfo_ContactInfoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_person_persontype1">
+          <End Role="persontypes" Type="Self.persontypes" Multiplicity="1" />
+          <End Role="person" Type="Self.person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="persontypes">
+              <PropertyRef Name="PersonTypeID" />
+            </Principal>
+            <Dependent Role="person">
+              <PropertyRef Name="persontype_PersonTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'fk_Registrations_Events1' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="fk_Registrations_Events1" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'fk_Registrations_Person1' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="fk_Registrations_Person1" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'fk_Reservations_Events1' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="fk_Reservations_Events1" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'fk_Reservations_Person1' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="fk_Reservations_Person1" />-->
+        <Association Name="fk_unitranks_unittypes1">
+          <End Role="unittypes" Type="Self.unittypes" Multiplicity="1" />
+          <End Role="unitranks" Type="Self.unitranks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="unittypes">
+              <PropertyRef Name="UnitTypeID" />
+            </Principal>
+            <Dependent Role="unitranks">
+              <PropertyRef Name="unittypes_UnitTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_units_unittypes1">
+          <End Role="unittypes" Type="Self.unittypes" Multiplicity="1" />
+          <End Role="units" Type="Self.units" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="unittypes">
+              <PropertyRef Name="UnitTypeID" />
+            </Principal>
+            <Dependent Role="units">
+              <PropertyRef Name="unittypes_UnitTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="eventsModelStoreContainer">
+          <EntitySet Name="contactinfo" EntityType="Self.contactinfo" Schema="events" store:Type="Tables" />
+          <EntitySet Name="events" EntityType="Self.events" Schema="events" store:Type="Tables" />
+          <EntitySet Name="eventstaff" EntityType="Self.eventstaff" Schema="events" store:Type="Tables" />
+          <EntitySet Name="eventtypes" EntityType="Self.eventtypes" Schema="events" store:Type="Tables" />
+          <EntitySet Name="eventvolunteers" EntityType="Self.eventvolunteers" Schema="events" store:Type="Tables" />
+          <EntitySet Name="person" EntityType="Self.person" Schema="events" store:Type="Tables" />
+          <EntitySet Name="persontypes" EntityType="Self.persontypes" Schema="events" store:Type="Tables" />
+          <EntitySet Name="positions" EntityType="Self.positions" Schema="events" store:Type="Tables" />
+          <EntitySet Name="registrations" EntityType="Self.registrations" Schema="events" store:Type="Tables" />
+          <EntitySet Name="reservations" EntityType="Self.reservations" Schema="events" store:Type="Tables" />
+          <EntitySet Name="unitranks" EntityType="Self.unitranks" Schema="events" store:Type="Tables" />
+          <EntitySet Name="units" EntityType="Self.units" Schema="events" store:Type="Tables" />
+          <EntitySet Name="unittypes" EntityType="Self.unittypes" Schema="events" store:Type="Tables" />
+          <EntitySet Name="venue" EntityType="Self.venue" Schema="events" store:Type="Tables" />
+          <EntitySet Name="dbveventcounts" EntityType="Self.dbveventcounts" store:Type="Views" store:Schema="events">
+            <DefiningQuery>SELECT
+`dbveventcounts`.`EventId`, 
+`dbveventcounts`.`EventName`, 
+`dbveventcounts`.`VolunteerCount`, 
+`dbveventcounts`.`ReservationCount`, 
+`dbveventcounts`.`RegistrationCount`
+FROM `dbveventcounts` AS `dbveventcounts`</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="dbveventvolunteerdetails" EntityType="Self.dbveventvolunteerdetails" store:Type="Views" store:Schema="events">
+            <DefiningQuery>SELECT
+`dbveventvolunteerdetails`.`ID`, 
+`dbveventvolunteerdetails`.`FirstName`, 
+`dbveventvolunteerdetails`.`MiddleName`, 
+`dbveventvolunteerdetails`.`LastName`, 
+`dbveventvolunteerdetails`.`BirthDate`, 
+`dbveventvolunteerdetails`.`UnitType`, 
+`dbveventvolunteerdetails`.`UnitNumber`, 
+`dbveventvolunteerdetails`.`Email`, 
+`dbveventvolunteerdetails`.`HomePhone`, 
+`dbveventvolunteerdetails`.`CellPhone`, 
+`dbveventvolunteerdetails`.`Address1`, 
+`dbveventvolunteerdetails`.`Address2`, 
+`dbveventvolunteerdetails`.`City`, 
+`dbveventvolunteerdetails`.`State`, 
+`dbveventvolunteerdetails`.`Zip`, 
+`dbveventvolunteerdetails`.`volunteerDays`, 
+`dbveventvolunteerdetails`.`MondayVol`, 
+`dbveventvolunteerdetails`.`TuesdayVol`, 
+`dbveventvolunteerdetails`.`WednesdayVol`, 
+`dbveventvolunteerdetails`.`ThursdayVol`, 
+`dbveventvolunteerdetails`.`FridayVol`, 
+`dbveventvolunteerdetails`.`SaturdayVol`, 
+`dbveventvolunteerdetails`.`SundayVol`
+FROM `dbveventvolunteerdetails` AS `dbveventvolunteerdetails`</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="dbveventvolunteertrend" EntityType="Self.dbveventvolunteertrend" store:Type="Views" store:Schema="events">
+            <DefiningQuery>SELECT
+`dbveventvolunteertrend`.`events_EventID`, 
+`dbveventvolunteertrend`.`Count(*)`, 
+`dbveventvolunteertrend`.`LastUpdated`
+FROM `dbveventvolunteertrend` AS `dbveventvolunteertrend`</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="dbvregistrationdetails" EntityType="Self.dbvregistrationdetails" store:Type="Views" store:Schema="events">
+            <DefiningQuery>SELECT
+`dbvregistrationdetails`.`RegistrationID`, 
+`dbvregistrationdetails`.`RegistrationDate`, 
+`dbvregistrationdetails`.`Confirmation`, 
+`dbvregistrationdetails`.`Events_EventID`, 
+`dbvregistrationdetails`.`FirstName`, 
+`dbvregistrationdetails`.`MiddleName`, 
+`dbvregistrationdetails`.`LastName`, 
+`dbvregistrationdetails`.`BirthDate`, 
+`dbvregistrationdetails`.`UnitRank`, 
+`dbvregistrationdetails`.`UnitType`, 
+`dbvregistrationdetails`.`UnitNumber`, 
+`dbvregistrationdetails`.`Notes`, 
+`dbvregistrationdetails`.`Email`, 
+`dbvregistrationdetails`.`HomePhone`, 
+`dbvregistrationdetails`.`CellPhone`, 
+`dbvregistrationdetails`.`ParentName`, 
+`dbvregistrationdetails`.`Address1`, 
+`dbvregistrationdetails`.`Address2`, 
+`dbvregistrationdetails`.`City`, 
+`dbvregistrationdetails`.`State`, 
+`dbvregistrationdetails`.`Zip`
+FROM `dbvregistrationdetails` AS `dbvregistrationdetails`</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="dbvregistrationtrend" EntityType="Self.dbvregistrationtrend" store:Type="Views" store:Schema="events">
+            <DefiningQuery>SELECT
+`dbvregistrationtrend`.`events_EventID`, 
+`dbvregistrationtrend`.`Count(*)`, 
+`dbvregistrationtrend`.`LastUpdated`
+FROM `dbvregistrationtrend` AS `dbvregistrationtrend`</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="dbvreservationdetails" EntityType="Self.dbvreservationdetails" store:Type="Views" store:Schema="events">
+            <DefiningQuery>SELECT
+`dbvreservationdetails`.`ReservationID`, 
+`dbvreservationdetails`.`ReservationDate`, 
+`dbvreservationdetails`.`RegistrationCode`, 
+`dbvreservationdetails`.`Events_EventID`, 
+`dbvreservationdetails`.`FirstName`, 
+`dbvreservationdetails`.`MiddleName`, 
+`dbvreservationdetails`.`LastName`, 
+`dbvreservationdetails`.`BirthDate`, 
+`dbvreservationdetails`.`UnitRank`, 
+`dbvreservationdetails`.`UnitType`, 
+`dbvreservationdetails`.`UnitNumber`, 
+`dbvreservationdetails`.`Notes`, 
+`dbvreservationdetails`.`Email`, 
+`dbvreservationdetails`.`HomePhone`, 
+`dbvreservationdetails`.`CellPhone`, 
+`dbvreservationdetails`.`ParentName`, 
+`dbvreservationdetails`.`Address1`, 
+`dbvreservationdetails`.`Address2`, 
+`dbvreservationdetails`.`City`, 
+`dbvreservationdetails`.`State`, 
+`dbvreservationdetails`.`Zip`
+FROM `dbvreservationdetails` AS `dbvreservationdetails`</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="dbvreservationtrend" EntityType="Self.dbvreservationtrend" store:Type="Views" store:Schema="events">
+            <DefiningQuery>SELECT
+`dbvreservationtrend`.`events_EventID`, 
+`dbvreservationtrend`.`Count(*)`, 
+`dbvreservationtrend`.`LastUpdated`
+FROM `dbvreservationtrend` AS `dbvreservationtrend`</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="fk_Events_EventTypes" Association="Self.fk_Events_EventTypes">
+            <End Role="eventtypes" EntitySet="eventtypes" />
+            <End Role="events" EntitySet="events" />
+          </AssociationSet>
+          <AssociationSet Name="fk_eventstaff_positions1" Association="Self.fk_eventstaff_positions1">
+            <End Role="positions" EntitySet="positions" />
+            <End Role="eventstaff" EntitySet="eventstaff" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Person_ContactInfo1" Association="Self.fk_Person_ContactInfo1">
+            <End Role="contactinfo" EntitySet="contactinfo" />
+            <End Role="person" EntitySet="person" />
+          </AssociationSet>
+          <AssociationSet Name="fk_person_persontype1" Association="Self.fk_person_persontype1">
+            <End Role="persontypes" EntitySet="persontypes" />
+            <End Role="person" EntitySet="person" />
+          </AssociationSet>
+          <AssociationSet Name="fk_unitranks_unittypes1" Association="Self.fk_unitranks_unittypes1">
+            <End Role="unittypes" EntitySet="unittypes" />
+            <End Role="unitranks" EntitySet="unitranks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_units_unittypes1" Association="Self.fk_units_unittypes1">
+            <End Role="unittypes" EntitySet="unittypes" />
+            <End Role="units" EntitySet="units" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="eventsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="contactinfo">
+          <Key>
+            <PropertyRef Name="ContactInfoID" />
+          </Key>
+          <Property Name="ContactInfoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ContactName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HomePhone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CellPhone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="State" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Zip" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="people" Relationship="Self.fk_Person_ContactInfo1" FromRole="contactinfo" ToRole="person" />
+        </EntityType>
+        <EntityType Name="event">
+          <Key>
+            <PropertyRef Name="EventID" />
+            <PropertyRef Name="EventTypes_EventTypeID" />
+          </Key>
+          <Property Name="EventID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VenueID" Type="Int32" Nullable="false" />
+          <Property Name="EventName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EventStart" Type="DateTime" Nullable="false" />
+          <Property Name="EventEnd" Type="DateTime" Nullable="false" />
+          <Property Name="EventDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="LastUpdate" Type="DateTime" />
+          <Property Name="EventTypes_EventTypeID" Type="Int32" Nullable="false" />
+          <Property Name="StaffPaymentRequired" Type="Boolean" />
+          <Property Name="RegistrationDeadline" Type="DateTime" Nullable="false" />
+          <Property Name="RequiredStaff" Type="Int32" Nullable="false" />
+          <Property Name="RequiredVolunteers" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="eventtype" Relationship="Self.fk_Events_EventTypes" FromRole="events" ToRole="eventtypes" />
+        </EntityType>
+        <EntityType Name="eventstaff">
+          <Key>
+            <PropertyRef Name="EventStaffID" />
+            <PropertyRef Name="positions_PositionID" />
+            <PropertyRef Name="events_EventID" />
+            <PropertyRef Name="person_PersonID" />
+          </Key>
+          <Property Name="EventStaffID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastUpdated" Type="DateTime" Nullable="false" />
+          <Property Name="positions_PositionID" Type="Int32" Nullable="false" />
+          <Property Name="events_EventID" Type="Int32" Nullable="false" />
+          <Property Name="person_PersonID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="position" Relationship="Self.fk_eventstaff_positions1" FromRole="eventstaff" ToRole="positions" />
+        </EntityType>
+        <EntityType Name="eventtype">
+          <Key>
+            <PropertyRef Name="EventTypeID" />
+          </Key>
+          <Property Name="EventTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventType1" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="events" Relationship="Self.fk_Events_EventTypes" FromRole="eventtypes" ToRole="events" />
+        </EntityType>
+        <EntityType Name="eventvolunteer">
+          <Key>
+            <PropertyRef Name="EventVolunteerID" />
+            <PropertyRef Name="events_EventID" />
+            <PropertyRef Name="person_PersonID" />
+          </Key>
+          <Property Name="EventVolunteerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastUpdated" Type="DateTime" Nullable="false" />
+          <Property Name="events_EventID" Type="Int32" Nullable="false" />
+          <Property Name="person_PersonID" Type="Int32" Nullable="false" />
+          <Property Name="volunteerDays" Type="Int32" Nullable="false" />
+          <Property Name="MondayVol" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="TuesdayVol" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="WednesdayVol" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ThursdayVol" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="FridayVol" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SaturdayVol" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SundayVol" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="person">
+          <Key>
+            <PropertyRef Name="PersonID" />
+            <PropertyRef Name="contactInfo_ContactInfoID" />
+            <PropertyRef Name="persontype_PersonTypeID" />
+            <PropertyRef Name="unitranks_UnitRankID" />
+            <PropertyRef Name="units_UnitID" />
+          </Key>
+          <Property Name="PersonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="LastUpdate" Type="DateTime" />
+          <Property Name="contactInfo_ContactInfoID" Type="Int32" Nullable="false" />
+          <Property Name="ParentPersonID" Type="Int32" />
+          <Property Name="persontype_PersonTypeID" Type="Int32" Nullable="false" />
+          <Property Name="unitranks_UnitRankID" Type="Int32" Nullable="false" />
+          <Property Name="units_UnitID" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Notes" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="BirthDate" Type="DateTime" />
+          <NavigationProperty Name="contactinfo" Relationship="Self.fk_Person_ContactInfo1" FromRole="person" ToRole="contactinfo" />
+          <NavigationProperty Name="persontype" Relationship="Self.fk_person_persontype1" FromRole="person" ToRole="persontypes" />
+        </EntityType>
+        <EntityType Name="persontype">
+          <Key>
+            <PropertyRef Name="PersonTypeID" />
+          </Key>
+          <Property Name="PersonTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonType1" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="people" Relationship="Self.fk_person_persontype1" FromRole="persontypes" ToRole="person" />
+        </EntityType>
+        <EntityType Name="position">
+          <Key>
+            <PropertyRef Name="PositionID" />
+          </Key>
+          <Property Name="PositionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Position1" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="eventstaffs" Relationship="Self.fk_eventstaff_positions1" FromRole="positions" ToRole="eventstaff" />
+        </EntityType>
+        <EntityType Name="registration">
+          <Key>
+            <PropertyRef Name="RegistrationID" />
+            <PropertyRef Name="Events_EventID" />
+            <PropertyRef Name="Person_PersonID" />
+          </Key>
+          <Property Name="RegistrationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RegistrationDate" Type="DateTime" Nullable="false" />
+          <Property Name="Confirmation" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastUpdated" Type="DateTime" />
+          <Property Name="Events_EventID" Type="Int32" Nullable="false" />
+          <Property Name="Person_PersonID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="reservation">
+          <Key>
+            <PropertyRef Name="ReservationID" />
+            <PropertyRef Name="Events_EventID" />
+            <PropertyRef Name="Person_PersonID" />
+          </Key>
+          <Property Name="ReservationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReservationDate" Type="DateTime" Nullable="false" />
+          <Property Name="LastUpdated" Type="DateTime" Nullable="false" />
+          <Property Name="Events_EventID" Type="Int32" Nullable="false" />
+          <Property Name="Person_PersonID" Type="Int32" Nullable="false" />
+          <Property Name="RegistrationCode" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="CodeExpiration" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="unitrank">
+          <Key>
+            <PropertyRef Name="UnitRankID" />
+            <PropertyRef Name="unittypes_UnitTypeID" />
+          </Key>
+          <Property Name="UnitRankID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UnitRank1" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="unittypes_UnitTypeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="unittype" Relationship="Self.fk_unitranks_unittypes1" FromRole="unitranks" ToRole="unittypes" />
+        </EntityType>
+        <EntityType Name="unit">
+          <Key>
+            <PropertyRef Name="UnitID" />
+            <PropertyRef Name="UnitNumber" />
+            <PropertyRef Name="unittypes_UnitTypeID" />
+          </Key>
+          <Property Name="UnitID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UnitNumber" Type="Int32" Nullable="false" />
+          <Property Name="unittypes_UnitTypeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="unittype" Relationship="Self.fk_units_unittypes1" FromRole="units" ToRole="unittypes" />
+        </EntityType>
+        <EntityType Name="unittype">
+          <Key>
+            <PropertyRef Name="UnitTypeID" />
+          </Key>
+          <Property Name="UnitTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UnitType1" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="unitranks" Relationship="Self.fk_unitranks_unittypes1" FromRole="unittypes" ToRole="unitranks" />
+          <NavigationProperty Name="units" Relationship="Self.fk_units_unittypes1" FromRole="unittypes" ToRole="units" />
+        </EntityType>
+        <EntityType Name="venue">
+          <Key>
+            <PropertyRef Name="VenueID" />
+          </Key>
+          <Property Name="VenueID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contact" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="contactinfo_ContactInfoID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="dbveventvolunteerdetail">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="UnitNumber" />
+            <PropertyRef Name="Email" />
+            <PropertyRef Name="Address1" />
+            <PropertyRef Name="City" />
+            <PropertyRef Name="State" />
+            <PropertyRef Name="Zip" />
+            <PropertyRef Name="volunteerDays" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="BirthDate" Type="DateTime" />
+          <Property Name="UnitType" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="UnitNumber" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HomePhone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CellPhone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Address1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="State" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Zip" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="volunteerDays" Type="Int32" Nullable="false" />
+          <Property Name="MondayVol" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="TuesdayVol" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="WednesdayVol" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ThursdayVol" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="FridayVol" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SaturdayVol" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SundayVol" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="fk_Person_ContactInfo1">
+          <End Role="contactinfo" Type="Self.contactinfo" Multiplicity="1" />
+          <End Role="person" Type="Self.person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contactinfo">
+              <PropertyRef Name="ContactInfoID" />
+            </Principal>
+            <Dependent Role="person">
+              <PropertyRef Name="contactInfo_ContactInfoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Events_EventTypes">
+          <End Role="eventtypes" Type="Self.eventtype" Multiplicity="1" />
+          <End Role="events" Type="Self.event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="eventtypes">
+              <PropertyRef Name="EventTypeID" />
+            </Principal>
+            <Dependent Role="events">
+              <PropertyRef Name="EventTypes_EventTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_eventstaff_positions1">
+          <End Role="positions" Type="Self.position" Multiplicity="1" />
+          <End Role="eventstaff" Type="Self.eventstaff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="positions">
+              <PropertyRef Name="PositionID" />
+            </Principal>
+            <Dependent Role="eventstaff">
+              <PropertyRef Name="positions_PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_person_persontype1">
+          <End Role="persontypes" Type="Self.persontype" Multiplicity="1" />
+          <End Role="person" Type="Self.person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="persontypes">
+              <PropertyRef Name="PersonTypeID" />
+            </Principal>
+            <Dependent Role="person">
+              <PropertyRef Name="persontype_PersonTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_unitranks_unittypes1">
+          <End Role="unittypes" Type="Self.unittype" Multiplicity="1" />
+          <End Role="unitranks" Type="Self.unitrank" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="unittypes">
+              <PropertyRef Name="UnitTypeID" />
+            </Principal>
+            <Dependent Role="unitranks">
+              <PropertyRef Name="unittypes_UnitTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_units_unittypes1">
+          <End Role="unittypes" Type="Self.unittype" Multiplicity="1" />
+          <End Role="units" Type="Self.unit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="unittypes">
+              <PropertyRef Name="UnitTypeID" />
+            </Principal>
+            <Dependent Role="units">
+              <PropertyRef Name="unittypes_UnitTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="eventsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="contactinfoes" EntityType="Self.contactinfo" />
+          <EntitySet Name="events" EntityType="Self.event" />
+          <EntitySet Name="eventstaffs" EntityType="Self.eventstaff" />
+          <EntitySet Name="eventtypes" EntityType="Self.eventtype" />
+          <EntitySet Name="eventvolunteers" EntityType="Self.eventvolunteer" />
+          <EntitySet Name="people" EntityType="Self.person" />
+          <EntitySet Name="persontypes" EntityType="Self.persontype" />
+          <EntitySet Name="positions" EntityType="Self.position" />
+          <EntitySet Name="registrations" EntityType="Self.registration" />
+          <EntitySet Name="reservations" EntityType="Self.reservation" />
+          <EntitySet Name="unitranks" EntityType="Self.unitrank" />
+          <EntitySet Name="units" EntityType="Self.unit" />
+          <EntitySet Name="unittypes" EntityType="Self.unittype" />
+          <EntitySet Name="venues" EntityType="Self.venue" />
+          <EntitySet Name="dbveventvolunteerdetails" EntityType="Self.dbveventvolunteerdetail" />
+          <AssociationSet Name="fk_Person_ContactInfo1" Association="Self.fk_Person_ContactInfo1">
+            <End Role="contactinfo" EntitySet="contactinfoes" />
+            <End Role="person" EntitySet="people" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Events_EventTypes" Association="Self.fk_Events_EventTypes">
+            <End Role="eventtypes" EntitySet="eventtypes" />
+            <End Role="events" EntitySet="events" />
+          </AssociationSet>
+          <AssociationSet Name="fk_eventstaff_positions1" Association="Self.fk_eventstaff_positions1">
+            <End Role="positions" EntitySet="positions" />
+            <End Role="eventstaff" EntitySet="eventstaffs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_person_persontype1" Association="Self.fk_person_persontype1">
+            <End Role="persontypes" EntitySet="persontypes" />
+            <End Role="person" EntitySet="people" />
+          </AssociationSet>
+          <AssociationSet Name="fk_unitranks_unittypes1" Association="Self.fk_unitranks_unittypes1">
+            <End Role="unittypes" EntitySet="unittypes" />
+            <End Role="unitranks" EntitySet="unitranks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_units_unittypes1" Association="Self.fk_units_unittypes1">
+            <End Role="unittypes" EntitySet="unittypes" />
+            <End Role="units" EntitySet="units" />
+          </AssociationSet>
+          <EntitySet Name="dbveventcounts" EntityType="eventsModel.dbveventcount" />
+          <EntitySet Name="dbveventvolunteertrends" EntityType="eventsModel.dbveventvolunteertrend" />
+          <EntitySet Name="dbvregistrationdetails" EntityType="eventsModel.dbvregistrationdetail" />
+          <EntitySet Name="dbvregistrationtrends" EntityType="eventsModel.dbvregistrationtrend" />
+          <EntitySet Name="dbvreservationdetails" EntityType="eventsModel.dbvreservationdetail" />
+          <EntitySet Name="dbvreservationtrends" EntityType="eventsModel.dbvreservationtrend" />
+        </EntityContainer>
+        <EntityType Name="dbveventcount">
+          <Key>
+            <PropertyRef Name="EventId" />
+            <PropertyRef Name="EventName" />
+          </Key>
+          <Property Name="EventId" Type="Int32" Nullable="false" />
+          <Property Name="EventName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="VolunteerCount" Type="Int64" />
+          <Property Name="ReservationCount" Type="Int64" />
+          <Property Name="RegistrationCount" Type="Int64" />
+        </EntityType>
+        <EntityType Name="dbveventvolunteertrend">
+          <Key>
+            <PropertyRef Name="events_EventID" />
+            <PropertyRef Name="Count___" />
+            <PropertyRef Name="LastUpdated" />
+          </Key>
+          <Property Name="events_EventID" Type="Int32" Nullable="false" />
+          <Property Name="Count___" Type="Int64" Nullable="false" />
+          <Property Name="LastUpdated" Type="DateTime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="dbvregistrationdetail">
+          <Key>
+            <PropertyRef Name="RegistrationID" />
+            <PropertyRef Name="RegistrationDate" />
+            <PropertyRef Name="Confirmation" />
+            <PropertyRef Name="Events_EventID" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="UnitRank" />
+            <PropertyRef Name="UnitNumber" />
+            <PropertyRef Name="Address1" />
+            <PropertyRef Name="City" />
+            <PropertyRef Name="State" />
+            <PropertyRef Name="Zip" />
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="RegistrationID" Type="Int32" Nullable="false" />
+          <Property Name="RegistrationDate" Type="DateTime" Nullable="false" />
+          <Property Name="Confirmation" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Events_EventID" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="BirthDate" Type="DateTime" />
+          <Property Name="UnitRank" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="UnitType" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="UnitNumber" Type="Int32" Nullable="false" />
+          <Property Name="Notes" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="ParentName" Type="String" MaxLength="91" FixedLength="false" Unicode="false" />
+          <Property Name="Address1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="Zip" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="HomePhone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CellPhone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="dbvregistrationtrend">
+          <Key>
+            <PropertyRef Name="events_EventID" />
+            <PropertyRef Name="Count___" />
+          </Key>
+          <Property Name="events_EventID" Type="Int32" Nullable="false" />
+          <Property Name="Count___" Type="Int64" Nullable="false" />
+          <Property Name="LastUpdated" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="dbvreservationdetail">
+          <Key>
+            <PropertyRef Name="ReservationID" />
+            <PropertyRef Name="ReservationDate" />
+            <PropertyRef Name="Events_EventID" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="UnitRank" />
+            <PropertyRef Name="UnitNumber" />
+            <PropertyRef Name="Address1" />
+            <PropertyRef Name="City" />
+            <PropertyRef Name="State" />
+            <PropertyRef Name="Zip" />
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="ReservationID" Type="Int32" Nullable="false" />
+          <Property Name="ReservationDate" Type="DateTime" Nullable="false" />
+          <Property Name="RegistrationCode" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Events_EventID" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="BirthDate" Type="DateTime" />
+          <Property Name="UnitRank" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="UnitType" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="UnitNumber" Type="Int32" Nullable="false" />
+          <Property Name="Notes" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="ParentName" Type="String" MaxLength="91" FixedLength="false" Unicode="false" />
+          <Property Name="Address1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="Zip" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="HomePhone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CellPhone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="dbvreservationtrend">
+          <Key>
+            <PropertyRef Name="events_EventID" />
+            <PropertyRef Name="Count___" />
+            <PropertyRef Name="LastUpdated" />
+          </Key>
+          <Property Name="events_EventID" Type="Int32" Nullable="false" />
+          <Property Name="Count___" Type="Int64" Nullable="false" />
+          <Property Name="LastUpdated" Type="DateTime" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="eventsModelStoreContainer" CdmEntityContainer="eventsEntities">
+          <EntitySetMapping Name="contactinfoes">
+            <EntityTypeMapping TypeName="eventsModel.contactinfo">
+              <MappingFragment StoreEntitySet="contactinfo">
+                <ScalarProperty Name="ContactInfoID" ColumnName="ContactInfoID" />
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="HomePhone" ColumnName="HomePhone" />
+                <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="events">
+            <EntityTypeMapping TypeName="eventsModel.event">
+              <MappingFragment StoreEntitySet="events">
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="VenueID" ColumnName="VenueID" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="EventStart" ColumnName="EventStart" />
+                <ScalarProperty Name="EventEnd" ColumnName="EventEnd" />
+                <ScalarProperty Name="EventDescription" ColumnName="EventDescription" />
+                <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+                <ScalarProperty Name="EventTypes_EventTypeID" ColumnName="EventTypes_EventTypeID" />
+                <ScalarProperty Name="StaffPaymentRequired" ColumnName="StaffPaymentRequired" />
+                <ScalarProperty Name="RegistrationDeadline" ColumnName="RegistrationDeadline" />
+                <ScalarProperty Name="RequiredStaff" ColumnName="RequiredStaff" />
+                <ScalarProperty Name="RequiredVolunteers" ColumnName="RequiredVolunteers" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="eventstaffs">
+            <EntityTypeMapping TypeName="eventsModel.eventstaff">
+              <MappingFragment StoreEntitySet="eventstaff">
+                <ScalarProperty Name="EventStaffID" ColumnName="EventStaffID" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="positions_PositionID" ColumnName="positions_PositionID" />
+                <ScalarProperty Name="events_EventID" ColumnName="events_EventID" />
+                <ScalarProperty Name="person_PersonID" ColumnName="person_PersonID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="eventtypes">
+            <EntityTypeMapping TypeName="eventsModel.eventtype">
+              <MappingFragment StoreEntitySet="eventtypes">
+                <ScalarProperty Name="EventTypeID" ColumnName="EventTypeID" />
+                <ScalarProperty Name="EventType1" ColumnName="EventType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="eventvolunteers">
+            <EntityTypeMapping TypeName="eventsModel.eventvolunteer">
+              <MappingFragment StoreEntitySet="eventvolunteers">
+                <ScalarProperty Name="EventVolunteerID" ColumnName="EventVolunteerID" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="events_EventID" ColumnName="events_EventID" />
+                <ScalarProperty Name="person_PersonID" ColumnName="person_PersonID" />
+                <ScalarProperty Name="volunteerDays" ColumnName="volunteerDays" />
+                <ScalarProperty Name="MondayVol" ColumnName="MondayVol" />
+                <ScalarProperty Name="TuesdayVol" ColumnName="TuesdayVol" />
+                <ScalarProperty Name="WednesdayVol" ColumnName="WednesdayVol" />
+                <ScalarProperty Name="ThursdayVol" ColumnName="ThursdayVol" />
+                <ScalarProperty Name="FridayVol" ColumnName="FridayVol" />
+                <ScalarProperty Name="SaturdayVol" ColumnName="SaturdayVol" />
+                <ScalarProperty Name="SundayVol" ColumnName="SundayVol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="people">
+            <EntityTypeMapping TypeName="eventsModel.person">
+              <MappingFragment StoreEntitySet="person">
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+                <ScalarProperty Name="contactInfo_ContactInfoID" ColumnName="contactInfo_ContactInfoID" />
+                <ScalarProperty Name="ParentPersonID" ColumnName="ParentPersonID" />
+                <ScalarProperty Name="persontype_PersonTypeID" ColumnName="persontype_PersonTypeID" />
+                <ScalarProperty Name="unitranks_UnitRankID" ColumnName="unitranks_UnitRankID" />
+                <ScalarProperty Name="units_UnitID" ColumnName="units_UnitID" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="persontypes">
+            <EntityTypeMapping TypeName="eventsModel.persontype">
+              <MappingFragment StoreEntitySet="persontypes">
+                <ScalarProperty Name="PersonTypeID" ColumnName="PersonTypeID" />
+                <ScalarProperty Name="PersonType1" ColumnName="PersonType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="positions">
+            <EntityTypeMapping TypeName="eventsModel.position">
+              <MappingFragment StoreEntitySet="positions">
+                <ScalarProperty Name="PositionID" ColumnName="PositionID" />
+                <ScalarProperty Name="Position1" ColumnName="Position" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="registrations">
+            <EntityTypeMapping TypeName="eventsModel.registration">
+              <MappingFragment StoreEntitySet="registrations">
+                <ScalarProperty Name="RegistrationID" ColumnName="RegistrationID" />
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+                <ScalarProperty Name="Confirmation" ColumnName="Confirmation" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="Events_EventID" ColumnName="Events_EventID" />
+                <ScalarProperty Name="Person_PersonID" ColumnName="Person_PersonID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="reservations">
+            <EntityTypeMapping TypeName="eventsModel.reservation">
+              <MappingFragment StoreEntitySet="reservations">
+                <ScalarProperty Name="ReservationID" ColumnName="ReservationID" />
+                <ScalarProperty Name="ReservationDate" ColumnName="ReservationDate" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="Events_EventID" ColumnName="Events_EventID" />
+                <ScalarProperty Name="Person_PersonID" ColumnName="Person_PersonID" />
+                <ScalarProperty Name="RegistrationCode" ColumnName="RegistrationCode" />
+                <ScalarProperty Name="CodeExpiration" ColumnName="CodeExpiration" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="unitranks">
+            <EntityTypeMapping TypeName="eventsModel.unitrank">
+              <MappingFragment StoreEntitySet="unitranks">
+                <ScalarProperty Name="UnitRankID" ColumnName="UnitRankID" />
+                <ScalarProperty Name="UnitRank1" ColumnName="UnitRank" />
+                <ScalarProperty Name="unittypes_UnitTypeID" ColumnName="unittypes_UnitTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="units">
+            <EntityTypeMapping TypeName="eventsModel.unit">
+              <MappingFragment StoreEntitySet="units">
+                <ScalarProperty Name="UnitID" ColumnName="UnitID" />
+                <ScalarProperty Name="UnitNumber" ColumnName="UnitNumber" />
+                <ScalarProperty Name="unittypes_UnitTypeID" ColumnName="unittypes_UnitTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="unittypes">
+            <EntityTypeMapping TypeName="eventsModel.unittype">
+              <MappingFragment StoreEntitySet="unittypes">
+                <ScalarProperty Name="UnitTypeID" ColumnName="UnitTypeID" />
+                <ScalarProperty Name="UnitType1" ColumnName="UnitType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="venues">
+            <EntityTypeMapping TypeName="eventsModel.venue">
+              <MappingFragment StoreEntitySet="venue">
+                <ScalarProperty Name="VenueID" ColumnName="VenueID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="contactinfo_ContactInfoID" ColumnName="contactinfo_ContactInfoID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dbveventvolunteerdetails">
+            <EntityTypeMapping TypeName="eventsModel.dbveventvolunteerdetail">
+              <MappingFragment StoreEntitySet="dbveventvolunteerdetails">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="UnitType" ColumnName="UnitType" />
+                <ScalarProperty Name="UnitNumber" ColumnName="UnitNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="HomePhone" ColumnName="HomePhone" />
+                <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="volunteerDays" ColumnName="volunteerDays" />
+                <ScalarProperty Name="MondayVol" ColumnName="MondayVol" />
+                <ScalarProperty Name="TuesdayVol" ColumnName="TuesdayVol" />
+                <ScalarProperty Name="WednesdayVol" ColumnName="WednesdayVol" />
+                <ScalarProperty Name="ThursdayVol" ColumnName="ThursdayVol" />
+                <ScalarProperty Name="FridayVol" ColumnName="FridayVol" />
+                <ScalarProperty Name="SaturdayVol" ColumnName="SaturdayVol" />
+                <ScalarProperty Name="SundayVol" ColumnName="SundayVol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dbveventcounts">
+            <EntityTypeMapping TypeName="eventsModel.dbveventcount">
+              <MappingFragment StoreEntitySet="dbveventcounts">
+                <ScalarProperty Name="RegistrationCount" ColumnName="RegistrationCount" />
+                <ScalarProperty Name="ReservationCount" ColumnName="ReservationCount" />
+                <ScalarProperty Name="VolunteerCount" ColumnName="VolunteerCount" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dbveventvolunteertrends">
+            <EntityTypeMapping TypeName="eventsModel.dbveventvolunteertrend">
+              <MappingFragment StoreEntitySet="dbveventvolunteertrend">
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="Count___" ColumnName="Count(*)" />
+                <ScalarProperty Name="events_EventID" ColumnName="events_EventID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dbvregistrationdetails">
+            <EntityTypeMapping TypeName="eventsModel.dbvregistrationdetail">
+              <MappingFragment StoreEntitySet="dbvregistrationdetails">
+                <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+                <ScalarProperty Name="HomePhone" ColumnName="HomePhone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="ParentName" ColumnName="ParentName" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="UnitNumber" ColumnName="UnitNumber" />
+                <ScalarProperty Name="UnitType" ColumnName="UnitType" />
+                <ScalarProperty Name="UnitRank" ColumnName="UnitRank" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Events_EventID" ColumnName="Events_EventID" />
+                <ScalarProperty Name="Confirmation" ColumnName="Confirmation" />
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+                <ScalarProperty Name="RegistrationID" ColumnName="RegistrationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dbvregistrationtrends">
+            <EntityTypeMapping TypeName="eventsModel.dbvregistrationtrend">
+              <MappingFragment StoreEntitySet="dbvregistrationtrend">
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="Count___" ColumnName="Count(*)" />
+                <ScalarProperty Name="events_EventID" ColumnName="events_EventID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dbvreservationdetails">
+            <EntityTypeMapping TypeName="eventsModel.dbvreservationdetail">
+              <MappingFragment StoreEntitySet="dbvreservationdetails">
+                <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+                <ScalarProperty Name="HomePhone" ColumnName="HomePhone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="ParentName" ColumnName="ParentName" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="UnitNumber" ColumnName="UnitNumber" />
+                <ScalarProperty Name="UnitType" ColumnName="UnitType" />
+                <ScalarProperty Name="UnitRank" ColumnName="UnitRank" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Events_EventID" ColumnName="Events_EventID" />
+                <ScalarProperty Name="RegistrationCode" ColumnName="RegistrationCode" />
+                <ScalarProperty Name="ReservationDate" ColumnName="ReservationDate" />
+                <ScalarProperty Name="ReservationID" ColumnName="ReservationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dbvreservationtrends">
+            <EntityTypeMapping TypeName="eventsModel.dbvreservationtrend">
+              <MappingFragment StoreEntitySet="dbvreservationtrend">
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="Count___" ColumnName="Count(*)" />
+                <ScalarProperty Name="events_EventID" ColumnName="events_EventID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

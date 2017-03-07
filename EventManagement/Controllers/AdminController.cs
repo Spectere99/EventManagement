@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Web.Mvc;
 using EventManagement.Models;
+using DayCampData;
 
 namespace EventManagement.Controllers
 {
@@ -100,6 +101,26 @@ namespace EventManagement.Controllers
             _context.Roles.Remove(thisRole);
             _context.SaveChanges();
             return RedirectToAction("ViewAllRoles");
+        }
+
+        public ActionResult Dashboard()
+        {
+            eventsEntities db = new eventsEntities();
+            var counts = db.dbveventcounts.FirstOrDefault();
+
+            EventDashboardCounts eventDashCounts = null;
+            if (counts != null)
+            {
+                eventDashCounts = new EventDashboardCounts
+                {
+                    EventId = counts.EventId,
+                    EventName = counts.EventName,
+                    VolunteerCount = counts.VolunteerCount,
+                    RegistrationCount = counts.RegistrationCount,
+                    ReservationCount = counts.ReservationCount
+                };
+            }
+            return View(eventDashCounts);
         }
     }
 }

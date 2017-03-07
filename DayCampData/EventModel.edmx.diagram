@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5012b2550715434ea3113b851e0fde6f" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="eventsModel.contactinfo" Width="1.5" PointX="5.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="eventsModel.event" Width="1.5" PointX="3" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="eventsModel.eventstaff" Width="1.5" PointX="10" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="eventsModel.eventtype" Width="1.5" PointX="0.75" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="eventsModel.eventvolunteer" Width="1.5" PointX="5.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="eventsModel.person" Width="1.5" PointX="8" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="eventsModel.persontype" Width="1.5" PointX="5.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="eventsModel.position" Width="1.5" PointX="7.75" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="eventsModel.registration" Width="1.5" PointX="7.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="eventsModel.reservation" Width="1.5" PointX="9.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="eventsModel.unitrank" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="eventsModel.unit" Width="1.5" PointX="3" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="eventsModel.unittype" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="eventsModel.venue" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="eventsModel.dbveventvolunteerdetail" Width="1.5" PointX="4.5" PointY="13.75" IsExpanded="true" />
+        <AssociationConnector Association="eventsModel.fk_Person_ContactInfo1" ManuallyRouted="false" />
+        <AssociationConnector Association="eventsModel.fk_Events_EventTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="eventsModel.fk_eventstaff_positions1" ManuallyRouted="false" />
+        <AssociationConnector Association="eventsModel.fk_person_persontype1" ManuallyRouted="false" />
+        <AssociationConnector Association="eventsModel.fk_unitranks_unittypes1" ManuallyRouted="false" />
+        <AssociationConnector Association="eventsModel.fk_units_unittypes1" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="eventsModel.dbveventcount" Width="1.5" PointX="11.5" PointY="13.625" />
+        <EntityTypeShape EntityType="eventsModel.dbveventvolunteertrend" Width="1.5" PointX="9.75" PointY="13.625" />
+        <EntityTypeShape EntityType="eventsModel.dbvregistrationdetail" Width="1.5" PointX="0.75" PointY="13.75" />
+        <EntityTypeShape EntityType="eventsModel.dbvregistrationtrend" Width="1.5" PointX="8" PointY="13.5" />
+        <EntityTypeShape EntityType="eventsModel.dbvreservationdetail" Width="1.5" PointX="2.75" PointY="13.75" />
+        <EntityTypeShape EntityType="eventsModel.dbvreservationtrend" Width="1.5" PointX="6.375" PointY="13.5" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

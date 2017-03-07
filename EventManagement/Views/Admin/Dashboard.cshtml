@@ -1,0 +1,47 @@
+﻿@model  EventManagement.Models.EventDashboardCounts
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<h2>Dashboard</h2>
+<div class="col-md-12">
+    <div class="panel panel-default">
+        &nbsp;Volunteers&nbsp;&nbsp;<span class="badge">@Model.VolunteerCount</span>
+        <div class="panel-heading">
+            <div class="pull-right"></div>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div id="gridVolunteers"></div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        &nbsp;Registrations&nbsp;&nbsp;<span class="badge">@Model.RegistrationCount</span>
+        <div class="panel-heading">
+            <div class="pull-right"></div>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div id="gridRegistration"></div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        &nbsp;Reservations&nbsp;&nbsp;<span class="badge">@Model.ReservationCount</span>
+        <div class="panel-heading">
+            <div class="pull-right"></div>
+        </div>
+        <div class="panel-body">
+            <div id="gridReservation"></div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="~/js/volunteer_db.js"></script>
+    <script src="~/js/registration_db.js"></script>
+    @*<script src="~/js/reservation_db.js"></script>*@
+}
