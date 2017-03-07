@@ -245,7 +245,8 @@ namespace EventManagement.Controllers
                 {
 
                     //Assign Role to user Here
-                    UserManager.AddToRole(user.Id, "User");
+                    UserManager.AddToRole(user.Id, model.PersonType == "Leader" ? "Leader" : "User");
+
 
                     // Create Person and Contact Info objects in database
                     

@@ -184,17 +184,21 @@ namespace EventManagement.Controllers
             ReservationListActions reservationListActions = new ReservationListActions();
             //Get the reservation and validate the code
             ReservationReader reservationReader = new ReservationReader();
+            EventReader eventReader = new EventReader();
+            
             if (reservationListActions.ValidateReservationByCode(code))
             {
                 ReservationDTO reservation = reservationReader.GetByRegistrationCode(code);
-    
+                var eventVal = eventReader.GetById(reservation.Event.EventId);
                 //Build a registrationViewModel to send to RegistrantConfirm page
 
                 RegistrationViewModel registrationViewModel = new RegistrationViewModel();
                 registrationViewModel.Person = reservation.Person;
-                registrationViewModel.Event = reservation.Event;
+                registrationViewModel.EventView = TranslateEventDTO(reservation.Event);
+                registrationViewModel.Event = registrationViewModel.EventView.EventId.ToString();
                 registrationViewModel.ConfirmationNumber = code;
                 TempData["EventRegistant"] = registrationViewModel;
+                //Need to change this to something other than Session Value
                 Session["RegistrationEvent"] = reservation.Event;
 
                 reservationReader.Remove(new List<ReservationDTO>() {reservation});
@@ -208,30 +212,38 @@ namespace EventManagement.Controllers
         {
             RegistrationViewModel registrationEntry = null;
             registrationEntry = TempData["EventRegistant"] as RegistrationViewModel;
-            model.Event = Session["RegistrationEvent"] as EventDTO;    
-            
+            //model.Event = Session["RegistrationEvent"] as EventDTO;    
+            if (model.Event == null && registrationEntry != null)
+            {
+                model.Event = registrationEntry.Event;
+            }
             if (model.Event != null)
             {
-                Session["RegistrationEvent"] = null;
+               
                 if (registrationEntry != null)
                 {
                     registrationEntry.Event = model.Event;
                     PersonReader personReader = new PersonReader();
+                    EventReader eventReader = new EventReader();
                     var person = personReader.GetById(registrationEntry.Person.PersonId).FirstOrDefault();
+                    var eventDto = eventReader.GetById(int.Parse(model.Event));
+                    model.EventView = TranslateEventDTO(eventDto.SingleOrDefault());
+
+                    registrationEntry.EventView = TranslateEventDTO(eventDto.SingleOrDefault());
 
                     if (person != null)
                     {
 
                         RegistrationValidator regValidator = new RegistrationValidator();
                         //Check to see if a registration exists for this person already.
-                        bool existingRegistration = regValidator.CheckForExistingRegistration(person,registrationEntry.Event.EventId);
+                        bool existingRegistration = regValidator.CheckForExistingRegistration(person,registrationEntry.EventView.EventId);
 
                         if (existingRegistration)
                         {
                             ReservationViewModel tempReservationModel = new ReservationViewModel
                             {
                                 Person = person,
-                                Event = model.Event,
+                                Event = TranslateEventDTO(eventDto.SingleOrDefault()),
                                 ReservationDate = DateTime.Now
                             };
 
@@ -239,7 +251,7 @@ namespace EventManagement.Controllers
                             return RedirectToAction("ExistingRegistration");  
                         }
                         //Check for Registration slots being open (ie. Enough volunteers from that person's unit).
-                        bool validRegistration = regValidator.DayCampRegistrationValid(person, registrationEntry.Event.EventId);
+                        bool validRegistration = regValidator.DayCampRegistrationValid(person, registrationEntry.EventView.EventId);
                         
                         //Register the person  or Redirect to waiting list.
                         if (validRegistration)
@@ -249,7 +261,7 @@ namespace EventManagement.Controllers
                             RegistrationDTO registration = new RegistrationDTO()
                             {
                                 ConfirmationNumber = confirmationCode,
-                                Event = model.Event,
+                                Event = eventDto.SingleOrDefault(),
                                 Person = person,
                                 RegistrationDate = DateTime.Now
                             };
@@ -264,9 +276,23 @@ namespace EventManagement.Controllers
 
                             return View(registrationEntry);
                         }
+                        bool existingReservation = regValidator.CheckForExistingReservation(person,
+                            registrationEntry.EventView.EventId);
+                        if (existingReservation)
+                        {
+                            ReservationViewModel tempReservationModel = new ReservationViewModel
+                            {
+                                Person = person,
+                                Event = TranslateEventDTO(eventDto.SingleOrDefault()),
+                                ReservationDate = DateTime.Now
+                            };
+
+                            TempData["ReservationViewModel"] = tempReservationModel;
+                            return RedirectToAction("ExistingRegistration");
+                        }
                         ReservationDTO reservation = new ReservationDTO()
                         {
-                            Event = model.Event,
+                            Event = eventDto.SingleOrDefault(),
                             Person = person,
                             ReservationDate = DateTime.Now
                         };
@@ -278,13 +304,13 @@ namespace EventManagement.Controllers
                         ReservationViewModel reservationViewModel = new ReservationViewModel
                         {
                             Person = person,
-                            Event = model.Event,
+                            Event = model.EventView,
                             ReservationDate = reservation.ReservationDate
                         };
 
                         TempData["ReservationViewModel"] = reservationViewModel;
                         SendWaitingListConfirmEmail(reservationViewModel);
-                        return RedirectToAction("WaitingListConfirm");       
+                        return RedirectToAction("WaitingListConfirm");
                     }
                 }
             }
@@ -295,7 +321,7 @@ namespace EventManagement.Controllers
         public ActionResult VolunteerConfirm(VolunteerRegistrationViewModel model)
         {
             VolunteerRegistrationViewModel volunteerEntry = TempData["VolunteerRegistant"] as VolunteerRegistrationViewModel;
-            model.Event = Session["RegistrationEvent"] as EventDTO;
+            //model.Event = Session["RegistrationEvent"] as EventDTO;
 
             model.VolunteerDays = CountVolunteerDays(model);
 
@@ -307,8 +333,10 @@ namespace EventManagement.Controllers
                     if (volunteerEntry != null)
                     {
                         PersonReader personReader = new PersonReader();
+                        EventReader eventReader = new EventReader();
                         EventVolunteerReader eventVolunteerReader = new EventVolunteerReader();
 
+                        var eventDTO = eventReader.GetById(int.Parse(model.Event));
                         var person = personReader.GetById(volunteerEntry.Person.PersonId).FirstOrDefault();
 
                         if (person != null)
@@ -317,7 +345,7 @@ namespace EventManagement.Controllers
                             List<EventVolunteerDTO> volunteerList = new List<EventVolunteerDTO>();
 
                             EventVolunteerDTO newVolunteer = new EventVolunteerDTO();
-                            newVolunteer.Event = model.Event;
+                            newVolunteer.Event = eventDTO.SingleOrDefault();
                             newVolunteer.Person = person;
                             newVolunteer.Monday = model.MondayVolunteer;
                             newVolunteer.Tuesday = model.TuesdayVolunteer;
@@ -331,20 +359,21 @@ namespace EventManagement.Controllers
                             volunteerList.Add(newVolunteer);
 
                             volunteerEntry.Person = person;
-                            volunteerEntry.Event = newVolunteer.Event;
+                            volunteerEntry.Event = model.Event;
+                            volunteerEntry.EventView = TranslateEventDTO(newVolunteer.Event);
                             volunteerEntry.VolunteerDays = model.VolunteerDays;
                             
                             RegistrationValidator regValidator = new RegistrationValidator();
                             //Check to see if a registration exists for this person already.
                             bool existingRegistration = regValidator.CheckForExistingVolunteer(person,
-                                volunteerEntry.Event.EventId);
+                                int.Parse(volunteerEntry.Event));
 
                             if (existingRegistration)
                             {
                                 ReservationViewModel tempReservationModel = new ReservationViewModel
                                 {
                                     Person = person,
-                                    Event = model.Event,
+                                    Event = volunteerEntry.EventView,
                                     ReservationDate = DateTime.Now
                                 };
 
@@ -359,7 +388,7 @@ namespace EventManagement.Controllers
                             //Need to check for Open Reservations for this person's unit and send notifications
                             ReservationListActions reservationListActions = new ReservationListActions();
                             List<ReservationDTO> openReservations = reservationListActions.GetReservationOpenings(
-                                person, model.Event.EventId);
+                                person, int.Parse(model.Event));
 
                             foreach (ReservationDTO reservation in openReservations)
                             {
@@ -419,6 +448,68 @@ namespace EventManagement.Controllers
             return attendeeViewModel;
         }
 
+        private EventDTO TranslateEventViewModel(EventViewModel eventViewModel)
+        {
+            EventDTO eventDTO = new EventDTO
+            {
+                Name = eventViewModel.EventName,
+                Description = eventViewModel.Description,
+                End = eventViewModel.EventEnd,
+                Start = eventViewModel.EventStart,
+                EventId = eventViewModel.EventId,
+                EventType = new EventTypeDTO
+                {
+                    EventTypeId = eventViewModel.EventType.EventTypeId,
+                    IsNew = false,
+                    Type = eventViewModel.EventType.EventType
+                },
+                LastUpdated = eventViewModel.LastUpdated,
+                RegistrationDeadline = eventViewModel.RegistrationDeadline,
+                RequiredStaffCount = eventViewModel.RequiredStaff,
+                RequiredVolunteersCount = eventViewModel.RequiredVolunteers,
+                StaffPaymentRequired = eventViewModel.StaffPaymentRequired,
+                Venue = new VenueDTO
+                {
+                    Contact = eventViewModel.Venue.Contact,
+                    ContactInfo = null,
+                    Name = eventViewModel.Venue.Name,
+                    VenueId = eventViewModel.Venue.VenueId
+                }
+            };
+
+            return eventDTO;
+        }
+
+        private EventViewModel TranslateEventDTO(EventDTO eventDTO)
+        {
+            EventViewModel eventViewModel = new EventViewModel
+            {
+                Description = eventDTO.Description,
+                EventEnd = eventDTO.End,
+                EventId = eventDTO.EventId,
+                EventName = eventDTO.Name,
+                EventStart = eventDTO.Start,
+                EventType = new EventTypeModel
+                {
+                    EventType = eventDTO.EventType.Type,
+                    EventTypeId = eventDTO.EventType.EventTypeId
+                },
+                LastUpdated = eventDTO.LastUpdated,
+                RegistrationDeadline = eventDTO.RegistrationDeadline,
+                RequiredStaff = eventDTO.RequiredStaffCount,
+                RequiredVolunteers = eventDTO.RequiredVolunteersCount,
+                StaffPaymentRequired = eventDTO.StaffPaymentRequired,
+                Venue = new VenueModel
+                {
+                    Contact = eventDTO.Venue.Contact,
+                    Name = eventDTO.Venue.Name,
+                    VenueId = eventDTO.Venue.VenueId
+                }
+            };
+            
+            return eventViewModel;
+            
+        }
         private int CountVolunteerDays(VolunteerRegistrationViewModel volunteer)
         {
             int dayCount = 0;
@@ -441,9 +532,11 @@ namespace EventManagement.Controllers
             new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Person.ParentPerson.ContactInfo.Email));
             m.Subject = "Registration Opening - Notification";
-            m.Body = string.Format("Dear {0} <BR/>A spot for {1} has become available. Click on the below link to complete your scout's registration: <a href=\"{2}\"title=\"User Email Confirm\">REGISTER</a><BR/><BR/>" +
-                                   "This link expires in 48 hours.  After that time your scout's spot will be given to another person."
-                                , user.Person.ParentPerson.FirstName, user.Event.Name, callbackUrl);
+            m.Body = string.Format("Dear {0} <BR/>A spot for your unit has become available to register for {1}. Click on the following link to complete your scout's registration: <a href=\"{2}\"title=\"Register\">REGISTER</a><BR/><BR/>" +
+                                   "This link expires in 48 hours.  After that time your scout's spot will be given to another person and your scout will be moved to the bottom of the waiting list. <BR/><BR/>" +
+                                   "Thank you for your understanding in this matter while we strive to make Day Camp a safe and memorable experience for all scouts.<BR/><BR/>" +
+                                   " -York District Day Scout Day Camp Team"
+                                   , user.Person.ParentPerson.FirstName, user.Event.Name, callbackUrl);
             m.IsBodyHtml = true;
             System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.proeventlistings.com");
             smtp.UseDefaultCredentials = false;
@@ -460,12 +553,32 @@ namespace EventManagement.Controllers
             System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
             new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Person.ParentPerson.ContactInfo.Email));
+            m.To.Add("yorkdaycamp@gmail.com");
+            //m.To.Add("taylor.thomas@scouting.org");
+            m.To.Add("morgan.hawkins@scouting.org");
             m.Subject = "Waiting List Confirmation";
             m.Body = string.Format("Dear {0} <BR/>Your scout is currently on the waiting list for {1}.  <BR/>" +
                                    "As soon as enough volunteers from your Unit register, more slots will open up and you will be notified." +
                                    "At that time, you will be able to register in one click. <BR/>" +
-                                   "Please note that waiting list slots are notifed based on the order that they signed up for the event."
-                                   , user.Person.ParentPerson.FirstName + " " + user.Person.ParentPerson.LastName, user.Event.Name);
+                                   "Please note that waiting list slots are notifed based on the order that they signed up for the event.<BR/><BR/>" +
+                                   "Thank you for your understanding in this matter while we strive to make Day Camp a safe and memorable experience for all scouts.<BR/><BR/>" +
+                                   " -York District Day Scout Day Camp Team" +
+                                    "<HR/> DETAILS: <BR/>" +
+                                   "   <strong>Scout Name:</strong> {2} {3} {4}<BR/>" +
+                                   "   <strong>Unit:</strong> {5} {6} <BR/>" +
+                                   "   <strong>Rank:</strong> {7} <BR/>" +
+                                   "   <strong>Address:</strong> {8}<BR/>" +
+                                   "            {9}, {10} {11}<BR/>" +
+                                   "   <strong>Home Phone:</strong> {12} <BR/>" +
+                                   "   <strong>Cell Phone:</strong> {13} "
+                                   , user.Person.ParentPerson.FirstName + " " + user.Person.ParentPerson.LastName, user.Event.EventName
+                                   , user.Person.FirstName, user.Person.MiddleName, user.Person.LastName
+                                   , user.Person.Unit.UnitType.Type, user.Person.Unit.UnitNumber
+                                   , user.Person.Rank.Rank
+                                   , user.Person.ParentPerson.ContactInfo.Address1
+                                   , user.Person.ParentPerson.ContactInfo.City, user.Person.ParentPerson.ContactInfo.State, user.Person.ParentPerson.ContactInfo.Zip
+                                   , user.Person.ParentPerson.ContactInfo.HomePhone
+                                   , user.Person.ParentPerson.ContactInfo.CellPhone);
             m.IsBodyHtml = true;
             System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.proeventlistings.com");
             smtp.UseDefaultCredentials = false;
@@ -481,12 +594,35 @@ namespace EventManagement.Controllers
             System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
             new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Person.ParentPerson.ContactInfo.Email));
+            m.To.Add("yorkdaycamp@gmail.com");
+            //m.To.Add("taylor.thomas@scouting.org");
+            m.To.Add("morgan.hawkins@scouting.org");
             m.Subject = "Registration Confirmed";
-            m.Body = string.Format("Dear {0} <BR/>Congratulations!  Your scout's registration to {1} has been confirmed.  <BR/>" +
-                                   "Your confirmation number is: {2}. <BR/> Please make sure you have paid through the council web site." +
-                                   " Please use the following link to pay: <a href=\"{3}\"title=\"User Email Confirm\">PAY HERE</a><BR/><BR/>" +
-                                   " Your registration will not final until you have paid your camp fees."
-                                   , user.Person.ParentPerson.FirstName, user.Event.Name, user.ConfirmationNumber, "http://www.paypal.com");
+            m.Body = string.Format("Dear {0}, <BR/>Congratulations!  Your scout's registration to {1} has been confirmed.  <BR/>" +
+                                   "Your confirmation number is: {2}. <BR/> Please make sure you have paid through the council web site using the following link:<BR/>" +
+                                   "  <a href=\"{3}\"title=\"User Email Confirm\">PAY HERE</a><BR/><BR/>" +
+                                   " Your registration will not final until you have paid your camp fees. <BR/><BR/>" +
+                                   " On May 11th we will be conducting swim tests and check in (Time TBD). At check in you will need to turn in your scout’s BSA <a href=\"{4}\"title=\"BSA Health Form\">Health forms</a>, pick up t-shirts, meet the Den Leaders and take the BSA swim test. <BR/><BR/>" +
+                                   " We look forward to having a fun filled week with your scout, <BR/><BR/>" +
+                                   " -York District Day Scout Day Camp Team <BR/><BR/>" +
+                                   "<HR/> DETAILS: <BR/>" +
+                                   "   <strong>Scout Name:</strong> {5} {6} {7}<BR/>" +
+                                   "   <strong>Unit:</strong> {8} {9} <BR/>" +
+                                   "   <strong>Rank:</strong> {10} <BR/>" +
+                                   "   <strong>Confirmation Number:</strong> {2}<BR/>" +
+                                   "   <strong>Address:</strong> {11}<BR/>" +
+                                   "            {12}, {13} {14}<BR/>" +
+                                   "   <strong>Home Phone:</strong> {15} <BR/>" +
+                                   "   <strong>Cell Phone:</strong> {16} "
+                                   , user.Person.ParentPerson.FirstName, user.EventView.EventName, user.ConfirmationNumber, "http://palmettocouncil.org/special-events/2015-cub-day-camp"
+                                   , "http://www.scouting.org/filestore/healthsafety/pdf/680-001_ab.pdf"
+                                   , user.Person.FirstName, user.Person.MiddleName, user.Person.LastName
+                                   , user.Person.Unit.UnitType.Type, user.Person.Unit.UnitNumber
+                                   , user.Person.Rank.Rank
+                                   , user.Person.ParentPerson.ContactInfo.Address1
+                                   , user.Person.ParentPerson.ContactInfo.City, user.Person.ParentPerson.ContactInfo.State, user.Person.ParentPerson.ContactInfo.Zip
+                                   , user.Person.ParentPerson.ContactInfo.HomePhone
+                                   , user.Person.ParentPerson.ContactInfo.CellPhone);
             m.IsBodyHtml = true;
             System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.proeventlistings.com");
             smtp.UseDefaultCredentials = false;
@@ -503,12 +639,43 @@ namespace EventManagement.Controllers
             System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
             new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Person.ContactInfo.Email));
+            m.To.Add("yorkdaycamp@gmail.com");
+            //m.To.Add("taylor.thomas@scouting.org");
+            m.To.Add("morgan.hawkins@scouting.org");
             m.Subject = "Registration Confirmed";
             m.Body = string.Format("Dear {0} <BR/>Thank you for volunteering at {1} this year.<BR/>" +
-                                   "You have volunteered for {2} days! <BR/> Be prepared to enrich the lives of young cub scouts!<BR/>" +
+                                   "You have volunteered for {2} days! <BR/> " +
                                    "You will be contacted by the Camp coordinator with details on special training, and other instructions. <BR/>" +
-                                   "Once again Thank you!"
-                                   , user.Person.FirstName, user.Event.Name, user.VolunteerDays);
+                                   " Please use the following link to select your t-shirt sizes and quantities: <a href=\"{3}\"title=\"Select T-Shirt Sizes\">CLICK HERE</a><BR/><BR/>" +
+                                   "To prepare for camp there will be a mandatory training on May 20th 2017 from 8:00 am – 12:00 pm for all volunteers. Location TBD. <BR/<BR/>" +
+                                   "In addition to the training on the May 20th, you will need to log into <a href=\"{4}\"title=\"MyScouting.org\">my.scouting.org</a> and complete the following trainings online:<BR/>" +
+                                   "Online Mandatory Training: <BR/>" +
+                                   "Youth Protection <BR/>" +
+                                   "Weather Hazards <BR/>" +
+                                   "Safe Swim Defense <BR/><BR/>" +
+                                   "To locate these trainings, go to Menu (upper left screen), My Dashboard, Training Center, and Other. Youth Protection training is under the YPT link instead of Training Center.<BR/><BR/>" +
+                                   "Once you have completed the online training, print out the certificate of completion and bring them to the May 20th training. Be aware we will not be doing any of the online training on May 20th. <BR/><BR/>" +
+                                   "As a volunteer, you will also need to have an updated Health form. <a href=\"{5}\"title=\"MyScouting.org\">Click Here</a><BR/><BR/>" +
+                                   "Be prepared to enrich the lives of young cub scouts!<BR/>" +
+                                   "Once again, Thank you for your support! <BR/><BR/>" +
+                                   "-York District Day Scout Day Camp Team<BR/><BR/>" + 
+                                   "<HR/> DETAILS: <BR/>" +
+                                   "   <strong>Volunteer Name:</strong> {6} {7} {8}<BR/>" +
+                                   "   <strong>Unit:</strong> {9} {10} <BR/>" +
+                                   "   <strong>Address:</strong> {11}<BR/>" +
+                                   "           {12}, {13} {14}<BR/>" +
+                                   "   <strong>Home Phone:</strong> {15} <BR/>" +
+                                   "   <strong>Cell Phone:</strong> {16} "
+                                   , user.Person.FirstName, user.EventView.EventName, user.VolunteerDays
+                                   , "http://palmettocouncil.org/special-events/2017-day-camp-shirts"
+                                   , "https://my.scouting.org/"
+                                   , "http://www.scouting.org/filestore/healthsafety/pdf/680-001_ab.pdf"
+                                   , user.Person.FirstName, user.Person.MiddleName, user.Person.LastName
+                                   , user.Person.Unit.UnitType.Type, user.Person.Unit.UnitNumber
+                                   , user.Person.ContactInfo.Address1
+                                   , user.Person.ContactInfo.City, user.Person.ContactInfo.State, user.Person.ContactInfo.Zip
+                                   , user.Person.ContactInfo.HomePhone
+                                   , user.Person.ContactInfo.CellPhone);
             m.IsBodyHtml = true;
             System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.proeventlistings.com");
             smtp.UseDefaultCredentials = false;

@@ -13,7 +13,8 @@ namespace EventManagement.Models
     public class RegistrationViewModel
     {
         public IEnumerable<EventViewModel> EventList { get; set; }
-        public EventDTO Event { get; set; }
+        public string Event { get; set; }
+        public EventViewModel EventView { get; set; }
         public PersonDTO Person { get; set; }
         public string ConfirmationNumber { get; set; }
 
@@ -22,7 +23,7 @@ namespace EventManagement.Models
     public class ReservationViewModel
     {
         public DateTime ReservationDate { get; set; }
-        public EventDTO Event { get; set; }
+        public EventViewModel Event { get; set; }
         public PersonDTO Person { get; set; }
         //public SelectList PersonType { get; set; }
         //[Required, Display(Name = "Unit Type")]
@@ -36,7 +37,8 @@ namespace EventManagement.Models
     public class VolunteerRegistrationViewModel
     {
         public IEnumerable<EventViewModel> EventList { get; set; }
-        public EventDTO Event { get; set; }
+        public string Event { get; set; }
+        public EventViewModel EventView { get; set; }
 
         [Display(Name="Mon.")]
         public bool MondayVolunteer { get; set; }

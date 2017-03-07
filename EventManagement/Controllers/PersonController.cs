@@ -74,6 +74,53 @@ namespace EventManagement.Controllers
 
         [HttpGet]
         [Authorize]
+        public ActionResult EditSelf(int id)
+        {
+            PersonReader personReader = new PersonReader();
+            PersonTypeReader personTypeReader = new PersonTypeReader();
+            UnitReader unitReader = new UnitReader();
+            UnitRankReader unitRankReader = new UnitRankReader();
+
+            var person = personReader.GetById(id).FirstOrDefault();
+            if (person != null)
+            {
+                PersonViewModel personViewModel = TranslatePersonDTO(person);
+
+                personViewModel.NotUnitAffiliated = person.Unit.UnitType.UnitTypeId.Equals(-1);
+                UnitTypeReader unitTypeReader = new UnitTypeReader();
+
+                var personTypes = personTypeReader.GetList().Where(p => p.PersonTypeId > 0).ToList();
+                var unitTypes = unitTypeReader.GetList().Where(p => p.UnitTypeId > 0).ToList();
+
+                List<UnitDTO> units = null;
+                List<UnitRankDTO> unitRanks = null;
+                if (personViewModel.UnitType != null)
+                {
+                    units = unitReader.GetList().Where(p => p.UnitType.Type == personViewModel.UnitType).ToList();
+                    unitRanks = unitRankReader.GetList().Where(p => p.UnitType.Type == personViewModel.UnitType).ToList();
+                }
+                else
+                {
+                    units = unitReader.GetList().Where(p => p.UnitType.UnitTypeId == unitTypes[0].UnitTypeId).ToList();
+                    unitRanks = unitRankReader.GetList().Where(p => p.UnitType.UnitTypeId == unitTypes[0].UnitTypeId).ToList();
+                }
+                personViewModel.NotUnitAffiliated = false;
+                personViewModel.PersonTypeList = personTypes;
+                personViewModel.PersonType = person.PersonType.PersonTypeId.ToString();
+                personViewModel.UnitTypeList = unitTypes;
+                personViewModel.UnitType = person.Unit.UnitType.UnitTypeId.ToString();
+                personViewModel.UnitList = units;
+                personViewModel.Unit = person.Unit.UnitId.ToString();
+                personViewModel.UnitRankList = unitRanks;
+                personViewModel.Rank = person.Rank.UnitRankId.ToString();
+                return View(personViewModel);
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        [Authorize]
         public ActionResult Edit(int id)
         {
             PersonReader personReader = new PersonReader();
@@ -228,6 +275,87 @@ namespace EventManagement.Controllers
             return View(model);
         }
 
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult EditSelf(int id, PersonViewModel model)
+        {
+            PersonReader personReader = new PersonReader();
+            PersonTypeReader personTypeReader = new PersonTypeReader();
+            ContactInfoReader contactInfoReader = new ContactInfoReader();
+            UnitRankReader unitRankReader = new UnitRankReader();
+
+            var oldPerson = personReader.GetById(id).SingleOrDefault();
+
+            if (ModelState.IsValid)
+            {
+                PersonDTO person = TranslatePersonViewModel(model);
+                person.PersonId = id;
+                person.UserId = (oldPerson != null) ? oldPerson.UserId : "";
+                person.ContactInfo = oldPerson.ContactInfo;
+                person.IsNew = false;
+
+                List<PersonDTO> personList = new List<PersonDTO>();
+
+                personList.Add(person);
+
+                personReader.Save(personList);
+
+                TempData["RedirectMsg"] = "Record Updated Successfully!";
+
+                model.ContactInfo = new ContactInfoViewModel();
+                //Need to build the Contact Object again before the return trip.
+                
+                if (person.ContactInfo != null)
+                {
+                    model.ContactInfo = new ContactInfoViewModel
+                    {
+                        ContactName = person.ContactInfo.Name,
+                        Email = person.ContactInfo.Email,
+                        Address1 = person.ContactInfo.Address1,
+                        Address2 = person.ContactInfo.Address2,
+                        CellPhone = person.ContactInfo.CellPhone,
+                        HomePhone = person.ContactInfo.HomePhone,
+                        City = person.ContactInfo.City,
+                        State = person.ContactInfo.State,
+                        Zip = person.ContactInfo.Zip
+                    };
+                }
+                return RedirectToAction("Index");
+            }
+
+            //Invalid Entries
+            UnitTypeReader unitTypeReader = new UnitTypeReader();
+            UnitReader unitReader = new UnitReader();
+
+            var personTypes = personTypeReader.GetList().Where(p => p.PersonTypeId > 0).ToList();
+            var unitTypes = unitTypeReader.GetList().Where(p => p.UnitTypeId > 0).ToList();
+
+            List<UnitDTO> units = null;
+            List<UnitRankDTO> unitRanks = null;
+            if (model.UnitType != null)
+            {
+                units = unitReader.GetList().Where(p => p.UnitType.Type == model.UnitType).ToList();
+                unitRanks = unitRankReader.GetList().Where(p => p.UnitType.Type == model.UnitType).ToList();
+            }
+            else
+            {
+                units = unitReader.GetList().Where(p => p.UnitType.UnitTypeId == unitTypes[0].UnitTypeId).ToList();
+                unitRanks = unitRankReader.GetList().Where(p => p.UnitType.UnitTypeId == unitTypes[0].UnitTypeId).ToList();
+            }
+            var personType = personTypeReader.GetById(int.Parse(model.PersonType));
+            var unit = unitReader.GetById(int.Parse(model.Unit));
+            var unitType = unitTypeReader.GetById(int.Parse(model.UnitType));
+            //var unitRank = unitRankReader.GetById(int.Parse(model.Rank));
+            model.NotUnitAffiliated = false;
+            model.PersonTypeList = personTypes;
+            model.PersonType = model.PersonType;
+            model.UnitTypeList = unitTypes;
+            model.UnitList = units;
+            model.UnitRankList = unitRanks;
+
+            return View(model);
+        }
         [HttpPost]
         [Authorize]
         public ActionResult Edit(int id, PersonViewModel model)
@@ -237,7 +365,7 @@ namespace EventManagement.Controllers
             ContactInfoReader contactInfoReader = new ContactInfoReader();
             UnitRankReader unitRankReader = new UnitRankReader();
 
-            var oldPerson = personReader.GetById(model.PersonId).SingleOrDefault();
+            var oldPerson = personReader.GetById(id).SingleOrDefault();
             
             if (ModelState.IsValid)
             {
@@ -352,7 +480,8 @@ namespace EventManagement.Controllers
             
 
             UnitTypeDTO unitType = unitTypeReader.GetById(int.Parse(personView.UnitType)).SingleOrDefault();
-            UnitRankDTO unitRank = unitRankReader.GetById(int.Parse(personView.Rank)).SingleOrDefault();
+
+            UnitRankDTO unitRank = personView.Rank != null ? unitRankReader.GetById(int.Parse(personView.Rank)).SingleOrDefault() : null;
             UnitDTO unit = unitReader.GetById(int.Parse(personView.Unit)).SingleOrDefault();
             PersonTypeDTO personType = personTypeReader.GetById(int.Parse(personView.PersonType)).SingleOrDefault();
             PersonDTO parent = personReader.GetById(personView.ParentPersonId).SingleOrDefault();

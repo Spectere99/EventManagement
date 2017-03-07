@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -17,26 +18,39 @@ namespace EventManagement.Controllers
         {
             OrganizationViewModel orgViewModel = new OrganizationViewModel();
             PersonReader personReader = new PersonReader();
-            var userId = User.Identity.GetUserId();
-            //Get person based on their user id
-            var person = personReader.GetByUserId(userId).FirstOrDefault();
-
-            if (person != null)
+            
+            try
             {
-                orgViewModel = TranslatePersonDTO(person);
-                //Need to load the children now.
-                var unitMembers = personReader.GetList().Where(p => p.Unit.UnitId == person.Unit.UnitId);
-                //var members = unitMembers.Where(p=>p.PersonType.Type == "Cub Scout");
-                orgViewModel.Members = new List<PersonViewModel>();
-
-                foreach (var member in unitMembers)
+                var userId = User.Identity.GetUserId();
+                //Get person based on their user id
+                var person = personReader.GetByUserId(userId).FirstOrDefault();
+                if (person != null)
                 {
-                    var childViewModel = TranslatePersonDTOToPersonViewModel(member);
-                    orgViewModel.Members.Add(childViewModel);
+                    orgViewModel = TranslatePersonDTO(person);
+                    //Need to load the children now.
+                    var unitMembers = personReader.GetList().Where(p => p.Unit.UnitId == person.Unit.UnitId);
+                    //var members = unitMembers.Where(p=>p.PersonType.Type == "Cub Scout");
+                    orgViewModel.Members = new List<PersonViewModel>();
+
+                    foreach (var member in unitMembers)
+                    {
+                        var childViewModel = TranslatePersonDTOToPersonViewModel(member);
+                        orgViewModel.Members.Add(childViewModel);
+                    }
+                    orgViewModel.NotUnitAffiliated = person.Unit.UnitType.UnitTypeId.Equals(-1);
                 }
-                orgViewModel.NotUnitAffiliated = person.Unit.UnitType.UnitTypeId.Equals(-1);
+                return View(orgViewModel);
             }
-            return View(orgViewModel);
+            catch (Exception ex)
+            {
+                var st = new StackTrace(ex, true);
+                var frame = st.GetFrame(0);
+                var line = frame.GetFileLineNumber();
+
+                HandleErrorInfo handleErrorInfo = new HandleErrorInfo(new Exception(string.Format("Error when loading Organization: Line {0} : {1}", line, ex.Message)), "Organization", "Index");
+                return View("Error", handleErrorInfo);
+            }
+            
         }
 
         private OrganizationViewModel TranslatePersonDTO(PersonDTO person)
@@ -80,7 +94,8 @@ namespace EventManagement.Controllers
                 UnitType = person.Unit.UnitType.Type,
                 Unit = person.Unit.UnitNumber.ToString(),
                 Rank = person.Rank.Rank,
-                ContactInfoId = person.ContactInfo.ContactInfoId
+                ContactInfoId = person.ContactInfo != null ? person.ContactInfo.ContactInfoId : 0,
+                
                 //ContactInfo = new ContactInfoViewModel
                 //{
                 //    ContactName = person.ContactInfo.Name,

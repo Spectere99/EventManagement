@@ -18,9 +18,9 @@
         <div class="row">
             <div id="eventSelection" class="col-md-8">
                 <div class="row">
-                    <div class="col-md-10">
+                    <div class="col-md-12">
                         @Html.Label("Select Your Event")
-                        @Html.DropDownListFor(m => m.EventList, new SelectList(Model.EventList, "EventId", "EventName"), "Select ...", new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.Event, new SelectList(Model.EventList, "EventId", "EventName"), "Select ...", new { @class = "form-control" })
                     </div>
                 </div>
                 <div id="details" class="col-md-10" style="display: none">
@@ -31,7 +31,7 @@
                     @Html.Label("VenueAddress", " ", new {@class = "h5 text-muted", id = "VenueAddress"})<br/>
                     @Html.Label("VenueCity", " ", new {@class = "h5 text-muted", id = "VenueCity"}), @Html.Label("VenueState", " ", new {@class = "h5 text-muted", id = "VenueState"}) @Html.Label("VenueZip", " ", new {@class = "h5 text-muted", id = "VenueZip"})
                     <hr/>
-                    <div class="col-md-10">
+                    <div class="col-md-12">
                         <input type="submit" value="Register for Selected Event" class="btn btn-primary"/>
                     </div>
                 </div>

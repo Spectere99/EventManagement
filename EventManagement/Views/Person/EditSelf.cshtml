@@ -1,7 +1,7 @@
 ﻿@model EventManagement.Models.PersonViewModel
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "EditSelf";
 }
 <head>
     <title>Edit</title>
@@ -18,7 +18,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Update your child's information</h4>
+        <h4>Update your information</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(m => m.ParentPersonId)
@@ -75,11 +75,11 @@
                 @Html.DropDownList("Unit", Model.UnitList.Select(i => new SelectListItem { Text = i.UnitNumber.ToString(), Value = i.UnitId.ToString() }), "Select ...", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Unit, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-4 form-group">
+            @*<div class="col-md-4 form-group">
                 @Html.LabelFor(model => model.UnitRankList, htmlAttributes: new { id = "lblUnitRankList" })
                 @Html.DropDownList("Rank", Model.UnitRankList.Select(i=> new SelectListItem{Text = i.Rank.ToString(), Value = i.UnitRankId.ToString()}), new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Rank, "", new { @class = "text-danger" })<br />
-            </div>
+            </div>*@
         </div>
         
         <div class="form-group">

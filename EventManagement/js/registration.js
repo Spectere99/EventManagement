@@ -1,9 +1,9 @@
 ﻿$(document)
     .ready(function() {
 
-        $("#EventList")
+        $("#Event")
             .change(function() {
-                var id = Number($("#EventList").val());             
+                var id = Number($("#Event").val());             
                 if (id > 0) {
                     $.ajax({
                         //url: '@Url.Action("GetVenueDetails", "Registration")',
