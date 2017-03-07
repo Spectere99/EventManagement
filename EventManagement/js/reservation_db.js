@@ -1,56 +1,39 @@
-﻿var REG_SERVICE_URL = "http://localhost:50337/api/RegistrationDash/";
+﻿var RES_SERVICE_URL = "http://localhost:50337/api/ReservationDash/";
 
-var gridRegDataStore = new DevExpress.data.CustomStore({
+var gridResDataStore = new DevExpress.data.CustomStore({
     load: function (loadOptions) {
-        return $.getJSON(REG_SERVICE_URL);
+        return $.getJSON(RES_SERVICE_URL);
     },
     insert: function (values) {
         return $.ajax({
-            url: REG_SERVICE_URL,
+            url: RES_SERVICE_URL,
             method: "POST",
             data: values
         })
     },
     remove: function (key) {
         return $.ajax({
-            url: REG_SERVICE_URL + encodeURIComponent(key),
+            url: RES_SERVICE_URL + encodeURIComponent(key),
             method: "DELETE",
         })
     },
     update: function (key, values) {
         return $.ajax({
-            url: REG_SERVICE_URL + encodeURIComponent(key),
+            url: RES_SERVICE_URL + encodeURIComponent(key),
             method: "PUT",
             data: values
         })
     }
 });
 
-var regDataSource = new DevExpress.data.DataSource({
-    store: gridRegDataStore
+var resDataSource = new DevExpress.data.DataSource({
+    store: gridResDataStore
 });
-var testData = [{
-    "id": 4, "registrationDate": "2017-02-28T19:05:04",
-    "confirmation": "71adda6be81a9ed",
-    "eventId": 1,
-    "name": "Will Flowers",
-    "dob": "2004-10-04T00:00:00",
-    "rank": "Arrow of Light",
-    "unit": "Pack 349",
-    "notes": "Allergic to Penicillin",
-    "parentName": "Robert Flowers",
-    "email": "flowersr99@gmail.com",
-    "homePhone": "(803)628-1949",
-    "cellPhone": "(803)984-5211",
-    "address": "1026 W. Mount Gallant Rd.",
-    "city": "York",
-    "state": "SC",
-    "zip": "29745"
-}];
+var testData = [];
 
 $(function () {
-    $("#gridRegistration").dxDataGrid({
-        dataSource: regDataSource,
+    $("#gridReservation").dxDataGrid({
+        dataSource: resDataSource,
         columns: [
             { dataField: "id", caption: "Id", allowEditing: false, width: 45 },
             { dataField: "name", caption: "Scout Name", width: 140, fixed: true },

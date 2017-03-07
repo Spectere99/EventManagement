@@ -238,6 +238,7 @@
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
+    <Compile Include="Controllers\ReservationDashController.cs" />
     <Compile Include="Controllers\RegistrationDashController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\VolunteerDashController.cs" />
@@ -337,6 +338,7 @@
     <Content Include="js\person.js" />
     <Content Include="js\register.js" />
     <Content Include="js\registration.js" />
+    <Content Include="js\reservation_db.js" />
     <Content Include="js\registration_db.js" />
     <Content Include="js\volunteer_db.js" />
     <Content Include="Scripts\angular-animate.js" />
