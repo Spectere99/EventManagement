@@ -12,10 +12,12 @@ namespace DayCampData
     using System;
     using System.Collections.Generic;
     
-    public partial class dbvregistrationtrend
+    public partial class dbveventdashboardtrend
     {
         public int events_EventID { get; set; }
+        public Nullable<decimal> VolCount { get; set; }
+        public Nullable<decimal> RegCount { get; set; }
+        public Nullable<decimal> ResCount { get; set; }
         public Nullable<System.DateTime> LastUpdated { get; set; }
-        public long DailyCount { get; set; }
     }
 }

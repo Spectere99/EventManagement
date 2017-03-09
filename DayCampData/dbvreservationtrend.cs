@@ -15,7 +15,7 @@ namespace DayCampData
     public partial class dbvreservationtrend
     {
         public int events_EventID { get; set; }
-        public long Count___ { get; set; }
         public System.DateTime LastUpdated { get; set; }
+        public long DailyCount { get; set; }
     }
 }

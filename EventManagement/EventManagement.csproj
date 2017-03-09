@@ -230,6 +230,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ApplicationBaseController.cs" />
+    <Compile Include="Controllers\ChartDataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LookupController.cs" />
     <Compile Include="Controllers\MaintenanceController.cs" />
@@ -253,6 +254,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\MySqlHistoryContext.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\DashboardViewModels.cs" />
     <Compile Include="Models\EventDashboardModels.cs" />
     <Compile Include="Models\EventViewModel.cs" />
     <Compile Include="Models\Extensions\Extensions.cs" />
@@ -335,6 +337,7 @@
     <Content Include="Images\jumbotron_background.jpg" />
     <Content Include="Images\jumbotron_background.png" />
     <Content Include="js\addperson.js" />
+    <Content Include="js\charts_db.js" />
     <Content Include="js\person.js" />
     <Content Include="js\register.js" />
     <Content Include="js\registration.js" />

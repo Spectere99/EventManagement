@@ -189,6 +189,18 @@ warning 6002: The table/view 'def.events.dbveventcounts' does not have a primary
           <Property Name="RegistrationCount" Type="bigint" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'def.events.dbveventdashboardtrend' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="dbveventdashboardtrend">
+          <Key>
+            <PropertyRef Name="events_EventID" />
+          </Key>
+          <Property Name="events_EventID" Type="int" Nullable="false" />
+          <Property Name="VolCount" Type="decimal" Precision="42" Scale="0" />
+          <Property Name="RegCount" Type="decimal" Precision="41" Scale="0" />
+          <Property Name="ResCount" Type="decimal" Precision="41" Scale="0" />
+          <Property Name="LastUpdated" Type="date" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'def.events.dbveventvolunteerdetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="dbveventvolunteerdetails">
           <Key>
@@ -231,11 +243,11 @@ warning 6002: The table/view 'def.events.dbveventvolunteertrend' does not have a
         <EntityType Name="dbveventvolunteertrend">
           <Key>
             <PropertyRef Name="events_EventID" />
-            <PropertyRef Name="Count(*)" />
+            <PropertyRef Name="DailyCount" />
             <PropertyRef Name="LastUpdated" />
           </Key>
           <Property Name="events_EventID" Type="int" Nullable="false" />
-          <Property Name="Count(*)" Type="bigint" Nullable="false" />
+          <Property Name="DailyCount" Type="bigint" Nullable="false" />
           <Property Name="LastUpdated" Type="datetime" Precision="0" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
@@ -282,10 +294,10 @@ warning 6002: The table/view 'def.events.dbvregistrationtrend' does not have a p
         <EntityType Name="dbvregistrationtrend">
           <Key>
             <PropertyRef Name="events_EventID" />
-            <PropertyRef Name="Count(*)" />
+            <PropertyRef Name="DailyCount" />
           </Key>
           <Property Name="events_EventID" Type="int" Nullable="false" />
-          <Property Name="Count(*)" Type="bigint" Nullable="false" />
+          <Property Name="DailyCount" Type="bigint" Nullable="false" />
           <Property Name="LastUpdated" Type="datetime" Precision="0" />
         </EntityType>
         <!--Errors Found During Generation:
@@ -331,11 +343,11 @@ warning 6002: The table/view 'def.events.dbvreservationtrend' does not have a pr
         <EntityType Name="dbvreservationtrend">
           <Key>
             <PropertyRef Name="events_EventID" />
-            <PropertyRef Name="Count(*)" />
+            <PropertyRef Name="DailyCount" />
             <PropertyRef Name="LastUpdated" />
           </Key>
           <Property Name="events_EventID" Type="int" Nullable="false" />
-          <Property Name="Count(*)" Type="bigint" Nullable="false" />
+          <Property Name="DailyCount" Type="bigint" Nullable="false" />
           <Property Name="LastUpdated" Type="datetime" Precision="0" Nullable="false" />
         </EntityType>
         <Association Name="fk_Events_EventTypes">
@@ -458,6 +470,15 @@ warning 6035: The relationship 'fk_Reservations_Person1' has columns that are no
 `dbveventcounts`.`RegistrationCount`
 FROM `dbveventcounts` AS `dbveventcounts`</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="dbveventdashboardtrend" EntityType="Self.dbveventdashboardtrend" store:Type="Views" store:Schema="events">
+            <DefiningQuery>SELECT
+`dbveventdashboardtrend`.`events_EventID`, 
+`dbveventdashboardtrend`.`VolCount`, 
+`dbveventdashboardtrend`.`RegCount`, 
+`dbveventdashboardtrend`.`ResCount`, 
+`dbveventdashboardtrend`.`LastUpdated`
+FROM `dbveventdashboardtrend` AS `dbveventdashboardtrend`</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="dbveventvolunteerdetails" EntityType="Self.dbveventvolunteerdetails" store:Type="Views" store:Schema="events">
             <DefiningQuery>SELECT
 `dbveventvolunteerdetails`.`ID`, 
@@ -488,7 +509,7 @@ FROM `dbveventvolunteerdetails` AS `dbveventvolunteerdetails`</DefiningQuery>
           <EntitySet Name="dbveventvolunteertrend" EntityType="Self.dbveventvolunteertrend" store:Type="Views" store:Schema="events">
             <DefiningQuery>SELECT
 `dbveventvolunteertrend`.`events_EventID`, 
-`dbveventvolunteertrend`.`Count(*)`, 
+`dbveventvolunteertrend`.`DailyCount`, 
 `dbveventvolunteertrend`.`LastUpdated`
 FROM `dbveventvolunteertrend` AS `dbveventvolunteertrend`</DefiningQuery>
           </EntitySet>
@@ -520,7 +541,7 @@ FROM `dbvregistrationdetails` AS `dbvregistrationdetails`</DefiningQuery>
           <EntitySet Name="dbvregistrationtrend" EntityType="Self.dbvregistrationtrend" store:Type="Views" store:Schema="events">
             <DefiningQuery>SELECT
 `dbvregistrationtrend`.`events_EventID`, 
-`dbvregistrationtrend`.`Count(*)`, 
+`dbvregistrationtrend`.`DailyCount`, 
 `dbvregistrationtrend`.`LastUpdated`
 FROM `dbvregistrationtrend` AS `dbvregistrationtrend`</DefiningQuery>
           </EntitySet>
@@ -552,7 +573,7 @@ FROM `dbvreservationdetails` AS `dbvreservationdetails`</DefiningQuery>
           <EntitySet Name="dbvreservationtrend" EntityType="Self.dbvreservationtrend" store:Type="Views" store:Schema="events">
             <DefiningQuery>SELECT
 `dbvreservationtrend`.`events_EventID`, 
-`dbvreservationtrend`.`Count(*)`, 
+`dbvreservationtrend`.`DailyCount`, 
 `dbvreservationtrend`.`LastUpdated`
 FROM `dbvreservationtrend` AS `dbvreservationtrend`</DefiningQuery>
           </EntitySet>
@@ -921,6 +942,7 @@ FROM `dbvreservationtrend` AS `dbvreservationtrend`</DefiningQuery>
           <EntitySet Name="dbvregistrationtrends" EntityType="eventsModel.dbvregistrationtrend" />
           <EntitySet Name="dbvreservationdetails" EntityType="eventsModel.dbvreservationdetail" />
           <EntitySet Name="dbvreservationtrends" EntityType="eventsModel.dbvreservationtrend" />
+          <EntitySet Name="dbveventdashboardtrends" EntityType="eventsModel.dbveventdashboardtrend" />
         </EntityContainer>
         <EntityType Name="dbveventcount">
           <Key>
@@ -936,12 +958,12 @@ FROM `dbvreservationtrend` AS `dbvreservationtrend`</DefiningQuery>
         <EntityType Name="dbveventvolunteertrend">
           <Key>
             <PropertyRef Name="events_EventID" />
-            <PropertyRef Name="Count___" />
             <PropertyRef Name="LastUpdated" />
+            <PropertyRef Name="DailyCount" />
           </Key>
           <Property Name="events_EventID" Type="Int32" Nullable="false" />
-          <Property Name="Count___" Type="Int64" Nullable="false" />
           <Property Name="LastUpdated" Type="DateTime" Nullable="false" />
+          <Property Name="DailyCount" Type="Int64" Nullable="false" />
         </EntityType>
         <EntityType Name="dbvregistrationdetail">
           <Key>
@@ -983,11 +1005,11 @@ FROM `dbvreservationtrend` AS `dbvreservationtrend`</DefiningQuery>
         <EntityType Name="dbvregistrationtrend">
           <Key>
             <PropertyRef Name="events_EventID" />
-            <PropertyRef Name="Count___" />
+            <PropertyRef Name="DailyCount" />
           </Key>
           <Property Name="events_EventID" Type="Int32" Nullable="false" />
-          <Property Name="Count___" Type="Int64" Nullable="false" />
           <Property Name="LastUpdated" Type="DateTime" />
+          <Property Name="DailyCount" Type="Int64" Nullable="false" />
         </EntityType>
         <EntityType Name="dbvreservationdetail">
           <Key>
@@ -1028,12 +1050,22 @@ FROM `dbvreservationtrend` AS `dbvreservationtrend`</DefiningQuery>
         <EntityType Name="dbvreservationtrend">
           <Key>
             <PropertyRef Name="events_EventID" />
-            <PropertyRef Name="Count___" />
             <PropertyRef Name="LastUpdated" />
+            <PropertyRef Name="DailyCount" />
           </Key>
           <Property Name="events_EventID" Type="Int32" Nullable="false" />
-          <Property Name="Count___" Type="Int64" Nullable="false" />
           <Property Name="LastUpdated" Type="DateTime" Nullable="false" />
+          <Property Name="DailyCount" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="dbveventdashboardtrend">
+          <Key>
+            <PropertyRef Name="events_EventID" />
+          </Key>
+          <Property Name="events_EventID" Type="Int32" Nullable="false" />
+          <Property Name="VolCount" Type="Decimal" />
+          <Property Name="RegCount" Type="Decimal" />
+          <Property Name="ResCount" Type="Decimal" />
+          <Property Name="LastUpdated" Type="DateTime" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1251,8 +1283,8 @@ FROM `dbvreservationtrend` AS `dbvreservationtrend`</DefiningQuery>
           <EntitySetMapping Name="dbveventvolunteertrends">
             <EntityTypeMapping TypeName="eventsModel.dbveventvolunteertrend">
               <MappingFragment StoreEntitySet="dbveventvolunteertrend">
+                <ScalarProperty Name="DailyCount" ColumnName="DailyCount" />
                 <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
-                <ScalarProperty Name="Count___" ColumnName="Count(*)" />
                 <ScalarProperty Name="events_EventID" ColumnName="events_EventID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1287,8 +1319,8 @@ FROM `dbvreservationtrend` AS `dbvreservationtrend`</DefiningQuery>
           <EntitySetMapping Name="dbvregistrationtrends">
             <EntityTypeMapping TypeName="eventsModel.dbvregistrationtrend">
               <MappingFragment StoreEntitySet="dbvregistrationtrend">
+                <ScalarProperty Name="DailyCount" ColumnName="DailyCount" />
                 <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
-                <ScalarProperty Name="Count___" ColumnName="Count(*)" />
                 <ScalarProperty Name="events_EventID" ColumnName="events_EventID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1323,8 +1355,19 @@ FROM `dbvreservationtrend` AS `dbvreservationtrend`</DefiningQuery>
           <EntitySetMapping Name="dbvreservationtrends">
             <EntityTypeMapping TypeName="eventsModel.dbvreservationtrend">
               <MappingFragment StoreEntitySet="dbvreservationtrend">
+                <ScalarProperty Name="DailyCount" ColumnName="DailyCount" />
                 <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
-                <ScalarProperty Name="Count___" ColumnName="Count(*)" />
+                <ScalarProperty Name="events_EventID" ColumnName="events_EventID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dbveventdashboardtrends">
+            <EntityTypeMapping TypeName="eventsModel.dbveventdashboardtrend">
+              <MappingFragment StoreEntitySet="dbveventdashboardtrend">
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="ResCount" ColumnName="ResCount" />
+                <ScalarProperty Name="RegCount" ColumnName="RegCount" />
+                <ScalarProperty Name="VolCount" ColumnName="VolCount" />
                 <ScalarProperty Name="events_EventID" ColumnName="events_EventID" />
               </MappingFragment>
             </EntityTypeMapping>

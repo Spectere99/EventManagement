@@ -32,6 +32,7 @@
         <EntityTypeShape EntityType="eventsModel.dbvregistrationtrend" Width="1.5" PointX="8" PointY="13.5" />
         <EntityTypeShape EntityType="eventsModel.dbvreservationdetail" Width="1.5" PointX="2.75" PointY="13.75" />
         <EntityTypeShape EntityType="eventsModel.dbvreservationtrend" Width="1.5" PointX="6.375" PointY="13.5" />
+        <EntityTypeShape EntityType="eventsModel.dbveventdashboardtrend" Width="1.5" PointX="12.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

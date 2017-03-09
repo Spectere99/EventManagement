@@ -4,7 +4,19 @@
 }
 
 <h2>Dashboard</h2>
+
 <div class="col-md-12">
+    <div class="panel panel-default">
+        Registration Trend
+        <div class="panel-heading">
+            <div class="pull-right"></div>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-6">
+                <div id="registrationChart"></div>
+            </div>
+        </div>
+    </div>
     <div class="panel panel-default">
         &nbsp;Volunteers&nbsp;&nbsp;<span class="badge">@Model.VolunteerCount</span>
         <div class="panel-heading">
@@ -42,6 +54,8 @@
 </div>
 @section scripts
 {
+
+    <script src="~/js/charts_db.js"></script>
     <script src="~/js/volunteer_db.js"></script>
     <script src="~/js/registration_db.js"></script>
     <script src="~/js/reservation_db.js"></script>
