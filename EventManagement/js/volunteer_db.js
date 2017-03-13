@@ -43,43 +43,42 @@ $(function () {
             { dataField: "state", caption: "State", width: 45 },
             { dataField: "zip", caption: "Zip-Code", width: 100 },
             { dataField: "volunteerDayDisplay", caption: "Vol. Days", width: 175 }
-            ]
-        //],
-        //paging: {
-        //    pageSize: 25
-        //},
-        //pager: {
-        //    showPageSizeSelector: true,
-        //    allowedPageSizes: [25, 50, 100],
-        //    showInfo: true
-        //},
-        //"export": {
-        //    enabled: true,
-        //    fileName: "Volunteers",
-        //    allowExportSelectedData: true
-        //},
-        //grouping: {
-        //    autoExpandAll: true,
-        //},
-        //filterRow: {
-        //    visible: true,
-        //    applyFilter: "auto"
-        //},
-        //searchPanel: {
-        //    visible: true,
-        //    width: 240,
-        //    placeholder: "Search..."
-        //},
-        //headerFilter: {
-        //    visible: true
-        //},
-        //sorting: { mode: 'multiple' },
-        //grouping: { contextMenuEnabled: true },
-        //groupPanel: { visible: true },
-        //headerFilter: { visible: true },
-        //showColumnLines: true,
-        //showRowLines: true,
-        //rowAlternationEnabled: true
+            ],
+        paging: {
+            pageSize: 25
+        },
+        pager: {
+            showPageSizeSelector: true,
+            allowedPageSizes: [25, 50, 100],
+            showInfo: true
+        },
+        "export": {
+            enabled: true,
+            fileName: "Volunteers",
+            allowExportSelectedData: true
+        },
+        grouping: {
+            autoExpandAll: true,
+        },
+        filterRow: {
+            visible: true,
+            applyFilter: "auto"
+        },
+        searchPanel: {
+            visible: true,
+            width: 240,
+            placeholder: "Search..."
+        },
+        headerFilter: {
+            visible: true
+        },
+        sorting: { mode: 'multiple' },
+        grouping: { contextMenuEnabled: true },
+        groupPanel: { visible: true },
+        headerFilter: { visible: true },
+        showColumnLines: true,
+        showRowLines: true,
+        rowAlternationEnabled: true
         //masterDetail: {
         //    enabled: true,
         //    template: function (container, options) {

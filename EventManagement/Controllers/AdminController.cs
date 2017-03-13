@@ -115,9 +115,9 @@ namespace EventManagement.Controllers
                 {
                     EventId = counts.EventId,
                     EventName = counts.EventName,
-                    VolunteerCount = counts.VolunteerCount,
-                    RegistrationCount = counts.RegistrationCount,
-                    ReservationCount = counts.ReservationCount
+                    VolunteerCount = int.Parse(counts.VolunteerCount.ToString()),
+                    RegistrationCount = int.Parse(counts.RegistrationCount.ToString()),
+                    ReservationCount = int.Parse(counts.ReservationCount.ToString())
                 };
             }
             return View(eventDashCounts);

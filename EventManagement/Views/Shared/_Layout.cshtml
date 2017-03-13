@@ -26,7 +26,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Event Management", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("York Day Camp", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -68,6 +68,13 @@
     <link href=@Url.Content("~/Content/dxtheme/dx.light.compact.css") rel="stylesheet" />
     <script src=@Url.Content("~/Scripts/grid/jszip.min.js")></script>
     <script src=@Url.Content("~/Scripts/grid/dx.all.js")></script>
+
     @RenderSection("Scripts", required: false)
+    <script src=@Url.Content("~/Scripts/grid/globalize.min.js")></script>
+    <script src=@Url.Content("~/Scripts/grid/globalize/number.min.js")></script>
+    <script src=@Url.Content("~/Scripts/grid/globalize/date.min.js")></script>
+    <script src=@Url.Content("~/Scripts/grid/globalize/message.min.js")></script>
+    <script src=@Url.Content("~/Scripts/grid/globalize/currency.min.js")></script>
+
 </body>
 </html>

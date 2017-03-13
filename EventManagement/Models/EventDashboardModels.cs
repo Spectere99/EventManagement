@@ -9,9 +9,16 @@ namespace EventManagement.Models
         {
             public int EventId { get; set; }
             public string EventName { get; set; }
-            public long? VolunteerCount { get; set; }
-            public long? ReservationCount { get; set; }
-            public long? RegistrationCount { get; set; }
+            public int VolunteerCount { get; set; }
+            public int ReservationCount { get; set; }
+            public int RegistrationCount { get; set; }
+        }
+        public class EventDashboardCountsPivotModel
+        {
+            public int EventId { get; set; }
+            public string EventName { get; set; }
+            public string RegType { get; set; }
+            public int Val { get; set; }
         }
         public class VolunteersDashboardViewModel
         {

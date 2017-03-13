@@ -65,6 +65,9 @@
     <Compile Include="dbveventcount.cs">
       <DependentUpon>EventModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="dbveventcountsbyunit.cs">
+      <DependentUpon>EventModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="dbveventdashboardtrend.cs">
       <DependentUpon>EventModel.tt</DependentUpon>
     </Compile>
@@ -84,6 +87,9 @@
       <DependentUpon>EventModel.tt</DependentUpon>
     </Compile>
     <Compile Include="dbvreservationtrend.cs">
+      <DependentUpon>EventModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="dbvvolunteercount.cs">
       <DependentUpon>EventModel.tt</DependentUpon>
     </Compile>
     <Compile Include="event.cs">

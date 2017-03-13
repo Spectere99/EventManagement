@@ -189,6 +189,21 @@ warning 6002: The table/view 'def.events.dbveventcounts' does not have a primary
           <Property Name="RegistrationCount" Type="bigint" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'def.events.dbveventcountsbyunit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="dbveventcountsbyunit">
+          <Key>
+            <PropertyRef Name="EventId" />
+            <PropertyRef Name="UnitNumber" />
+          </Key>
+          <Property Name="EventId" Type="int" Nullable="false" />
+          <Property Name="VolCount" Type="decimal" Precision="42" Scale="0" />
+          <Property Name="RegCount" Type="decimal" Precision="41" Scale="0" />
+          <Property Name="ResCount" Type="decimal" Precision="41" Scale="0" />
+          <Property Name="UnitID" Type="int" />
+          <Property Name="UnitType" Type="varchar" MaxLength="45" />
+          <Property Name="UnitNumber" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'def.events.dbveventdashboardtrend' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="dbveventdashboardtrend">
           <Key>
@@ -350,6 +365,26 @@ warning 6002: The table/view 'def.events.dbvreservationtrend' does not have a pr
           <Property Name="DailyCount" Type="bigint" Nullable="false" />
           <Property Name="LastUpdated" Type="datetime" Precision="0" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.events.dbvvolunteercounts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="dbvvolunteercounts">
+          <Key>
+            <PropertyRef Name="events_EventID" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="volunteerDays" />
+            <PropertyRef Name="PersonType" />
+            <PropertyRef Name="UnitNumber" />
+            <PropertyRef Name="UnitID" />
+          </Key>
+          <Property Name="events_EventID" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="45" />
+          <Property Name="volunteerDays" Type="int" Nullable="false" />
+          <Property Name="PersonType" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="UnitType" Type="varchar" MaxLength="45" />
+          <Property Name="UnitNumber" Type="int" Nullable="false" />
+          <Property Name="UnitID" Type="int" Nullable="false" />
+        </EntityType>
         <Association Name="fk_Events_EventTypes">
           <End Role="eventtypes" Type="Self.eventtypes" Multiplicity="1" />
           <End Role="events" Type="Self.events" Multiplicity="*" />
@@ -470,6 +505,17 @@ warning 6035: The relationship 'fk_Reservations_Person1' has columns that are no
 `dbveventcounts`.`RegistrationCount`
 FROM `dbveventcounts` AS `dbveventcounts`</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="dbveventcountsbyunit" EntityType="Self.dbveventcountsbyunit" store:Type="Views" store:Schema="events">
+            <DefiningQuery>SELECT
+`dbveventcountsbyunit`.`EventId`, 
+`dbveventcountsbyunit`.`VolCount`, 
+`dbveventcountsbyunit`.`RegCount`, 
+`dbveventcountsbyunit`.`ResCount`, 
+`dbveventcountsbyunit`.`UnitID`, 
+`dbveventcountsbyunit`.`UnitType`, 
+`dbveventcountsbyunit`.`UnitNumber`
+FROM `dbveventcountsbyunit` AS `dbveventcountsbyunit`</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="dbveventdashboardtrend" EntityType="Self.dbveventdashboardtrend" store:Type="Views" store:Schema="events">
             <DefiningQuery>SELECT
 `dbveventdashboardtrend`.`events_EventID`, 
@@ -576,6 +622,18 @@ FROM `dbvreservationdetails` AS `dbvreservationdetails`</DefiningQuery>
 `dbvreservationtrend`.`DailyCount`, 
 `dbvreservationtrend`.`LastUpdated`
 FROM `dbvreservationtrend` AS `dbvreservationtrend`</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="dbvvolunteercounts" EntityType="Self.dbvvolunteercounts" store:Type="Views" store:Schema="events">
+            <DefiningQuery>SELECT
+`dbvvolunteercounts`.`events_EventID`, 
+`dbvvolunteercounts`.`FirstName`, 
+`dbvvolunteercounts`.`LastName`, 
+`dbvvolunteercounts`.`volunteerDays`, 
+`dbvvolunteercounts`.`PersonType`, 
+`dbvvolunteercounts`.`UnitType`, 
+`dbvvolunteercounts`.`UnitNumber`, 
+`dbvvolunteercounts`.`UnitID`
+FROM `dbvvolunteercounts` AS `dbvvolunteercounts`</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="fk_Events_EventTypes" Association="Self.fk_Events_EventTypes">
             <End Role="eventtypes" EntitySet="eventtypes" />
@@ -943,6 +1001,8 @@ FROM `dbvreservationtrend` AS `dbvreservationtrend`</DefiningQuery>
           <EntitySet Name="dbvreservationdetails" EntityType="eventsModel.dbvreservationdetail" />
           <EntitySet Name="dbvreservationtrends" EntityType="eventsModel.dbvreservationtrend" />
           <EntitySet Name="dbveventdashboardtrends" EntityType="eventsModel.dbveventdashboardtrend" />
+          <EntitySet Name="dbvvolunteercounts" EntityType="eventsModel.dbvvolunteercount" />
+          <EntitySet Name="dbveventcountsbyunits" EntityType="eventsModel.dbveventcountsbyunit" />
         </EntityContainer>
         <EntityType Name="dbveventcount">
           <Key>
@@ -1066,6 +1126,37 @@ FROM `dbvreservationtrend` AS `dbvreservationtrend`</DefiningQuery>
           <Property Name="RegCount" Type="Decimal" />
           <Property Name="ResCount" Type="Decimal" />
           <Property Name="LastUpdated" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="dbvvolunteercount">
+          <Key>
+            <PropertyRef Name="events_EventID" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="volunteerDays" />
+            <PropertyRef Name="PersonType" />
+            <PropertyRef Name="UnitNumber" />
+            <PropertyRef Name="UnitID" />
+          </Key>
+          <Property Name="events_EventID" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="volunteerDays" Type="Int32" Nullable="false" />
+          <Property Name="PersonType" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="UnitType" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="UnitNumber" Type="Int32" Nullable="false" />
+          <Property Name="UnitID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="dbveventcountsbyunit">
+          <Key>
+            <PropertyRef Name="EventId" />
+            <PropertyRef Name="UnitNumber" />
+          </Key>
+          <Property Name="EventId" Type="Int32" Nullable="false" />
+          <Property Name="VolCount" Type="Decimal" />
+          <Property Name="RegCount" Type="Decimal" />
+          <Property Name="ResCount" Type="Decimal" />
+          <Property Name="UnitID" Type="Int32" />
+          <Property Name="UnitType" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="UnitNumber" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1369,6 +1460,33 @@ FROM `dbvreservationtrend` AS `dbvreservationtrend`</DefiningQuery>
                 <ScalarProperty Name="RegCount" ColumnName="RegCount" />
                 <ScalarProperty Name="VolCount" ColumnName="VolCount" />
                 <ScalarProperty Name="events_EventID" ColumnName="events_EventID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dbvvolunteercounts">
+            <EntityTypeMapping TypeName="eventsModel.dbvvolunteercount">
+              <MappingFragment StoreEntitySet="dbvvolunteercounts">
+                <ScalarProperty Name="UnitID" ColumnName="UnitID" />
+                <ScalarProperty Name="UnitNumber" ColumnName="UnitNumber" />
+                <ScalarProperty Name="UnitType" ColumnName="UnitType" />
+                <ScalarProperty Name="PersonType" ColumnName="PersonType" />
+                <ScalarProperty Name="volunteerDays" ColumnName="volunteerDays" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="events_EventID" ColumnName="events_EventID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dbveventcountsbyunits">
+            <EntityTypeMapping TypeName="eventsModel.dbveventcountsbyunit">
+              <MappingFragment StoreEntitySet="dbveventcountsbyunit">
+                <ScalarProperty Name="UnitNumber" ColumnName="UnitNumber" />
+                <ScalarProperty Name="UnitType" ColumnName="UnitType" />
+                <ScalarProperty Name="UnitID" ColumnName="UnitID" />
+                <ScalarProperty Name="ResCount" ColumnName="ResCount" />
+                <ScalarProperty Name="RegCount" ColumnName="RegCount" />
+                <ScalarProperty Name="VolCount" ColumnName="VolCount" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

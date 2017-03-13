@@ -47,5 +47,7 @@ namespace DayCampData
         public virtual DbSet<dbvreservationdetail> dbvreservationdetails { get; set; }
         public virtual DbSet<dbvreservationtrend> dbvreservationtrends { get; set; }
         public virtual DbSet<dbveventdashboardtrend> dbveventdashboardtrends { get; set; }
+        public virtual DbSet<dbvvolunteercount> dbvvolunteercounts { get; set; }
+        public virtual DbSet<dbveventcountsbyunit> dbveventcountsbyunits { get; set; }
     }
 }
