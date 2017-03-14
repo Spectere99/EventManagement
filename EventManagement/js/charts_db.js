@@ -1,22 +1,38 @@
-﻿
+﻿var baseURL = window.location.host;
 
-var TREND_CHART_SERVICE_URL = "http://localhost:50337/api/TrendChartData";
-var UNIT_COUNT_CHART_SERVICE_URL = "http://localhost:50337/api/UnitEventCountsData";
-var EVENT_COUNT_CHART_SERVICE_URL = "http://localhost:50337/api/EventCountsData";
+var TREND_CHART_SERVICE_URL = "http://" + baseURL + "/api/TrendChartData";
+var UNIT_COUNT_CHART_SERVICE_URL = "http://" + baseURL + "/api/UnitEventCountsData";
+var EVENT_COUNT_CHART_SERVICE_URL = "http://" + baseURL + "/api/EventCountsData";
 
 var chartRegistrationsStore = new DevExpress.data.CustomStore({
     load: function (loadOptions) {
-        return $.getJSON(TREND_CHART_SERVICE_URL);
+        return $.ajax({
+            dataType: "JSON",
+            url: TREND_CHART_SERVICE_URL,
+            contentType: "application/json; charset=utf-8",
+            type: "GET"
+        })
+        //return $.getJSON(TREND_CHART_SERVICE_URL);
     }
 });
 var chartUnitEventCountsStore = new DevExpress.data.CustomStore({
     load: function (loadOptions) {
-        return $.getJSON(UNIT_COUNT_CHART_SERVICE_URL);
+        return $.ajax({
+            dataType: "JSON",
+            url: UNIT_COUNT_CHART_SERVICE_URL,
+            contentType: "application/json; charset=utf-8",
+            type: "GET"
+        })
     }
 });
 var chartEventCountsStore = new DevExpress.data.CustomStore({
     load: function (loadOptions) {
-        return $.getJSON(EVENT_COUNT_CHART_SERVICE_URL);
+        return $.ajax({
+            dataType: "JSON",
+            url: EVENT_COUNT_CHART_SERVICE_URL,
+            contentType: "application/json; charset=utf-8",
+            type: "GET"
+        })
     }
 });
 

@@ -1,8 +1,15 @@
-﻿var VOL_SERVICE_URL = "http://localhost:50337/api/VolunteerDash/";
-//var volData = [{ "id": 15, "name": "Robert Flowers", "dob": "1975-11-30T00:00:00", "unit": "Pack 349", "email": "flowersr99@gmail.com", "homePhone": "(803)628-1949", "cellPhone": "(803)984-5211", "address": "1026 W. Mount Gallant Rd.", "city": "York", "state": "SC", "zip": "29745", "volunteerDays": 5, "mondayVol": true, "tuesdayVol": true, "wednesdayVol": true, "thursdayVol": true, "fridayVol": true, "saturdayVol": false, "sundayVol": false, "volunteerDayDisplay": "Mon,Tues,Wed,Thurs,Fri" }, { "id": 16, "name": "Lauren Flowers", "dob": "2001-12-25T00:00:00", "unit": "Pack 349", "email": "flowersr99@gmail.com", "homePhone": "(803)628-1949", "cellPhone": "(803)984-5211", "address": "1026 W. Mount Gallant Rd.", "city": "York", "state": "SC", "zip": "29745", "volunteerDays": 4, "mondayVol": true, "tuesdayVol": true, "wednesdayVol": true, "thursdayVol": false, "fridayVol": true, "saturdayVol": false, "sundayVol": false, "volunteerDayDisplay": "Mon,Tues,Wed,Fri" }];
+﻿var baseURL = window.location.host;
+
+var VOL_SERVICE_URL = "http://" + baseURL + "/api/VolunteerDash/";
+
 var gridVolDataStore = new DevExpress.data.CustomStore({
     load: function (loadOptions) {
-        return $.getJSON(VOL_SERVICE_URL);
+        return $.ajax({
+            dataType: "JSON",
+            url: VOL_SERVICE_URL,
+            contentType: "application/json; charset=utf-8",
+            type: "GET"
+        })
     },
     insert: function (values) {
         return $.ajax({

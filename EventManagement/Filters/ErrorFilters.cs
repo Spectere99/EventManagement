@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
+using System.IO;
 
 public class ErrorFilter : HandleErrorAttribute
 {
@@ -14,7 +15,10 @@ public class ErrorFilter : HandleErrorAttribute
 
         controller = filterContext.RouteData.Values["controller"].ToString();
         action = filterContext.RouteData.Values["action"].ToString();
-
+        TextWriter tr = new StreamWriter(System.Web.HttpContext.Current.Server.MapPath("../logs/errors.log"), true);
+        tr.WriteLine(exception.Message);
+        tr.Flush();
+        tr.Close();
         if (filterContext.ExceptionHandled)
         {
             return;

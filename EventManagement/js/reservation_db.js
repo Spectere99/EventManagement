@@ -1,8 +1,14 @@
-﻿var RES_SERVICE_URL = "http://localhost:50337/api/ReservationDash/";
+﻿var baseURL = window.location.host;
+var RES_SERVICE_URL = "http://" + baseURL + "/api/ReservationDash/";
 
 var gridResDataStore = new DevExpress.data.CustomStore({
     load: function (loadOptions) {
-        return $.getJSON(RES_SERVICE_URL);
+        return $.ajax({
+            dataType: "JSON",
+            url: RES_SERVICE_URL,
+            contentType: "application/json; charset=utf-8",
+            type: "GET"
+        })
     },
     insert: function (values) {
         return $.ajax({
