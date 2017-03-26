@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -22,16 +23,18 @@ namespace EventManagement.Controllers
             try
             {
                 var userId = User.Identity.GetUserId();
+                
                 //Get person based on their user id
                 var person = personReader.GetByUserId(userId).FirstOrDefault();
                 if (person != null)
                 {
+                   
                     orgViewModel = TranslatePersonDTO(person);
                     //Need to load the children now.
                     var unitMembers = personReader.GetList().Where(p => p.Unit.UnitId == person.Unit.UnitId);
                     //var members = unitMembers.Where(p=>p.PersonType.Type == "Cub Scout");
                     orgViewModel.Members = new List<PersonViewModel>();
-
+                    
                     foreach (var member in unitMembers)
                     {
                         var childViewModel = TranslatePersonDTOToPersonViewModel(member);
@@ -44,10 +47,29 @@ namespace EventManagement.Controllers
             catch (Exception ex)
             {
                 var st = new StackTrace(ex, true);
-                var frame = st.GetFrame(0);
-                var line = frame.GetFileLineNumber();
+                StackFrame frame = st.GetFrame(0);
 
+                //Get the file name
+                string fileName = frame.GetFileName();
+
+                //Get the method name
+                string methodName = frame.GetMethod().Name;
+
+                //Get the line number from the stack frame
+                int line = frame.GetFileLineNumber();
+
+                //Get the column number
+                int col = frame.GetFileColumnNumber();
+
+                TextWriter tr = new StreamWriter(System.Web.HttpContext.Current.Server.MapPath("../logs/errors.log"), true);
+                tr.WriteLine("File: {0}", fileName);
+                tr.WriteLine("Method: {0}", methodName);
+                tr.WriteLine("Line Number: {0} - Col: {1}", line, col);
+                tr.WriteLine(ex.Message);
+                tr.Flush();
+                tr.Close();
                 HandleErrorInfo handleErrorInfo = new HandleErrorInfo(new Exception(string.Format("Error when loading Organization: Line {0} : {1}", line, ex.Message)), "Organization", "Index");
+
                 return View("Error", handleErrorInfo);
             }
             

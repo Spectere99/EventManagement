@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
@@ -16,6 +17,24 @@ public class ErrorFilter : HandleErrorAttribute
         controller = filterContext.RouteData.Values["controller"].ToString();
         action = filterContext.RouteData.Values["action"].ToString();
         TextWriter tr = new StreamWriter(System.Web.HttpContext.Current.Server.MapPath("../logs/errors.log"), true);
+        StackTrace st = new StackTrace(exception, true);
+        //Get the first stack frame
+        StackFrame frame = st.GetFrame(0);
+
+        //Get the file name
+        string fileName = frame.GetFileName();
+
+        //Get the method name
+        string methodName = frame.GetMethod().Name;
+
+        //Get the line number from the stack frame
+        int line = frame.GetFileLineNumber();
+
+        //Get the column number
+        int col = frame.GetFileColumnNumber();
+        tr.WriteLine("File: {0}", fileName);
+        tr.WriteLine("Method: {0}", methodName);
+        tr.WriteLine("Line Number: {0} - Col: {1}", line, col);
         tr.WriteLine(exception.Message);
         tr.Flush();
         tr.Close();

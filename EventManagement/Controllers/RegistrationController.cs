@@ -529,7 +529,7 @@ namespace EventManagement.Controllers
             var callbackUrl = Url.Action("ConvertReservation", "Registration", new { userId = user.Person.PersonId, code = user.RegistrationCode }, protocol: Request.Url.Scheme);
 
             System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
-            new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
+            new System.Net.Mail.MailAddress("registrations@yorkdaycamp.com", "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Person.ParentPerson.ContactInfo.Email));
             m.Subject = "Registration Opening - Notification";
             m.Body = string.Format("Dear {0} <BR/>A spot for your unit has become available to register for {1}. Click on the following link to complete your scout's registration: <a href=\"{2}\"title=\"Register\">REGISTER</a><BR/><BR/>" +
@@ -538,9 +538,9 @@ namespace EventManagement.Controllers
                                    " -York District Day Scout Day Camp Team"
                                    , user.Person.ParentPerson.FirstName, user.Event.Name, callbackUrl);
             m.IsBodyHtml = true;
-            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.proeventlistings.com");
+            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.yorkdaycamp.com");
             smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new System.Net.NetworkCredential("admin@proeventlistings.com", "Sp3ct3r399");
+            smtp.Credentials = new System.Net.NetworkCredential("smtpauth@yorkdaycamp.com", "clKi088@");
 
             smtp.EnableSsl = false;
             smtp.Send(m);
@@ -551,7 +551,7 @@ namespace EventManagement.Controllers
             //var callbackUrl = Url.Action("ConvertReservation", "Registration", new { userId = user.Person.PersonId, code = user.RegistrationCode }, protocol: Request.Url.Scheme);
 
             System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
-            new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
+            new System.Net.Mail.MailAddress("registrations@yorkdaycamp.com", "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Person.ParentPerson.ContactInfo.Email));
             m.To.Add("yorkdaycamp@gmail.com");
             //m.To.Add("taylor.thomas@scouting.org");
@@ -580,9 +580,9 @@ namespace EventManagement.Controllers
                                    , user.Person.ParentPerson.ContactInfo.HomePhone
                                    , user.Person.ParentPerson.ContactInfo.CellPhone);
             m.IsBodyHtml = true;
-            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.proeventlistings.com");
+            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.yorkdaycamp.com");
             smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new System.Net.NetworkCredential("admin@proeventlistings.com", "Sp3ct3r399");
+            smtp.Credentials = new System.Net.NetworkCredential("smtpauth@yorkdaycamp.com", "clKi088@");
 
             smtp.EnableSsl = false;
             smtp.Send(m);
@@ -592,7 +592,7 @@ namespace EventManagement.Controllers
             //var callbackUrl = Url.Action("ConvertReservation", "Registration", new { userId = user.Person.PersonId, code = user.RegistrationCode }, protocol: Request.Url.Scheme);
 
             System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
-            new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
+            new System.Net.Mail.MailAddress("registrations@yorkdaycamp.com", "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Person.ParentPerson.ContactInfo.Email));
             m.To.Add("yorkdaycamp@gmail.com");
             //m.To.Add("taylor.thomas@scouting.org");
@@ -624,9 +624,9 @@ namespace EventManagement.Controllers
                                    , user.Person.ParentPerson.ContactInfo.HomePhone
                                    , user.Person.ParentPerson.ContactInfo.CellPhone);
             m.IsBodyHtml = true;
-            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.proeventlistings.com");
+            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.yorkdaycamp.com");
             smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new System.Net.NetworkCredential("admin@proeventlistings.com", "Sp3ct3r399");
+            smtp.Credentials = new System.Net.NetworkCredential("smtpauth@yorkdaycamp.com", "clKi088@");
 
             smtp.EnableSsl = false;
             smtp.Send(m);
@@ -637,7 +637,7 @@ namespace EventManagement.Controllers
             //var callbackUrl = Url.Action("ConvertReservation", "Registration", new { userId = user.Person.PersonId, code = user.RegistrationCode }, protocol: Request.Url.Scheme);
 
             System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
-            new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
+            new System.Net.Mail.MailAddress("registrations@yorkdaycamp.com", "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Person.ContactInfo.Email));
             m.To.Add("yorkdaycamp@gmail.com");
             //m.To.Add("taylor.thomas@scouting.org");
@@ -677,9 +677,9 @@ namespace EventManagement.Controllers
                                    , user.Person.ContactInfo.HomePhone
                                    , user.Person.ContactInfo.CellPhone);
             m.IsBodyHtml = true;
-            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.proeventlistings.com");
+            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.yorkdaycamp.com");
             smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new System.Net.NetworkCredential("admin@proeventlistings.com", "Sp3ct3r399");
+            smtp.Credentials = new System.Net.NetworkCredential("smtpauth@yorkdaycamp.com", "clKi088@");
 
             smtp.EnableSsl = false;
             smtp.Send(m);
