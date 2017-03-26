@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Web;
@@ -15,6 +16,12 @@ namespace EventManagement.Controllers
 {
     public class RegistrationController : ApplicationBaseController
     {
+        private string _SmtpServer;
+        private string _SmtpAuthAccount;
+        private string _SmtpAuthPassword = "";
+        private string _outputEmail;
+        private string[] _ccEmails;
+
         // GET: Registration
         // Sets up for the user to select the event that they want to register for.
         public ActionResult Index()
@@ -526,10 +533,11 @@ namespace EventManagement.Controllers
         }
         private void SendReservationOpeningEmail(ReservationDTO user)
         {
+            SetEmailSettings();
             var callbackUrl = Url.Action("ConvertReservation", "Registration", new { userId = user.Person.PersonId, code = user.RegistrationCode }, protocol: Request.Url.Scheme);
 
             System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
-            new System.Net.Mail.MailAddress("registrations@yorkdaycamp.com", "York Day Camp"),
+            new System.Net.Mail.MailAddress(_outputEmail, "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Person.ParentPerson.ContactInfo.Email));
             m.Subject = "Registration Opening - Notification";
             m.Body = string.Format("Dear {0} <BR/>A spot for your unit has become available to register for {1}. Click on the following link to complete your scout's registration: <a href=\"{2}\"title=\"Register\">REGISTER</a><BR/><BR/>" +
@@ -538,9 +546,9 @@ namespace EventManagement.Controllers
                                    " -York District Day Scout Day Camp Team"
                                    , user.Person.ParentPerson.FirstName, user.Event.Name, callbackUrl);
             m.IsBodyHtml = true;
-            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.yorkdaycamp.com");
+            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer);
             smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new System.Net.NetworkCredential("smtpauth@yorkdaycamp.com", "clKi088@");
+            smtp.Credentials = new System.Net.NetworkCredential(_SmtpAuthAccount, _SmtpAuthPassword);
 
             smtp.EnableSsl = false;
             smtp.Send(m);
@@ -549,13 +557,17 @@ namespace EventManagement.Controllers
         private void SendWaitingListConfirmEmail(ReservationViewModel user)
         {
             //var callbackUrl = Url.Action("ConvertReservation", "Registration", new { userId = user.Person.PersonId, code = user.RegistrationCode }, protocol: Request.Url.Scheme);
-
+            SetEmailSettings();
             System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
-            new System.Net.Mail.MailAddress("registrations@yorkdaycamp.com", "York Day Camp"),
+            new System.Net.Mail.MailAddress(_outputEmail, "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Person.ParentPerson.ContactInfo.Email));
-            m.To.Add("yorkdaycamp@gmail.com");
-            //m.To.Add("taylor.thomas@scouting.org");
-            m.To.Add("morgan.hawkins@scouting.org");
+            foreach (string email in _ccEmails)
+            {
+                m.To.Add(email);
+            }
+            //m.To.Add("yorkdaycamp@gmail.com");
+            ////m.To.Add("taylor.thomas@scouting.org");
+            //m.To.Add("morgan.hawkins@scouting.org");
             m.Subject = "Waiting List Confirmation";
             m.Body = string.Format("Dear {0} <BR/>Your scout is currently on the waiting list for {1}.  <BR/>" +
                                    "As soon as enough volunteers from your Unit register, more slots will open up and you will be notified." +
@@ -580,9 +592,9 @@ namespace EventManagement.Controllers
                                    , user.Person.ParentPerson.ContactInfo.HomePhone
                                    , user.Person.ParentPerson.ContactInfo.CellPhone);
             m.IsBodyHtml = true;
-            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.yorkdaycamp.com");
+            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer);
             smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new System.Net.NetworkCredential("smtpauth@yorkdaycamp.com", "clKi088@");
+            smtp.Credentials = new System.Net.NetworkCredential(_SmtpAuthAccount, _SmtpAuthPassword);
 
             smtp.EnableSsl = false;
             smtp.Send(m);
@@ -590,13 +602,17 @@ namespace EventManagement.Controllers
         private void SendRegistrationConfirmEmail(RegistrationViewModel user)
         {
             //var callbackUrl = Url.Action("ConvertReservation", "Registration", new { userId = user.Person.PersonId, code = user.RegistrationCode }, protocol: Request.Url.Scheme);
-
+            SetEmailSettings();
             System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
-            new System.Net.Mail.MailAddress("registrations@yorkdaycamp.com", "York Day Camp"),
+            new System.Net.Mail.MailAddress(_outputEmail, "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Person.ParentPerson.ContactInfo.Email));
-            m.To.Add("yorkdaycamp@gmail.com");
-            //m.To.Add("taylor.thomas@scouting.org");
-            m.To.Add("morgan.hawkins@scouting.org");
+            foreach (string email in _ccEmails)
+            {
+                m.To.Add(email);
+            }
+            //m.To.Add("yorkdaycamp@gmail.com");
+            ////m.To.Add("taylor.thomas@scouting.org");
+            //m.To.Add("morgan.hawkins@scouting.org");
             m.Subject = "Registration Confirmed";
             m.Body = string.Format("Dear {0}, <BR/>Congratulations!  Your scout's registration to {1} has been confirmed.  <BR/>" +
                                    "Your confirmation number is: {2}. <BR/> Please make sure you have paid through the council web site using the following link:<BR/>" +
@@ -624,9 +640,9 @@ namespace EventManagement.Controllers
                                    , user.Person.ParentPerson.ContactInfo.HomePhone
                                    , user.Person.ParentPerson.ContactInfo.CellPhone);
             m.IsBodyHtml = true;
-            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.yorkdaycamp.com");
+            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer);
             smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new System.Net.NetworkCredential("smtpauth@yorkdaycamp.com", "clKi088@");
+            smtp.Credentials = new System.Net.NetworkCredential(_SmtpAuthAccount, _SmtpAuthPassword);
 
             smtp.EnableSsl = false;
             smtp.Send(m);
@@ -635,13 +651,17 @@ namespace EventManagement.Controllers
         private void SendVolunteerConfirmEmail(VolunteerRegistrationViewModel user)
         {
             //var callbackUrl = Url.Action("ConvertReservation", "Registration", new { userId = user.Person.PersonId, code = user.RegistrationCode }, protocol: Request.Url.Scheme);
-
+            SetEmailSettings();
             System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
-            new System.Net.Mail.MailAddress("registrations@yorkdaycamp.com", "York Day Camp"),
+            new System.Net.Mail.MailAddress(_outputEmail, "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Person.ContactInfo.Email));
-            m.To.Add("yorkdaycamp@gmail.com");
-            //m.To.Add("taylor.thomas@scouting.org");
-            m.To.Add("morgan.hawkins@scouting.org");
+            foreach (string email in _ccEmails)
+            {
+                m.To.Add(email);
+            }
+            //m.To.Add("yorkdaycamp@gmail.com");
+            ////m.To.Add("taylor.thomas@scouting.org");
+            //m.To.Add("morgan.hawkins@scouting.org");
             m.Subject = "Registration Confirmed";
             m.Body = string.Format("Dear {0} <BR/>Thank you for volunteering at {1} this year.<BR/>" +
                                    "You have volunteered for {2} days! <BR/> " +
@@ -677,12 +697,23 @@ namespace EventManagement.Controllers
                                    , user.Person.ContactInfo.HomePhone
                                    , user.Person.ContactInfo.CellPhone);
             m.IsBodyHtml = true;
-            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.yorkdaycamp.com");
+            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer);
             smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new System.Net.NetworkCredential("smtpauth@yorkdaycamp.com", "clKi088@");
+            smtp.Credentials = new System.Net.NetworkCredential(_SmtpAuthAccount, _SmtpAuthPassword);
 
             smtp.EnableSsl = false;
             smtp.Send(m);
         }
+        
+        private void SetEmailSettings()
+        {
+            _SmtpServer = ConfigurationManager.AppSettings["SmtpServer"];
+            _SmtpAuthAccount = ConfigurationManager.AppSettings["SmtpAuthAccount"];
+            _SmtpAuthPassword = "clKi088@";
+            _outputEmail = ConfigurationManager.AppSettings["OutboundEmail"];
+            _ccEmails = ConfigurationManager.AppSettings["CCEmails"].Split(';');
+        }
     }
+
+    
 }
