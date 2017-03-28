@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -23,6 +24,13 @@ namespace EventManagement.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationDbContext _context;
+
+        private string _SmtpServer;
+        private string _SmtpAuthAccount;
+        private string _SmtpAuthPassword = "";
+        private string _outputEmail;
+        private string[] _ccEmails;
+
 
         public AccountController()
         {
@@ -673,17 +681,17 @@ namespace EventManagement.Controllers
         private void SendValidationCodeEmail(ApplicationUser user, string personName, string code)
         {
             var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-
+            SetEmailSettings();
             System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
-            new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
+            new System.Net.Mail.MailAddress(_outputEmail, "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Email));
             m.Subject = "Email confirmation";
             m.Body = string.Format("Dear {0} <BR/>Thank you for your registration, please click on the below link to complete your registration: <a href=\"{1}\"title=\"User Email Confirm\">CONFIRM ACCOUNT</a>"
                                 , personName, callbackUrl);
             m.IsBodyHtml = true;
-            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.proeventlistings.com");
+            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer);
             smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new System.Net.NetworkCredential("admin@proeventlistings.com", "Sp3ct3r399");
+            smtp.Credentials = new System.Net.NetworkCredential(_SmtpAuthAccount, _SmtpAuthPassword);
 
             smtp.EnableSsl = false;
             smtp.Send(m);
@@ -692,20 +700,29 @@ namespace EventManagement.Controllers
         private void SendForgotPasswordEmail(ApplicationUser user, string code)
         {
             var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-
+            SetEmailSettings();
             System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
-            new System.Net.Mail.MailAddress("registration@proeventlistings.com", "York Day Camp"),
+            new System.Net.Mail.MailAddress(_outputEmail, "York Day Camp"),
             new System.Net.Mail.MailAddress(user.Email));
             m.Subject = "Password Reset Request";
             m.Body = string.Format("Dear {0} <BR/>Please click on the below link to reset your password: <a href=\"{1}\"title=\"User Email Confirm\"> RESET PASSWORD</a>",
                                user.UserName, callbackUrl);
             m.IsBodyHtml = true;
-            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("mail.proeventlistings.com");
+            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer);
             smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new System.Net.NetworkCredential("admin@proeventlistings.com", "Sp3ct3r399");
+            smtp.Credentials = new System.Net.NetworkCredential(_SmtpAuthAccount, _SmtpAuthPassword);
 
             smtp.EnableSsl = false;
             smtp.Send(m);
+        }
+
+        private void SetEmailSettings()
+        {
+            _SmtpServer = ConfigurationManager.AppSettings["SmtpServer"];
+            _SmtpAuthAccount = ConfigurationManager.AppSettings["SmtpAuthAccount"];
+            _SmtpAuthPassword = "clKi088@";
+            _outputEmail = ConfigurationManager.AppSettings["OutboundEmail"];
+            _ccEmails = ConfigurationManager.AppSettings["CCEmails"].Split(';');
         }
     }
 }
