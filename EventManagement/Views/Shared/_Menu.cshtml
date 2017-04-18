@@ -25,23 +25,45 @@
                             select item;
                 foreach (var link in links)
                 {
-                    if (link.LinkText == "Administration")
+                    switch (link.LinkText)
                     {
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">@link.LinkText
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("User Manager", "Index", "Admin")</li>
-                                <li>@Html.ActionLink("Event Dashboard", "Dashboard", "Admin")</li>
-                            </ul>
-                        </li>
-                    }
-                    else
-                    {
-                        <li>@Html.ActionLink(link.LinkText, link.ActionName, link.ControllerName)</li>
+                        case "Administration":
+                        {
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    @link.LinkText
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("User Manager", "Index", "Admin")</li>
+                                    <li>@Html.ActionLink("Event Dashboard", "Dashboard", "Admin")</li>
+                                </ul>
+                            </li>
+                            break;
+                        }
+                        case "My Organization":
+                        {
+
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    @link.LinkText
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Details", "Index", "Organization")</li>
+                                    <li>@Html.ActionLink("Unit Dashboard", "UnitReporting", "Organization")</li>
+                                </ul>
+                            </li>
+                            break;
+                        }
+                        default:
+                        {
+                            <li>@Html.ActionLink(link.LinkText, link.ActionName, link.ControllerName)</li>
+                            break;
+                        }
                     }
                 }
+                    
             }
             else
             {

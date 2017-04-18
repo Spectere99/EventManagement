@@ -357,8 +357,11 @@
     <Content Include="js\person.js" />
     <Content Include="js\register.js" />
     <Content Include="js\registration.js" />
+    <Content Include="js\unit_reservation_db.js" />
+    <Content Include="js\unit_registration_db.js" />
     <Content Include="js\reservation_db.js" />
     <Content Include="js\registration_db.js" />
+    <Content Include="js\unit_volunteer_db.js" />
     <Content Include="js\volunteer_db.js" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
@@ -596,6 +599,7 @@
     <Content Include="Views\Shared\_GridPager.cshtml" />
     <Content Include="Scripts\jquery-1.12.4.min.map" />
     <Content Include="Views\Admin\Dashboard.cshtml" />
+    <Content Include="Views\Organization\UnitReporting.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

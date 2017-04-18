@@ -7,6 +7,7 @@ using System.Web.Http;
 using DayCampData;
 using EventManagement.Models;
 using System.Text;
+using Common.Reader;
 
 namespace EventManagement.Controllers
 {
@@ -49,6 +50,44 @@ namespace EventManagement.Controllers
             return volunteers;
         }
 
+        public IEnumerable<VolunteersDashboardViewModel> Get(int id)
+        {
+            eventsEntities dbContext = new eventsEntities();
+            UnitReader unitReader = new UnitReader();
+
+            //Get the unit
+            var unit = unitReader.GetById(id).FirstOrDefault();
+            var volunteerList = dbContext.dbveventvolunteerdetails.Where(p=>p.UnitType == unit.UnitType.Type && p.UnitNumber == unit.UnitNumber).ToList();
+            List<VolunteersDashboardViewModel> volunteers = new List<VolunteersDashboardViewModel>();
+            foreach (dbveventvolunteerdetail item in volunteerList)
+            {
+                volunteers.Add(new VolunteersDashboardViewModel()
+                {
+                    Id = item.ID,
+                    Name = string.Format("{0} {1}", item.FirstName, item.LastName),
+                    DOB = item.BirthDate == null ? DateTime.Parse("1/1/1900") : DateTime.Parse(item.BirthDate.ToString()),
+                    Address = string.Format("{0}", item.Address1),
+                    City = item.City,
+                    State = item.State,
+                    Zip = item.Zip,
+                    Email = item.Email,
+                    Unit = item.UnitType + " " + item.UnitNumber,
+                    VolunteerDays = item.volunteerDays,
+                    HomePhone = item.HomePhone,
+                    CellPhone = item.CellPhone,
+                    MondayVol = item.MondayVol == "Y" ? true : false,
+                    TuesdayVol = item.TuesdayVol == "Y" ? true : false,
+                    WednesdayVol = item.WednesdayVol == "Y" ? true : false,
+                    ThursdayVol = item.ThursdayVol == "Y" ? true : false,
+                    FridayVol = item.FridayVol == "Y" ? true : false,
+                    SaturdayVol = item.SaturdayVol == "Y" ? true : false,
+                    SundayVol = item.SundayVol == "Y" ? true : false,
+                    VolunteerDayDisplay = GetVolunteerDaysString(item)
+                });
+
+            }
+            return volunteers;
+        }
         private string GetVolunteerDaysString(dbveventvolunteerdetail volunteer)
         {
             StringBuilder sb = new StringBuilder();

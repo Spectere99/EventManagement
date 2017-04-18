@@ -9,6 +9,7 @@ namespace EventManagement.Models
         {
             public int EventId { get; set; }
             public string EventName { get; set; }
+            public int UnitId { get; set; }
             public int VolunteerCount { get; set; }
             public int ReservationCount { get; set; }
             public int RegistrationCount { get; set; }

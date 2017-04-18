@@ -14,7 +14,8 @@
                 <h4>Use a local account to log in.</h4>
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                if (Model != null && !Model.EmailConfirmed)
+                //if (Model != null && !Model.EmailConfirmed) 
+                if (Model != null)
                 {
                     <div class="form-group">
                         @Html.ActionLink("Resend Validation Code", "ResendValidationCode", new { id=Model.UserName}, new { @class="btn btn-info"})

@@ -101,15 +101,15 @@ namespace EventManagement.Controllers
             }
 
             var user = await UserManager.FindByNameAsync(model.UserName);
-            if (user != null)
-            {
-                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
-                {
-                    ModelState.AddModelError("", "You need to confirm your email");
-                    model.EmailConfirmed = false;
-                    return View(model);
-                }
-            }
+            //if (user != null)
+            //{
+            //    if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+            //    {
+            //        ModelState.AddModelError("", "You need to confirm your email");
+            //        model.EmailConfirmed = false;
+            //        return View(model);
+            //    }
+            //}
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
@@ -322,8 +322,8 @@ namespace EventManagement.Controllers
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    string confirmCode = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    SendValidationCodeEmail(user, model.FirstName + " " + model.LastName, confirmCode);
+                    //string confirmCode = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    //SendValidationCodeEmail(user, model.FirstName + " " + model.LastName, confirmCode);
 
                     return RedirectToAction("RegistrationComplete", "Account", new {email = user.Email});
                     //return RedirectToAction("ConfirmEmail", "Account", new { userId = user.Id, code = confirmCode });

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -533,176 +535,315 @@ namespace EventManagement.Controllers
         }
         private void SendReservationOpeningEmail(ReservationDTO user)
         {
-            SetEmailSettings();
-            var callbackUrl = Url.Action("ConvertReservation", "Registration", new { userId = user.Person.PersonId, code = user.RegistrationCode }, protocol: Request.Url.Scheme);
+            try
+            {
 
-            System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
-            new System.Net.Mail.MailAddress(_outputEmail, "York Day Camp"),
-            new System.Net.Mail.MailAddress(user.Person.ParentPerson.ContactInfo.Email));
-            m.Subject = "Registration Opening - Notification";
-            m.Body = string.Format("Dear {0} <BR/>A spot for your unit has become available to register for {1}. Click on the following link to complete your scout's registration: <a href=\"{2}\"title=\"Register\">REGISTER</a><BR/><BR/>" +
-                                   "This link expires in 48 hours.  After that time your scout's spot will be given to another person and your scout will be moved to the bottom of the waiting list. <BR/><BR/>" +
-                                   "Thank you for your understanding in this matter while we strive to make Day Camp a safe and memorable experience for all scouts.<BR/><BR/>" +
-                                   " -York District Day Scout Day Camp Team"
-                                   , user.Person.ParentPerson.FirstName, user.Event.Name, callbackUrl);
-            m.IsBodyHtml = true;
-            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer);
-            smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new System.Net.NetworkCredential(_SmtpAuthAccount, _SmtpAuthPassword);
 
-            smtp.EnableSsl = false;
-            smtp.Send(m);
+                SetEmailSettings();
+                var callbackUrl = Url.Action("ConvertReservation", "Registration",
+                    new {userId = user.Person.PersonId, code = user.RegistrationCode}, protocol: Request.Url.Scheme);
+
+                System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
+                    new System.Net.Mail.MailAddress(_outputEmail, "York Day Camp"),
+                    new System.Net.Mail.MailAddress(user.Person.ParentPerson.ContactInfo.Email));
+                m.Subject = "Registration Opening - Notification";
+                m.Body =
+                    string.Format(
+                        "Dear {0} <BR/>A spot for your unit has become available to register for {1}. Click on the following link to complete your scout's registration: <a href=\"{2}\"title=\"Register\">REGISTER</a><BR/><BR/>" +
+                        "This link expires in 48 hours.  After that time your scout's spot will be given to another person and your scout will be moved to the bottom of the waiting list. <BR/><BR/>" +
+                        "Thank you for your understanding in this matter while we strive to make Day Camp a safe and memorable experience for all scouts.<BR/><BR/>" +
+                        " -York District Day Scout Day Camp Team"
+                        , user.Person.ParentPerson.FirstName, user.Event.Name, callbackUrl);
+                m.IsBodyHtml = true;
+                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer);
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new System.Net.NetworkCredential(_SmtpAuthAccount, _SmtpAuthPassword);
+
+                smtp.EnableSsl = false;
+                smtp.Send(m);
+            }
+            catch (Exception ex)
+            {
+                var st = new StackTrace(ex, true);
+                StackFrame frame = st.GetFrame(0);
+
+                //Get the file name
+                string fileName = frame.GetFileName();
+
+                //Get the method name
+                string methodName = frame.GetMethod().Name;
+
+                //Get the line number from the stack frame
+                int line = frame.GetFileLineNumber();
+
+                //Get the column number
+                int col = frame.GetFileColumnNumber();
+
+                TextWriter tr = new StreamWriter(System.Web.HttpContext.Current.Server.MapPath("../logs/errors.log"), true);
+                tr.WriteLine("Date Time: {0}", DateTime.Now);
+                tr.WriteLine("File: {0}", fileName);
+                tr.WriteLine("Method: {0}", methodName);
+                tr.WriteLine("Line Number: {0} - Col: {1}", line, col);
+                tr.WriteLine(ex.Message);
+                tr.Flush();
+                tr.Close();
+                //HandleErrorInfo handleErrorInfo = new HandleErrorInfo(new Exception(string.Format("Error when loading Organization: Line {0} : {1}", line, ex.Message)), "Organization", "Index");
+
+                //return View("Error", handleErrorInfo);
+            }
         }
 
         private void SendWaitingListConfirmEmail(ReservationViewModel user)
         {
-            //var callbackUrl = Url.Action("ConvertReservation", "Registration", new { userId = user.Person.PersonId, code = user.RegistrationCode }, protocol: Request.Url.Scheme);
-            SetEmailSettings();
-            System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
-            new System.Net.Mail.MailAddress(_outputEmail, "York Day Camp"),
-            new System.Net.Mail.MailAddress(user.Person.ParentPerson.ContactInfo.Email));
-            foreach (string email in _ccEmails)
+            try
             {
-                m.To.Add(email);
-            }
-            //m.To.Add("yorkdaycamp@gmail.com");
-            ////m.To.Add("taylor.thomas@scouting.org");
-            //m.To.Add("morgan.hawkins@scouting.org");
-            m.Subject = "Waiting List Confirmation";
-            m.Body = string.Format("Dear {0} <BR/>Your scout is currently on the waiting list for {1}.  <BR/>" +
-                                   "As soon as enough volunteers from your Unit register, more slots will open up and you will be notified." +
-                                   "At that time, you will be able to register in one click. <BR/>" +
-                                   "Please note that waiting list slots are notifed based on the order that they signed up for the event.<BR/><BR/>" +
-                                   "Thank you for your understanding in this matter while we strive to make Day Camp a safe and memorable experience for all scouts.<BR/><BR/>" +
-                                   " -York District Day Scout Day Camp Team" +
-                                    "<HR/> DETAILS: <BR/>" +
-                                   "   <strong>Scout Name:</strong> {2} {3} {4}<BR/>" +
-                                   "   <strong>Unit:</strong> {5} {6} <BR/>" +
-                                   "   <strong>Rank:</strong> {7} <BR/>" +
-                                   "   <strong>Address:</strong> {8}<BR/>" +
-                                   "            {9}, {10} {11}<BR/>" +
-                                   "   <strong>Home Phone:</strong> {12} <BR/>" +
-                                   "   <strong>Cell Phone:</strong> {13} "
-                                   , user.Person.ParentPerson.FirstName + " " + user.Person.ParentPerson.LastName, user.Event.EventName
-                                   , user.Person.FirstName, user.Person.MiddleName, user.Person.LastName
-                                   , user.Person.Unit.UnitType.Type, user.Person.Unit.UnitNumber
-                                   , user.Person.Rank.Rank
-                                   , user.Person.ParentPerson.ContactInfo.Address1
-                                   , user.Person.ParentPerson.ContactInfo.City, user.Person.ParentPerson.ContactInfo.State, user.Person.ParentPerson.ContactInfo.Zip
-                                   , user.Person.ParentPerson.ContactInfo.HomePhone
-                                   , user.Person.ParentPerson.ContactInfo.CellPhone);
-            m.IsBodyHtml = true;
-            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer);
-            smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new System.Net.NetworkCredential(_SmtpAuthAccount, _SmtpAuthPassword);
+                //var callbackUrl = Url.Action("ConvertReservation", "Registration", new { userId = user.Person.PersonId, code = user.RegistrationCode }, protocol: Request.Url.Scheme);
+                SetEmailSettings();
+                System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
+                new System.Net.Mail.MailAddress(_outputEmail, "York Day Camp"),
+                new System.Net.Mail.MailAddress(user.Person.ParentPerson.ContactInfo.Email));
+                foreach (string email in _ccEmails)
+                {
+                    m.To.Add(email);
+                }
+                //m.To.Add("yorkdaycamp@gmail.com");
+                ////m.To.Add("taylor.thomas@scouting.org");
+                //m.To.Add("morgan.hawkins@scouting.org");
+                m.Subject = "Waiting List Confirmation";
+                m.Body = string.Format("Dear {0} <BR/>Your scout is currently on the waiting list for {1}.  <BR/>" +
+                                       "As soon as enough volunteers from your Unit register, more slots will open up and you will be notified." +
+                                       "At that time, you will be able to register in one click. <BR/>" +
+                                       "Please note that waiting list slots are notifed based on the order that they signed up for the event.<BR/><BR/>" +
+                                       "Thank you for your understanding in this matter while we strive to make Day Camp a safe and memorable experience for all scouts.<BR/><BR/>" +
+                                       " -York District Day Scout Day Camp Team" +
+                                        "<HR/> DETAILS: <BR/>" +
+                                       "   <strong>Scout Name:</strong> {2} {3} {4}<BR/>" +
+                                       "   <strong>Unit:</strong> {5} {6} <BR/>" +
+                                       "   <strong>Rank:</strong> {7} <BR/>" +
+                                       "   <strong>Address:</strong> {8}<BR/>" +
+                                       "            {9}, {10} {11}<BR/>" +
+                                       "   <strong>Home Phone:</strong> {12} <BR/>" +
+                                       "   <strong>Cell Phone:</strong> {13} "
+                                       , user.Person.ParentPerson.FirstName + " " + user.Person.ParentPerson.LastName, user.Event.EventName
+                                       , user.Person.FirstName, user.Person.MiddleName, user.Person.LastName
+                                       , user.Person.Unit.UnitType.Type, user.Person.Unit.UnitNumber
+                                       , user.Person.Rank.Rank
+                                       , user.Person.ParentPerson.ContactInfo.Address1
+                                       , user.Person.ParentPerson.ContactInfo.City, user.Person.ParentPerson.ContactInfo.State, user.Person.ParentPerson.ContactInfo.Zip
+                                       , user.Person.ParentPerson.ContactInfo.HomePhone
+                                       , user.Person.ParentPerson.ContactInfo.CellPhone);
+                m.IsBodyHtml = true;
+                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer);
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new System.Net.NetworkCredential(_SmtpAuthAccount, _SmtpAuthPassword);
 
-            smtp.EnableSsl = false;
-            smtp.Send(m);
+                smtp.EnableSsl = false;
+                smtp.Send(m);
+            }
+            catch (Exception ex)
+            {
+                var st = new StackTrace(ex, true);
+                StackFrame frame = st.GetFrame(0);
+
+                //Get the file name
+                string fileName = frame.GetFileName();
+
+                //Get the method name
+                string methodName = frame.GetMethod().Name;
+
+                //Get the line number from the stack frame
+                int line = frame.GetFileLineNumber();
+
+                //Get the column number
+                int col = frame.GetFileColumnNumber();
+
+                TextWriter tr = new StreamWriter(System.Web.HttpContext.Current.Server.MapPath("../logs/errors.log"), true);
+                tr.WriteLine("Date Time: {0}", DateTime.Now);
+                tr.WriteLine("File: {0}", fileName);
+                tr.WriteLine("Method: {0}", methodName);
+                tr.WriteLine("Line Number: {0} - Col: {1}", line, col);
+                tr.WriteLine(ex.Message);
+                tr.Flush();
+                tr.Close();
+                //HandleErrorInfo handleErrorInfo = new HandleErrorInfo(new Exception(string.Format("Error when loading Organization: Line {0} : {1}", line, ex.Message)), "Organization", "Index");
+
+                //return View("Error", handleErrorInfo);
+            }
         }
         private void SendRegistrationConfirmEmail(RegistrationViewModel user)
         {
-            //var callbackUrl = Url.Action("ConvertReservation", "Registration", new { userId = user.Person.PersonId, code = user.RegistrationCode }, protocol: Request.Url.Scheme);
-            SetEmailSettings();
-            System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
-            new System.Net.Mail.MailAddress(_outputEmail, "York Day Camp"),
-            new System.Net.Mail.MailAddress(user.Person.ParentPerson.ContactInfo.Email));
-            foreach (string email in _ccEmails)
+            try
             {
-                m.To.Add(email);
-            }
-            //m.To.Add("yorkdaycamp@gmail.com");
-            ////m.To.Add("taylor.thomas@scouting.org");
-            //m.To.Add("morgan.hawkins@scouting.org");
-            m.Subject = "Registration Confirmed";
-            m.Body = string.Format("Dear {0}, <BR/>Congratulations!  Your scout's registration to {1} has been confirmed.  <BR/>" +
-                                   "Your confirmation number is: {2}. <BR/> Please make sure you have paid through the council web site using the following link:<BR/>" +
-                                   "  <a href=\"{3}\"title=\"User Email Confirm\">PAY HERE</a><BR/><BR/>" +
-                                   " Your registration will not final until you have paid your camp fees. <BR/><BR/>" +
-                                   " On May 11th we will be conducting swim tests and check in (Time TBD). At check in you will need to turn in your scout’s BSA <a href=\"{4}\"title=\"BSA Health Form\">Health forms</a>, pick up t-shirts, meet the Den Leaders and take the BSA swim test. <BR/><BR/>" +
-                                   " We look forward to having a fun filled week with your scout, <BR/><BR/>" +
-                                   " -York District Day Scout Day Camp Team <BR/><BR/>" +
-                                   "<HR/> DETAILS: <BR/>" +
-                                   "   <strong>Scout Name:</strong> {5} {6} {7}<BR/>" +
-                                   "   <strong>Unit:</strong> {8} {9} <BR/>" +
-                                   "   <strong>Rank:</strong> {10} <BR/>" +
-                                   "   <strong>Confirmation Number:</strong> {2}<BR/>" +
-                                   "   <strong>Address:</strong> {11}<BR/>" +
-                                   "            {12}, {13} {14}<BR/>" +
-                                   "   <strong>Home Phone:</strong> {15} <BR/>" +
-                                   "   <strong>Cell Phone:</strong> {16} "
-                                   , user.Person.ParentPerson.FirstName, user.EventView.EventName, user.ConfirmationNumber, "http://palmettocouncil.org/special-events/2015-cub-day-camp"
-                                   , "http://www.scouting.org/filestore/healthsafety/pdf/680-001_ab.pdf"
-                                   , user.Person.FirstName, user.Person.MiddleName, user.Person.LastName
-                                   , user.Person.Unit.UnitType.Type, user.Person.Unit.UnitNumber
-                                   , user.Person.Rank.Rank
-                                   , user.Person.ParentPerson.ContactInfo.Address1
-                                   , user.Person.ParentPerson.ContactInfo.City, user.Person.ParentPerson.ContactInfo.State, user.Person.ParentPerson.ContactInfo.Zip
-                                   , user.Person.ParentPerson.ContactInfo.HomePhone
-                                   , user.Person.ParentPerson.ContactInfo.CellPhone);
-            m.IsBodyHtml = true;
-            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer);
-            smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new System.Net.NetworkCredential(_SmtpAuthAccount, _SmtpAuthPassword);
 
-            smtp.EnableSsl = false;
-            smtp.Send(m);
+                //var callbackUrl = Url.Action("ConvertReservation", "Registration", new { userId = user.Person.PersonId, code = user.RegistrationCode }, protocol: Request.Url.Scheme);
+                SetEmailSettings();
+                System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
+                    new System.Net.Mail.MailAddress(_outputEmail, "York Day Camp"),
+                    new System.Net.Mail.MailAddress(user.Person.ParentPerson.ContactInfo.Email));
+                foreach (string email in _ccEmails)
+                {
+                    m.To.Add(email);
+                }
+                //m.To.Add("yorkdaycamp@gmail.com");
+                ////m.To.Add("taylor.thomas@scouting.org");
+                //m.To.Add("morgan.hawkins@scouting.org");
+                m.Subject = "Registration Confirmed";
+                m.Body =
+                    string.Format(
+                        "Dear {0}, <BR/>Congratulations!  Your scout's registration to {1} has been confirmed.  <BR/>" +
+                        "Your confirmation number is: {2}. <BR/> Please make sure you have paid through the council web site using the following link:<BR/>" +
+                        "  <a href=\"{3}\"title=\"User Email Confirm\">PAY HERE</a><BR/><BR/>" +
+                        " Your registration will not final until you have paid your camp fees. <BR/><BR/>" +
+                        " On May 11th we will be conducting swim tests and check in (Time TBD). At check in you will need to turn in your scout’s BSA <a href=\"{4}\"title=\"BSA Health Form\">Health forms</a>, pick up t-shirts, meet the Den Leaders and take the BSA swim test. <BR/><BR/>" +
+                        " We look forward to having a fun filled week with your scout, <BR/><BR/>" +
+                        " -York District Day Scout Day Camp Team <BR/><BR/>" +
+                        "<HR/> DETAILS: <BR/>" +
+                        "   <strong>Scout Name:</strong> {5} {6} {7}<BR/>" +
+                        "   <strong>Unit:</strong> {8} {9} <BR/>" +
+                        "   <strong>Rank:</strong> {10} <BR/>" +
+                        "   <strong>Confirmation Number:</strong> {2}<BR/>" +
+                        "   <strong>Address:</strong> {11}<BR/>" +
+                        "            {12}, {13} {14}<BR/>" +
+                        "   <strong>Home Phone:</strong> {15} <BR/>" +
+                        "   <strong>Cell Phone:</strong> {16} "
+                        , user.Person.ParentPerson.FirstName, user.EventView.EventName, user.ConfirmationNumber,
+                        "http://palmettocouncil.org/special-events/2015-cub-day-camp"
+                        , "http://www.scouting.org/filestore/healthsafety/pdf/680-001_ab.pdf"
+                        , user.Person.FirstName, user.Person.MiddleName, user.Person.LastName
+                        , user.Person.Unit.UnitType.Type, user.Person.Unit.UnitNumber
+                        , user.Person.Rank.Rank
+                        , user.Person.ParentPerson.ContactInfo.Address1
+                        , user.Person.ParentPerson.ContactInfo.City, user.Person.ParentPerson.ContactInfo.State,
+                        user.Person.ParentPerson.ContactInfo.Zip
+                        , user.Person.ParentPerson.ContactInfo.HomePhone
+                        , user.Person.ParentPerson.ContactInfo.CellPhone);
+                m.IsBodyHtml = true;
+                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer);
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new System.Net.NetworkCredential(_SmtpAuthAccount, _SmtpAuthPassword);
+
+                smtp.EnableSsl = false;
+                smtp.Send(m);
+            }
+            catch (Exception ex)
+            {
+                var st = new StackTrace(ex, true);
+                StackFrame frame = st.GetFrame(0);
+
+                //Get the file name
+                string fileName = frame.GetFileName();
+
+                //Get the method name
+                string methodName = frame.GetMethod().Name;
+
+                //Get the line number from the stack frame
+                int line = frame.GetFileLineNumber();
+
+                //Get the column number
+                int col = frame.GetFileColumnNumber();
+
+                TextWriter tr = new StreamWriter(System.Web.HttpContext.Current.Server.MapPath("../logs/errors.log"), true);
+                tr.WriteLine("Date Time: {0}", DateTime.Now);
+                tr.WriteLine("File: {0}", fileName);
+                tr.WriteLine("Method: {0}", methodName);
+                tr.WriteLine("Line Number: {0} - Col: {1}", line, col);
+                tr.WriteLine(ex.Message);
+                tr.Flush();
+                tr.Close();
+                //HandleErrorInfo handleErrorInfo = new HandleErrorInfo(new Exception(string.Format("Error when loading Organization: Line {0} : {1}", line, ex.Message)), "Organization", "Index");
+
+                //return View("Error", handleErrorInfo);
+            }
         }
 
         private void SendVolunteerConfirmEmail(VolunteerRegistrationViewModel user)
         {
-            //var callbackUrl = Url.Action("ConvertReservation", "Registration", new { userId = user.Person.PersonId, code = user.RegistrationCode }, protocol: Request.Url.Scheme);
-            SetEmailSettings();
-            System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
-            new System.Net.Mail.MailAddress(_outputEmail, "York Day Camp"),
-            new System.Net.Mail.MailAddress(user.Person.ContactInfo.Email));
-            foreach (string email in _ccEmails)
+            try
             {
-                m.To.Add(email);
-            }
-            //m.To.Add("yorkdaycamp@gmail.com");
-            ////m.To.Add("taylor.thomas@scouting.org");
-            //m.To.Add("morgan.hawkins@scouting.org");
-            m.Subject = "Registration Confirmed";
-            m.Body = string.Format("Dear {0} <BR/>Thank you for volunteering at {1} this year.<BR/>" +
-                                   "You have volunteered for {2} days! <BR/> " +
-                                   "You will be contacted by the Camp coordinator with details on special training, and other instructions. <BR/>" +
-                                   " Please use the following link to select your t-shirt sizes and quantities: <a href=\"{3}\"title=\"Select T-Shirt Sizes\">CLICK HERE</a><BR/><BR/>" +
-                                   "To prepare for camp there will be a mandatory training on May 20th 2017 from 8:00 am – 12:00 pm for all volunteers. Location TBD. <BR/<BR/>" +
-                                   "In addition to the training on the May 20th, you will need to log into <a href=\"{4}\"title=\"MyScouting.org\">my.scouting.org</a> and complete the following trainings online:<BR/>" +
-                                   "Online Mandatory Training: <BR/>" +
-                                   "Youth Protection <BR/>" +
-                                   "Weather Hazards <BR/>" +
-                                   "Safe Swim Defense <BR/><BR/>" +
-                                   "To locate these trainings, go to Menu (upper left screen), My Dashboard, Training Center, and Other. Youth Protection training is under the YPT link instead of Training Center.<BR/><BR/>" +
-                                   "Once you have completed the online training, print out the certificate of completion and bring them to the May 20th training. Be aware we will not be doing any of the online training on May 20th. <BR/><BR/>" +
-                                   "As a volunteer, you will also need to have an updated Health form. <a href=\"{5}\"title=\"MyScouting.org\">Click Here</a><BR/><BR/>" +
-                                   "Be prepared to enrich the lives of young cub scouts!<BR/>" +
-                                   "Once again, Thank you for your support! <BR/><BR/>" +
-                                   "-York District Day Scout Day Camp Team<BR/><BR/>" + 
-                                   "<HR/> DETAILS: <BR/>" +
-                                   "   <strong>Volunteer Name:</strong> {6} {7} {8}<BR/>" +
-                                   "   <strong>Unit:</strong> {9} {10} <BR/>" +
-                                   "   <strong>Address:</strong> {11}<BR/>" +
-                                   "           {12}, {13} {14}<BR/>" +
-                                   "   <strong>Home Phone:</strong> {15} <BR/>" +
-                                   "   <strong>Cell Phone:</strong> {16} "
-                                   , user.Person.FirstName, user.EventView.EventName, user.VolunteerDays
-                                   , "http://palmettocouncil.org/special-events/2017-day-camp-shirts"
-                                   , "https://my.scouting.org/"
-                                   , "http://www.scouting.org/filestore/healthsafety/pdf/680-001_ab.pdf"
-                                   , user.Person.FirstName, user.Person.MiddleName, user.Person.LastName
-                                   , user.Person.Unit.UnitType.Type, user.Person.Unit.UnitNumber
-                                   , user.Person.ContactInfo.Address1
-                                   , user.Person.ContactInfo.City, user.Person.ContactInfo.State, user.Person.ContactInfo.Zip
-                                   , user.Person.ContactInfo.HomePhone
-                                   , user.Person.ContactInfo.CellPhone);
-            m.IsBodyHtml = true;
-            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer);
-            smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new System.Net.NetworkCredential(_SmtpAuthAccount, _SmtpAuthPassword);
 
-            smtp.EnableSsl = false;
-            smtp.Send(m);
+                //var callbackUrl = Url.Action("ConvertReservation", "Registration", new { userId = user.Person.PersonId, code = user.RegistrationCode }, protocol: Request.Url.Scheme);
+                SetEmailSettings();
+                System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
+                    new System.Net.Mail.MailAddress(_outputEmail, "York Day Camp"),
+                    new System.Net.Mail.MailAddress(user.Person.ContactInfo.Email));
+                foreach (string email in _ccEmails)
+                {
+                    m.To.Add(email);
+                }
+                //m.To.Add("yorkdaycamp@gmail.com");
+                ////m.To.Add("taylor.thomas@scouting.org");
+                //m.To.Add("morgan.hawkins@scouting.org");
+                m.Subject = "Registration Confirmed";
+                m.Body = string.Format("Dear {0} <BR/>Thank you for volunteering at {1} this year.<BR/>" +
+                                       "You have volunteered for {2} days! <BR/> " +
+                                       "You will be contacted by the Camp coordinator with details on special training, and other instructions. <BR/>" +
+                                       " Please use the following link to select your t-shirt sizes and quantities: <a href=\"{3}\"title=\"Select T-Shirt Sizes\">CLICK HERE</a><BR/><BR/>" +
+                                       "To prepare for camp there will be a mandatory training on May 20th 2017 from 8:00 am – 12:00 pm for all volunteers. Location TBD. <BR/<BR/>" +
+                                       "In addition to the training on the May 20th, you will need to log into <a href=\"{4}\"title=\"MyScouting.org\">my.scouting.org</a> and complete the following trainings online:<BR/>" +
+                                       "Online Mandatory Training: <BR/>" +
+                                       "Youth Protection <BR/>" +
+                                       "Weather Hazards <BR/>" +
+                                       "Safe Swim Defense <BR/><BR/>" +
+                                       "To locate these trainings, go to Menu (upper left screen), My Dashboard, Training Center, and Other. Youth Protection training is under the YPT link instead of Training Center.<BR/><BR/>" +
+                                       "Once you have completed the online training, print out the certificate of completion and bring them to the May 20th training. Be aware we will not be doing any of the online training on May 20th. <BR/><BR/>" +
+                                       "As a volunteer, you will also need to have an updated Health form. <a href=\"{5}\"title=\"MyScouting.org\">Click Here</a><BR/><BR/>" +
+                                       "Be prepared to enrich the lives of young cub scouts!<BR/>" +
+                                       "Once again, Thank you for your support! <BR/><BR/>" +
+                                       "-York District Day Scout Day Camp Team<BR/><BR/>" +
+                                       "<HR/> DETAILS: <BR/>" +
+                                       "   <strong>Volunteer Name:</strong> {6} {7} {8}<BR/>" +
+                                       "   <strong>Unit:</strong> {9} {10} <BR/>" +
+                                       "   <strong>Address:</strong> {11}<BR/>" +
+                                       "           {12}, {13} {14}<BR/>" +
+                                       "   <strong>Home Phone:</strong> {15} <BR/>" +
+                                       "   <strong>Cell Phone:</strong> {16} "
+                    , user.Person.FirstName, user.EventView.EventName, user.VolunteerDays
+                    , "http://palmettocouncil.org/special-events/2017-day-camp-shirts"
+                    , "https://my.scouting.org/"
+                    , "http://www.scouting.org/filestore/healthsafety/pdf/680-001_ab.pdf"
+                    , user.Person.FirstName, user.Person.MiddleName, user.Person.LastName
+                    , user.Person.Unit.UnitType.Type, user.Person.Unit.UnitNumber
+                    , user.Person.ContactInfo.Address1
+                    , user.Person.ContactInfo.City, user.Person.ContactInfo.State, user.Person.ContactInfo.Zip
+                    , user.Person.ContactInfo.HomePhone
+                    , user.Person.ContactInfo.CellPhone);
+                m.IsBodyHtml = true;
+                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer);
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new System.Net.NetworkCredential(_SmtpAuthAccount, _SmtpAuthPassword);
+
+                smtp.EnableSsl = false;
+                smtp.Send(m);
+            }
+            catch (Exception ex)
+            {
+                var st = new StackTrace(ex, true);
+                StackFrame frame = st.GetFrame(0);
+
+                //Get the file name
+                string fileName = frame.GetFileName();
+
+                //Get the method name
+                string methodName = frame.GetMethod().Name;
+
+                //Get the line number from the stack frame
+                int line = frame.GetFileLineNumber();
+
+                //Get the column number
+                int col = frame.GetFileColumnNumber();
+
+                TextWriter tr = new StreamWriter(System.Web.HttpContext.Current.Server.MapPath("../logs/errors.log"), true);
+                tr.WriteLine("Date Time: {0}", DateTime.Now);
+                tr.WriteLine("File: {0}", fileName);
+                tr.WriteLine("Method: {0}", methodName);
+                tr.WriteLine("Line Number: {0} - Col: {1}", line, col);
+                tr.WriteLine(ex.Message);
+                tr.Flush();
+                tr.Close();
+                //HandleErrorInfo handleErrorInfo = new HandleErrorInfo(new Exception(string.Format("Error when loading Organization: Line {0} : {1}", line, ex.Message)), "Organization", "Index");
+
+                //return View("Error", handleErrorInfo);
+            }
         }
         
         private void SetEmailSettings()
