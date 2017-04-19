@@ -600,6 +600,7 @@
     <Content Include="Scripts\jquery-1.12.4.min.map" />
     <Content Include="Views\Admin\Dashboard.cshtml" />
     <Content Include="Views\Organization\UnitReporting.cshtml" />
+    <Content Include="Views\Person\EditSelf.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
