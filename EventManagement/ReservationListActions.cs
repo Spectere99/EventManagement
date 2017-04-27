@@ -10,9 +10,12 @@ namespace EventManagement
     public class ReservationListActions
     {
         private ReservationReader _reservationReader = null;
+        private PersonReader _personReader = null;
+        
         public ReservationListActions()
         {
             _reservationReader = new ReservationReader();
+            _personReader = new PersonReader();
         }
 
         public Boolean ValidateReservationByCode(string code)
@@ -55,7 +58,7 @@ namespace EventManagement
             //    availableSlots = (volunteerCount*5) - registrationListUnitCount;
             //}
            
-            var reservations = GetNextAvailableReservations(eventId, (int)availableSlots);
+            var reservations = GetNextAvailableReservations(eventId, volunteerPerson.Unit.UnitId, (int)availableSlots);
             return reservations;
         }
         public void RemoveReservationCode(string code)
@@ -68,12 +71,15 @@ namespace EventManagement
             _reservationReader.Save(new List<ReservationDTO>() {result});
         }
 
-        private List<ReservationDTO> GetNextAvailableReservations(int eventId, int openSpots)
+        private List<ReservationDTO> GetNextAvailableReservations(int eventId, int unitId, int openSpots)
         {
             var result = _reservationReader.GetByEventId(eventId);
+            var unitPersons = _personReader.GetList().Where(p => p.Unit.UnitId == unitId).ToList();
+
             List<ReservationDTO> openReservations = new List<ReservationDTO>();
             //Take the top number of open spots from the list of who reserved first.
-            var orderedList = result.OrderBy(o => o.ReservationDate);
+            List<ReservationDTO> unitReservations = result.Where(aResult => unitPersons.Any(aPerson => aResult.Person.Unit.UnitId == aPerson.Unit.UnitId)).ToList();
+            var orderedList = unitReservations.OrderBy(o => o.ReservationDate);
             var availableSlots = orderedList.Take(openSpots).ToList();
             foreach (var reservation in availableSlots)
             {

@@ -7,6 +7,7 @@ using Common;
 using Common.Reader;
 using EventManagement.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace EventManagement.Controllers
 {
@@ -299,6 +300,13 @@ namespace EventManagement.Controllers
 
                 personList.Add(person);
 
+                var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                if (userManager != null)
+                {
+                    userManager.RemoveFromRole(person.UserId, "Leader");
+                    userManager.AddToRole(person.UserId, model.PersonType == "2" ? "Leader" : "User");
+                }
+
                 personReader.Save(personList);
 
                 TempData["RedirectMsg"] = "Record Updated Successfully!";
@@ -378,6 +386,12 @@ namespace EventManagement.Controllers
 
                 personList.Add(person);
 
+                var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                if (userManager != null)
+                {
+                    userManager.AddToRole(person.UserId, model.PersonType == "2" ? "Leader" : "User");
+                }
+                
                 personReader.Save(personList);
 
                 TempData["RedirectMsg"] = "Record Updated Successfully!";

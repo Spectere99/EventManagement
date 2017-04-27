@@ -217,6 +217,7 @@ namespace EventManagement.Controllers
 
             return View("ConfirmationFailed");
         }
+
         public ActionResult RegistrantConfirm(RegistrationViewModel model)
         {
             RegistrationViewModel registrationEntry = null;
@@ -537,8 +538,6 @@ namespace EventManagement.Controllers
         {
             try
             {
-
-
                 SetEmailSettings();
                 var callbackUrl = Url.Action("ConvertReservation", "Registration",
                     new {userId = user.Person.PersonId, code = user.RegistrationCode}, protocol: Request.Url.Scheme);

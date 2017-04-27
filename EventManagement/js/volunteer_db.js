@@ -43,6 +43,7 @@ $(function () {
         columns: [
             { dataField: "id", caption: "Id", allowEditing: false, width: 45 },
             { dataField: "name", caption: "Volunteer Name", width: 140, fixed: true },
+            { dataField: "personType", caption: "Type", width: 120, fixed: true},
             { dataField: "unit", caption: "Unit", width: 140, groupIndex: 0 },
             { dataField: "dob", caption: "Birthday", dataType: "date", width: 90 },
             { dataField: "address", caption: "Address", width: 210 },

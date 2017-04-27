@@ -54,7 +54,30 @@ $(function () {
             { dataField: "address", caption: "Address", width: 210 },
             { dataField: "city", capition: "City", width: 85 },
             { dataField: "state", caption: "State", width: 45 },
-            { dataField: "zip", caption: "Zip-Code", width: 100 }
+            { dataField: "zip", caption: "Zip-Code", width: 100 },
+            { width: 100,
+                alignment: 'center',
+                cellTemplate: function (container, options) {
+                    $('<a/>').addClass('dx-link')
+                        .text('Convert')
+                        .on('dxclick', function (e) {
+                            $.ajax({
+                                url: RES_SERVICE_URL + encodeURIComponent(options.data.id),
+                                method: "PUT",
+                                success: function(data) {
+                                    alert(data);
+                                    window.location.reload(true);
+                                },
+                                error: function(a, b, c) {
+                                    alert(a.responseText);
+                                    window.location.reload(true);
+                                }
+
+                            });
+                        })
+                        .appendTo(container);
+                }
+            }
         ]
         ,paging: {
             pageSize: 25

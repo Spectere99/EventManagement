@@ -26,6 +26,7 @@ namespace EventManagement.Controllers
                 {
                     Id = item.ID,
                     Name = string.Format("{0} {1}", item.FirstName, item.LastName),
+                    PersonType = item.PersonType,
                     DOB = item.BirthDate == null ? DateTime.Parse("1/1/1900") : DateTime.Parse(item.BirthDate.ToString()),
                     Address = string.Format("{0}", item.Address1),
                     City = item.City,

@@ -37,5 +37,6 @@ namespace DayCampData
         public string FridayVol { get; set; }
         public string SaturdayVol { get; set; }
         public string SundayVol { get; set; }
+        public string PersonType { get; set; }
     }
 }

@@ -124,6 +124,7 @@ $(function () {
             visible: true
         },
         scrollingMode: "all",
+        zoomingMode: "all",
         tooltip: {
             enabled: true,
             location: "edge",

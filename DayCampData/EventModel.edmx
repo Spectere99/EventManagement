@@ -233,6 +233,7 @@ warning 6002: The table/view 'def.events.dbveventvolunteerdetails' does not have
           <Property Name="FirstName" Type="varchar" MaxLength="45" Nullable="false" />
           <Property Name="MiddleName" Type="varchar" MaxLength="45" />
           <Property Name="LastName" Type="varchar" MaxLength="45" />
+          <Property Name="PersonType" Type="varchar" MaxLength="45" Nullable="false" />
           <Property Name="BirthDate" Type="date" />
           <Property Name="UnitType" Type="varchar" MaxLength="45" />
           <Property Name="UnitNumber" Type="int" Nullable="false" />
@@ -531,6 +532,7 @@ FROM `dbveventdashboardtrend` AS `dbveventdashboardtrend`</DefiningQuery>
 `dbveventvolunteerdetails`.`FirstName`, 
 `dbveventvolunteerdetails`.`MiddleName`, 
 `dbveventvolunteerdetails`.`LastName`, 
+`dbveventvolunteerdetails`.`PersonType`, 
 `dbveventvolunteerdetails`.`BirthDate`, 
 `dbveventvolunteerdetails`.`UnitType`, 
 `dbveventvolunteerdetails`.`UnitNumber`, 
@@ -881,6 +883,7 @@ FROM `dbvvolunteercounts` AS `dbvvolunteercounts`</DefiningQuery>
           <Property Name="FridayVol" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="SaturdayVol" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="SundayVol" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PersonType" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="fk_Person_ContactInfo1">
           <End Role="contactinfo" Type="Self.contactinfo" Multiplicity="1" />
@@ -1334,6 +1337,7 @@ FROM `dbvvolunteercounts` AS `dbvvolunteercounts`</DefiningQuery>
           <EntitySetMapping Name="dbveventvolunteerdetails">
             <EntityTypeMapping TypeName="eventsModel.dbveventvolunteerdetail">
               <MappingFragment StoreEntitySet="dbveventvolunteerdetails">
+                <ScalarProperty Name="PersonType" ColumnName="PersonType" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />

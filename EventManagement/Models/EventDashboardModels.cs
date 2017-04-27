@@ -25,6 +25,7 @@ namespace EventManagement.Models
         {
             public int Id { get; set; }
             public string Name { get; set; }
+            public string PersonType { get; set; }
             public DateTime DOB { get; set; }
             public string Unit { get; set; }
             public string Email { get; set; }
