@@ -50,6 +50,7 @@ $(function () {
             { dataField: "city", capition: "City", width: 85 },
             { dataField: "state", caption: "State", width: 45 },
             { dataField: "zip", caption: "Zip-Code", width: 100 },
+            { dataField: "email", caption: "Email", width: 210 },
             { dataField: "volunteerDayDisplay", caption: "Vol. Days", width: 175 }
         ],
         paging: {

@@ -229,7 +229,7 @@ namespace EventManagement.Controllers
             }
             if (model.Event != null)
             {
-               
+                
                 if (registrationEntry != null)
                 {
                     registrationEntry.Event = model.Event;
@@ -237,90 +237,103 @@ namespace EventManagement.Controllers
                     EventReader eventReader = new EventReader();
                     var person = personReader.GetById(registrationEntry.Person.PersonId).FirstOrDefault();
                     var eventDto = eventReader.GetById(int.Parse(model.Event));
+                    
                     model.EventView = TranslateEventDTO(eventDto.SingleOrDefault());
-
-                    registrationEntry.EventView = TranslateEventDTO(eventDto.SingleOrDefault());
-
-                    if (person != null)
+                    if (model.EventView.RegistrationDeadline < DateTime.Now)
                     {
 
-                        RegistrationValidator regValidator = new RegistrationValidator();
-                        //Check to see if a registration exists for this person already.
-                        bool existingRegistration = regValidator.CheckForExistingRegistration(person,registrationEntry.EventView.EventId);
 
-                        if (existingRegistration)
-                        {
-                            ReservationViewModel tempReservationModel = new ReservationViewModel
-                            {
-                                Person = person,
-                                Event = TranslateEventDTO(eventDto.SingleOrDefault()),
-                                ReservationDate = DateTime.Now
-                            };
+                        registrationEntry.EventView = TranslateEventDTO(eventDto.SingleOrDefault());
 
-                            TempData["ReservationViewModel"] = tempReservationModel;
-                            return RedirectToAction("ExistingRegistration");  
-                        }
-                        //Check for Registration slots being open (ie. Enough volunteers from that person's unit).
-                        bool validRegistration = regValidator.DayCampRegistrationValid(person, registrationEntry.EventView.EventId);
-                        
-                        //Register the person  or Redirect to waiting list.
-                        if (validRegistration)
+                        if (person != null)
                         {
-                            //Generate Confirmation Code
-                            var confirmationCode = Utilities.GenerateConfirmationCode();
-                            RegistrationDTO registration = new RegistrationDTO()
+
+                            RegistrationValidator regValidator = new RegistrationValidator();
+                            //Check to see if a registration exists for this person already.
+                            bool existingRegistration = regValidator.CheckForExistingRegistration(person,
+                                registrationEntry.EventView.EventId);
+
+                            if (existingRegistration)
                             {
-                                ConfirmationNumber = confirmationCode,
+                                ReservationViewModel tempReservationModel = new ReservationViewModel
+                                {
+                                    Person = person,
+                                    Event = TranslateEventDTO(eventDto.SingleOrDefault()),
+                                    ReservationDate = DateTime.Now
+                                };
+
+                                TempData["ReservationViewModel"] = tempReservationModel;
+                                return RedirectToAction("ExistingRegistration");
+                            }
+                            //Check for Registration slots being open (ie. Enough volunteers from that person's unit).
+                            bool validRegistration = regValidator.DayCampRegistrationValid(person,
+                                registrationEntry.EventView.EventId);
+
+                            //Register the person  or Redirect to waiting list.
+                            if (validRegistration)
+                            {
+                                //Generate Confirmation Code
+                                var confirmationCode = Utilities.GenerateConfirmationCode();
+                                RegistrationDTO registration = new RegistrationDTO()
+                                {
+                                    ConfirmationNumber = confirmationCode,
+                                    Event = eventDto.SingleOrDefault(),
+                                    Person = person,
+                                    RegistrationDate = DateTime.Now
+                                };
+                                RegistrationReader registrationReader = new RegistrationReader();
+                                List<RegistrationDTO> registrations = new List<RegistrationDTO>();
+                                registrations.Add(registration);
+                                registrationReader.Save(registrations);
+
+                                registrationEntry.ConfirmationNumber = registration.ConfirmationNumber;
+
+                                SendRegistrationConfirmEmail(registrationEntry);
+
+                                return View(registrationEntry);
+                            }
+                            bool existingReservation = regValidator.CheckForExistingReservation(person,
+                                registrationEntry.EventView.EventId);
+                            if (existingReservation)
+                            {
+                                ReservationViewModel tempReservationModel = new ReservationViewModel
+                                {
+                                    Person = person,
+                                    Event = TranslateEventDTO(eventDto.SingleOrDefault()),
+                                    ReservationDate = DateTime.Now
+                                };
+
+                                TempData["ReservationViewModel"] = tempReservationModel;
+                                return RedirectToAction("ExistingRegistration");
+                            }
+                            ReservationDTO reservation = new ReservationDTO()
+                            {
                                 Event = eventDto.SingleOrDefault(),
                                 Person = person,
-                                RegistrationDate = DateTime.Now
-                            };
-                            RegistrationReader registrationReader = new RegistrationReader();
-                            List<RegistrationDTO> registrations = new List<RegistrationDTO>();
-                            registrations.Add(registration);
-                            registrationReader.Save(registrations);
-
-                            registrationEntry.ConfirmationNumber = registration.ConfirmationNumber;
-
-                            SendRegistrationConfirmEmail(registrationEntry);
-
-                            return View(registrationEntry);
-                        }
-                        bool existingReservation = regValidator.CheckForExistingReservation(person,
-                            registrationEntry.EventView.EventId);
-                        if (existingReservation)
-                        {
-                            ReservationViewModel tempReservationModel = new ReservationViewModel
-                            {
-                                Person = person,
-                                Event = TranslateEventDTO(eventDto.SingleOrDefault()),
                                 ReservationDate = DateTime.Now
                             };
+                            ReservationReader reservationReader = new ReservationReader();
+                            List<ReservationDTO> reservations = new List<ReservationDTO>();
+                            reservations.Add(reservation);
+                            reservationReader.Save(reservations);
 
-                            TempData["ReservationViewModel"] = tempReservationModel;
-                            return RedirectToAction("ExistingRegistration");
+                            ReservationViewModel reservationViewModel = new ReservationViewModel
+                            {
+                                Person = person,
+                                Event = model.EventView,
+                                ReservationDate = reservation.ReservationDate
+                            };
+
+                            TempData["ReservationViewModel"] = reservationViewModel;
+                            SendWaitingListConfirmEmail(reservationViewModel);
+                            return RedirectToAction("WaitingListConfirm");
                         }
-                        ReservationDTO reservation = new ReservationDTO()
-                        {
-                            Event = eventDto.SingleOrDefault(),
-                            Person = person,
-                            ReservationDate = DateTime.Now
-                        };
-                        ReservationReader reservationReader = new ReservationReader();
-                        List<ReservationDTO> reservations = new List<ReservationDTO>();
-                        reservations.Add(reservation);
-                        reservationReader.Save(reservations);
-
-                        ReservationViewModel reservationViewModel = new ReservationViewModel
-                        {
-                            Person = person,
-                            Event = model.EventView,
-                            ReservationDate = reservation.ReservationDate
-                        };
-
-                        TempData["ReservationViewModel"] = reservationViewModel;
-                        SendWaitingListConfirmEmail(reservationViewModel);
-                        return RedirectToAction("WaitingListConfirm");
+                    }
+                    else
+                    {
+                        TempData["ErrorMsg"] = "Registration has Closed.";
+                        TempData["PersonId"] = registrationEntry.Person.PersonId;
+                        return View();
                     }
                 }
             }
@@ -693,7 +706,7 @@ namespace EventManagement.Controllers
                         "Your confirmation number is: {2}. <BR/> Please make sure you have paid through the council web site using the following link:<BR/>" +
                         "  <a href=\"{3}\"title=\"User Email Confirm\">PAY HERE</a><BR/><BR/>" +
                         " Your registration will not final until you have paid your camp fees. <BR/><BR/>" +
-                        " On May 11th we will be conducting swim tests and check in (Time TBD). At check in you will need to turn in your scout’s BSA <a href=\"{4}\"title=\"BSA Health Form\">Health forms</a>, pick up t-shirts, meet the Den Leaders and take the BSA swim test. <BR/><BR/>" +
+                        " On June 11th we will be conducting swim tests and check in (Time TBD). At check in you will need to turn in your scout’s BSA <a href=\"{4}\"title=\"BSA Health Form\">Health forms</a>, pick up t-shirts, meet the Den Leaders and take the BSA swim test. <BR/><BR/>" +
                         " We look forward to having a fun filled week with your scout, <BR/><BR/>" +
                         " -York District Day Scout Day Camp Team <BR/><BR/>" +
                         "<HR/> DETAILS: <BR/>" +
