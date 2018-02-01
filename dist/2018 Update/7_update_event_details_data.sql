@@ -1,0 +1,1 @@
+UPDATE `events`.`events` SET `EventStart`='2018-06-18 08:00:00', `EventEnd`='2018-06-22 16:00:00', `LastUpdate`='2018-01-31 00:00:00', `RegistrationDeadline`='2018-05-20 00:00:00' WHERE `EventID`='1' and`EventTypes_EventTypeID`='1';

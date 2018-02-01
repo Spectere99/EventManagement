@@ -1,0 +1,48 @@
+﻿@using System.Globalization
+@model EventManagement.Models.RegistrationViewModel
+
+@{
+    ViewBag.Title = "RegistrantConfirm";
+}
+<head>
+    <title>Event Registration</title>
+    @*<script src="~/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>*@
+    <script src="~/js/registration.js" type="text/javascript"></script>
+    
+</head>
+
+<h2>Registration Entry Confirmation</h2>
+
+    <div class="form-horizontal">
+        
+        @if (Model != null)
+        {
+            <h4>Thank you!</h4>
+            <hr />
+            <div class="panel-default">
+                Thank you for registering for @Model.EventView.EventName !!!! <br/>
+                Your Confirmation Number is <strong>@Model.ConfirmationNumber</strong> <br/>
+                Your confirmation will be sent via email to <strong>@Model.Person.ParentPerson.ContactInfo.Email</strong> <br/>
+                (Please make sure to check your SPAM folder!)
+            </div>
+            <div class="row">
+                <a class="btn btn-default" href="http://palmettocouncil.org/special-events/2015-cub-day-camp">Click Here to Pay</a>
+            </div>
+            <hr/>
+            <div class="row">
+                @Html.ActionLink("Home", "Index","Home", null, new {@class = "btn btn-info"})
+            </div>
+        }
+        else
+        {
+            <div class="panel-default">
+                @TempData["ErrorMsg"]
+            </div>
+            <hr />
+            <div class="row">
+                    @Html.ActionLink("Start Over", "EventSelection", "Registration", new { id = (int)@TempData["PersonId"] }, new { @class = "btn btn-info" })
+            </div>
+        }
+
+    </div>

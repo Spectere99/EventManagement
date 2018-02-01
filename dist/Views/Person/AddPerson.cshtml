@@ -1,0 +1,124 @@
+﻿@model EventManagement.Models.PersonChildViewModel
+
+@{
+    ViewBag.Title = "Add Child/Scout";
+}
+
+<h2>Add Child/Scout</h2>
+
+@using (Html.BeginForm())
+    //"AddPerson", "Person", new { personId = Model.ParentPersonId}, FormMethod.Post)) 
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Enter your child's information</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(m => m.ParentPersonId)
+        <div class="row">
+            <div class="col-md-4 form-group">
+                @Html.LabelFor(m => m.FirstName)
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "First" })
+                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4 form-group">
+                @Html.LabelFor(m => m.MiddleName)
+                @Html.TextBoxFor(m => m.MiddleName, new { @class = "form-control", placeholder = "Middle" })
+                @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4 form-group">
+                @Html.LabelFor(m => m.LastName)
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "Last" })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+            </div>
+            
+            <div class="col-md-4 form-group">
+                @Html.LabelFor(m => m.Notes)
+                @Html.TextAreaFor(m => m.Notes, new { @class = "form-control", rows="4", cols="50", placeholder = "Any allergies, etc?" })
+                @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-3 form-group">
+                @Html.LabelFor(m => m.BirthDay)
+                <div class="input-group">
+                    @Html.TextBoxFor(m => m.BirthDay, new { @class = "form-control", name = "BirthDay", @Value = Model.BirthDay.ToString("d") })
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" data-toggle="datepicker" data-target-name="BirthDay">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </button>
+                    </span>
+                    @Html.ValidationMessageFor(model => model.BirthDay, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 form-group">
+                @Html.LabelFor(model => model.PersonType, htmlAttributes: new { id = "lblPersonTypeList" })
+                @Html.DropDownListFor(model => model.PersonType, new SelectList(Model.PersonTypeList, "PersonTypeId", "Type"), "Select ...", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PersonType, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-4 form-group">
+                @Html.LabelFor(model => model.UnitTypeList, htmlAttributes: new { id = "lblUnitTypeList" })
+                @Html.DropDownListFor(model => model.UnitType, new SelectList(Model.UnitTypeList, "UnitTypeId", "Type"), "Select ...", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.UnitType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 form-group">
+                @Html.LabelFor(model => model.UnitList, htmlAttributes: new { id = "lblUnitList" })
+                @Html.DropDownListFor(model => model.Unit, Enumerable.Empty<SelectListItem>(), new { disabled = "true", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Unit, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4 form-group">
+                @Html.LabelFor(model => model.UnitRankList, htmlAttributes: new { id = "lblUnitRankList" })
+                @Html.DropDownListFor(model => model.Rank, Enumerable.Empty<SelectListItem>(), new { disabled = "true", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Rank, "", new { @class = "text-danger" })<br />
+            </div>
+            <div class="col-md-4">
+                <table id="CubRanks" class="table" style="display: none">
+                    <tr>
+                        <th>Rank</th>
+                        <th>Grade</th>
+                        <th>Ages</th>
+                    </tr>
+                    <tr>
+                        <th scope="row">Tiger</th>
+                        <td>Going into 1st Grade</td>
+                        <td>6-7</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Wolf</th>
+                        <td>Going into 2nd Grade</td>
+                        <td>7-8</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Bear</th>
+                        <td>Going into 3rd Grade</td>
+                        <td>8-9</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Webelos</th>
+                        <td>Going into 4th Grade</td>
+                        <td>9-10</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Arrow of Light</th>
+                        <td>Going into 5th Grade</td>
+                        <td>10-11</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-5">
+                @Html.ActionLink("Cancel", "Index", new { id = Model.PersonId }, new { @class = "btn btn-default" })
+                <input type="submit" value="Add" class="btn btn-primary"/>
+            </div>
+            </div>
+    </div>
+}
+
+<script src="~/js/person.js"></script>
+

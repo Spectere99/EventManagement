@@ -58,7 +58,7 @@ namespace Common.Reader
 
         public List<PersonDTO> GetByUserId(string userId)
         {
-            using (MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetPersonByUserId))
+            using ( MySqlCommand command = GetDbStoredProcCommand(DBQueries.GetPersonByUserId))
             {
                 try
                 {

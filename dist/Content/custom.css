@@ -1,0 +1,26 @@
+﻿.navbar_custom {
+    position: relative;
+    z-index: 1000;
+    min-height: 45px;
+    margin-bottom: 0px;
+    border: 1px solid transparent;
+}
+
+.navbar-fixed-custom {
+    background-color: #00beff;
+}
+
+.navbar-sub-custom {
+    background-color: #00beff;
+    font-size: 14px;
+    vertical-align: top;
+    height: 30px;
+}
+.navbar-inverse .navbar-nav > li > a {
+    color: #ffffff;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #191970;
+}
+

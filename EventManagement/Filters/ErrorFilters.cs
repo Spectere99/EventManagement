@@ -16,7 +16,7 @@ public class ErrorFilter : HandleErrorAttribute
 
         controller = filterContext.RouteData.Values["controller"].ToString();
         action = filterContext.RouteData.Values["action"].ToString();
-        TextWriter tr = new StreamWriter(System.Web.HttpContext.Current.Server.MapPath("../logs/errors.log"), true);
+        TextWriter tr = new StreamWriter(System.Web.HttpContext.Current.Server.MapPath("/logs/errors.log"), true);
         StackTrace st = new StackTrace(exception, true);
         //Get the first stack frame
         StackFrame frame = st.GetFrame(0);

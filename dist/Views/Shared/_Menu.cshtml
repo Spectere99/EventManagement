@@ -1,0 +1,81 @@
+﻿@using System.Security.Claims
+@using EventManagement.Models
+@{
+    List<RoleMenuItem> menus = new List<RoleMenuItem>
+    {
+        
+        new RoleMenuItem("My Family", "Index", "Person", "Administrator,Super User,User,Leader"),
+        new RoleMenuItem("My Organization","Index","Organization","Administrator,Leader"),
+        new RoleMenuItem("My Account","Index","Manage","Administrator,Super User,User,Leader"),
+        new RoleMenuItem("Administration","Index","Admin","Administrator")
+        //new RoleMenuItem("API", "Index", "Help", "Administrator")
+     };
+     
+
+    <div class="navbar-collapse navbar-sub-custom">
+        <ul class="nav navbar-nav">
+            @if (HttpContext.Current.User.Identity.IsAuthenticated)
+            {
+                //String[] roles = Roles.GetRolesForUser();
+                var roles = ((ClaimsIdentity)User.Identity).Claims
+                    .Where(c => c.Type == ClaimTypes.Role)
+                    .Select(c => c.Value);
+                var links = from item in menus
+                            where item.RoleNames.Split(new String[] { "," }, StringSplitOptions.RemoveEmptyEntries).Any(x => roles.Contains(x) || x == "All")
+                            select item;
+                foreach (var link in links)
+                {
+                    switch (link.LinkText)
+                    {
+                        case "Administration":
+                        {
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    @link.LinkText
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("User Manager", "Index", "Admin")</li>
+                                    <li>@Html.ActionLink("Event Dashboard", "Dashboard", "Admin")</li>
+                                </ul>
+                            </li>
+                            break;
+                        }
+                        case "My Organization":
+                        {
+
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    @link.LinkText
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Details", "Index", "Organization")</li>
+                                    <li>@Html.ActionLink("Unit Dashboard", "UnitReporting", "Organization")</li>
+                                </ul>
+                            </li>
+                            break;
+                        }
+                        default:
+                        {
+                            <li>@Html.ActionLink(link.LinkText, link.ActionName, link.ControllerName)</li>
+                            break;
+                        }
+                    }
+                }
+                    
+            }
+            else
+            {
+                var links = from item in menus
+                            where item.RoleNames.Split(new String[] { "," }, StringSplitOptions.RemoveEmptyEntries).Any(x => new string[] { "All", "Anonymous" }.Contains(x))
+                            select item;
+                foreach (var link in links)
+                {
+                    @:<li>@Html.ActionLink(link.LinkText, link.ActionName, link.ControllerName)</li>
+                }
+            }
+        </ul>
+
+    </div>
+}

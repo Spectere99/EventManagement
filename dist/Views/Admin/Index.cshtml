@@ -1,0 +1,29 @@
+﻿@model IEnumerable<EventManagement.Models.ApplicationUser>
+@using GridMvc.Html
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Administration</h2>
+<p>
+    @Html.ActionLink("Create New", "Create", null, new {@class="btn btn-default"})
+    @Html.ActionLink("Edit Roles", "ViewAllRoles", null, new {@class = "btn btn-default"})
+    @Html.ActionLink("Back", "Index", "Home", null, new {@class = "btn btn-default"})
+</p>
+<br />
+@using (Html.BeginForm("Index", "Admin", FormMethod.Get))
+{
+    <div class="form-group">
+        Search: @Html.TextBox("searchSTringUserNameOrEmail")
+        <input type="submit" value="Search"/>
+    </div>
+    <div class="form-group">
+        @Html.Grid(Model).Columns(columns =>
+        {
+            columns.Add(u => u.UserName);
+            columns.Add(u => u.Email);
+        })
+    </div>
+    
+}
+
