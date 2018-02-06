@@ -24,6 +24,21 @@ namespace EventManagement.Controllers
         private string _outputEmail;
         private string[] _ccEmails;
 
+        public static IEnumerable<ShirtOptions> ShirtOptions = new List<ShirtOptions>
+        {
+            new ShirtOptions {Size = "Youth Small", SizeAbbr = "Y_S" },
+            new ShirtOptions {Size = "Youth Medium", SizeAbbr = "Y_M" },
+            new ShirtOptions {Size = "Youth Large", SizeAbbr = "Y_L" },
+            new ShirtOptions {Size = "Youth Extra Large", SizeAbbr = "Y_XL" },
+            new ShirtOptions {Size = "Adult Small", SizeAbbr = "A_S" },
+            new ShirtOptions {Size = "Adult Medium", SizeAbbr = "A_M" },
+            new ShirtOptions {Size = "Adult Large", SizeAbbr = "A_L" },
+            new ShirtOptions {Size = "Adult XL", SizeAbbr = "A_XL" },
+            new ShirtOptions {Size = "Adult 2X ", SizeAbbr = "A_2XL" },
+            new ShirtOptions {Size = "Adult 3X ", SizeAbbr = "A_3XL" },
+            new ShirtOptions {Size = "Adult 4X ", SizeAbbr = "A_4XL" },
+        };
+
         // GET: Registration
         // Sets up for the user to select the event that they want to register for.
         public ActionResult Index()
@@ -121,7 +136,7 @@ namespace EventManagement.Controllers
             //Get available Events
             EventReader eventReader = new EventReader();
             PersonReader personReader = new PersonReader();
-
+            
             var person = personReader.GetById(id).FirstOrDefault();
 
             if (person != null)
@@ -244,6 +259,7 @@ namespace EventManagement.Controllers
 
 
                         registrationEntry.EventView = TranslateEventDTO(eventDto.SingleOrDefault());
+                        registrationEntry.Size = model.Size;
 
                         if (person != null)
                         {
@@ -321,9 +337,10 @@ namespace EventManagement.Controllers
                             {
                                 Person = person,
                                 Event = model.EventView,
-                                ReservationDate = reservation.ReservationDate
+                                ReservationDate = reservation.ReservationDate,
+                                Size = model.Size
                             };
-
+                            
                             TempData["ReservationViewModel"] = reservationViewModel;
                             SendWaitingListConfirmEmail(reservationViewModel);
                             return RedirectToAction("WaitingListConfirm");
@@ -385,7 +402,8 @@ namespace EventManagement.Controllers
                             volunteerEntry.Event = model.Event;
                             volunteerEntry.EventView = TranslateEventDTO(newVolunteer.Event);
                             volunteerEntry.VolunteerDays = model.VolunteerDays;
-                            
+                            volunteerEntry.Size = model.Size;
+
                             RegistrationValidator regValidator = new RegistrationValidator();
                             //Check to see if a registration exists for this person already.
                             bool existingRegistration = regValidator.CheckForExistingVolunteer(person,
@@ -635,7 +653,8 @@ namespace EventManagement.Controllers
                                        "   <strong>Address:</strong> {8}<BR/>" +
                                        "            {9}, {10} {11}<BR/>" +
                                        "   <strong>Home Phone:</strong> {12} <BR/>" +
-                                       "   <strong>Cell Phone:</strong> {13} "
+                                       "   <strong>Cell Phone:</strong> {13} <BR/>" +
+                                       "   <strong>Cell Phone:</strong> {14} "
                                        , user.Person.ParentPerson.FirstName + " " + user.Person.ParentPerson.LastName, user.Event.EventName
                                        , user.Person.FirstName, user.Person.MiddleName, user.Person.LastName
                                        , user.Person.Unit.UnitType.Type, user.Person.Unit.UnitNumber
@@ -643,7 +662,8 @@ namespace EventManagement.Controllers
                                        , user.Person.ParentPerson.ContactInfo.Address1
                                        , user.Person.ParentPerson.ContactInfo.City, user.Person.ParentPerson.ContactInfo.State, user.Person.ParentPerson.ContactInfo.Zip
                                        , user.Person.ParentPerson.ContactInfo.HomePhone
-                                       , user.Person.ParentPerson.ContactInfo.CellPhone);
+                                       , user.Person.ParentPerson.ContactInfo.CellPhone
+                                       , user.Size);
                 m.IsBodyHtml = true;
                 System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer);
                 smtp.UseDefaultCredentials = false;
@@ -717,7 +737,8 @@ namespace EventManagement.Controllers
                         "   <strong>Address:</strong> {11}<BR/>" +
                         "            {12}, {13} {14}<BR/>" +
                         "   <strong>Home Phone:</strong> {15} <BR/>" +
-                        "   <strong>Cell Phone:</strong> {16} "
+                        "   <strong>Cell Phone:</strong> {16} <BR/>" +
+                        "   <strong>Shirt Size:</strong> {17} "
                         , user.Person.ParentPerson.FirstName, user.EventView.EventName, user.ConfirmationNumber,
                         "http://palmettocouncil.org/special-events/2015-cub-day-camp"
                         , "http://www.scouting.org/filestore/healthsafety/pdf/680-001_ab.pdf"
@@ -728,7 +749,8 @@ namespace EventManagement.Controllers
                         , user.Person.ParentPerson.ContactInfo.City, user.Person.ParentPerson.ContactInfo.State,
                         user.Person.ParentPerson.ContactInfo.Zip
                         , user.Person.ParentPerson.ContactInfo.HomePhone
-                        , user.Person.ParentPerson.ContactInfo.CellPhone);
+                        , user.Person.ParentPerson.ContactInfo.CellPhone
+                        , user.Size);
                 m.IsBodyHtml = true;
                 System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer);
                 smtp.UseDefaultCredentials = false;
@@ -790,8 +812,9 @@ namespace EventManagement.Controllers
                                        "You have volunteered for {2} days! <BR/> " +
                                        "You will be contacted by the Camp coordinator with details on special training, and other instructions. <BR/>" +
                                        " Please use the following link to select your t-shirt sizes and quantities: <a href=\"{3}\"title=\"Select T-Shirt Sizes\">CLICK HERE</a><BR/><BR/>" +
-                                       "To prepare for camp there will be a mandatory training on May 20th 2017 from 8:00 am – 12:00 pm for all volunteers. Location TBD. <BR/<BR/>" +
-                                       "In addition to the training on the May 20th, you will need to log into <a href=\"{4}\"title=\"MyScouting.org\">my.scouting.org</a> and complete the following trainings online:<BR/>" +
+                                       // "To prepare for camp there will be a mandatory training on May 20th 2017 from 8:00 am – 12:00 pm for all volunteers. Location TBD. <BR/<BR/>" +
+                                       "To prepare for camp there will be a mandatory training (TBD) for all volunteers. Location TBD. <BR/<BR/>" +
+                                       "In addition to the training, you will need to log into <a href=\"{4}\"title=\"MyScouting.org\">my.scouting.org</a> and complete the following trainings online:<BR/>" +
                                        "Online Mandatory Training: <BR/>" +
                                        "Youth Protection <BR/>" +
                                        "Weather Hazards <BR/>" +
@@ -808,7 +831,8 @@ namespace EventManagement.Controllers
                                        "   <strong>Address:</strong> {11}<BR/>" +
                                        "           {12}, {13} {14}<BR/>" +
                                        "   <strong>Home Phone:</strong> {15} <BR/>" +
-                                       "   <strong>Cell Phone:</strong> {16} "
+                                       "   <strong>Cell Phone:</strong> {16} <BR/>" +
+                                       "   <strong>Shirt Size:</strong> {17} "
                     , user.Person.FirstName, user.EventView.EventName, user.VolunteerDays
                     , "http://palmettocouncil.org/special-events/2017-day-camp-shirts"
                     , "https://my.scouting.org/"
@@ -818,7 +842,8 @@ namespace EventManagement.Controllers
                     , user.Person.ContactInfo.Address1
                     , user.Person.ContactInfo.City, user.Person.ContactInfo.State, user.Person.ContactInfo.Zip
                     , user.Person.ContactInfo.HomePhone
-                    , user.Person.ContactInfo.CellPhone);
+                    , user.Person.ContactInfo.CellPhone
+                    , user.Size);
                 m.IsBodyHtml = true;
                 System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer);
                 smtp.UseDefaultCredentials = false;
