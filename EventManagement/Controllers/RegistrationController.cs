@@ -254,7 +254,7 @@ namespace EventManagement.Controllers
                     var eventDto = eventReader.GetById(int.Parse(model.Event));
                     
                     model.EventView = TranslateEventDTO(eventDto.SingleOrDefault());
-                    if (model.EventView.RegistrationDeadline < DateTime.Now)
+                    if (model.EventView.RegistrationDeadline > DateTime.Now)
                     {
 
 
@@ -725,8 +725,9 @@ namespace EventManagement.Controllers
                         "Dear {0}, <BR/>Congratulations!  Your scout's registration to {1} has been confirmed.  <BR/>" +
                         "Your confirmation number is: {2}. <BR/> Please make sure you have paid through the council web site using the following link:<BR/>" +
                         "  <a href=\"{3}\"title=\"User Email Confirm\">PAY HERE</a><BR/><BR/>" +
-                        " Your registration will not final until you have paid your camp fees. <BR/><BR/>" +
-                        " On June 11th we will be conducting swim tests and check in (Time TBD). At check in you will need to turn in your scout’s BSA <a href=\"{4}\"title=\"BSA Health Form\">Health forms</a>, pick up t-shirts, meet the Den Leaders and take the BSA swim test. <BR/><BR/>" +
+                        " Your registration will not final until you have paid your camp fees. <BR/>" +
+                        " When paying your camp fees, you will need to confirm your child's T-shirt size.<BR/><BR/>" +
+                        " On June 17th we will be conducting swim tests and check in (Time TBD). At check in you will need to turn in your scout’s BSA <a href=\"{4}\"title=\"BSA Health Form\">Health forms</a>, pick up t-shirts, meet the Den Leaders and take the BSA swim test. <BR/><BR/>" +
                         " We look forward to having a fun filled week with your scout, <BR/><BR/>" +
                         " -York District Day Scout Day Camp Team <BR/><BR/>" +
                         "<HR/> DETAILS: <BR/>" +
@@ -812,6 +813,7 @@ namespace EventManagement.Controllers
                                        "You have volunteered for {2} days! <BR/> " +
                                        "You will be contacted by the Camp coordinator with details on special training, and other instructions. <BR/>" +
                                        " Please use the following link to select your t-shirt sizes and quantities: <a href=\"{3}\"title=\"Select T-Shirt Sizes\">CLICK HERE</a><BR/><BR/>" +
+                                       " Eventhough you have selected your T-shirt size when registering, please use the link to verify your size so you are sure to get the correct size shirt.<BR/><BR.>" +
                                        // "To prepare for camp there will be a mandatory training on May 20th 2017 from 8:00 am – 12:00 pm for all volunteers. Location TBD. <BR/<BR/>" +
                                        "To prepare for camp there will be a mandatory training (TBD) for all volunteers. Location TBD. <BR/<BR/>" +
                                        "In addition to the training, you will need to log into <a href=\"{4}\"title=\"MyScouting.org\">my.scouting.org</a> and complete the following trainings online:<BR/>" +
@@ -820,7 +822,7 @@ namespace EventManagement.Controllers
                                        "Weather Hazards <BR/>" +
                                        "Safe Swim Defense <BR/><BR/>" +
                                        "To locate these trainings, go to Menu (upper left screen), My Dashboard, Training Center, and Other. Youth Protection training is under the YPT link instead of Training Center.<BR/><BR/>" +
-                                       "Once you have completed the online training, print out the certificate of completion and bring them to the May 20th training. Be aware we will not be doing any of the online training on May 20th. <BR/><BR/>" +
+                                       "Once you have completed the online training, print out the certificate of completion and bring them to the maditory training. Be aware we will not be doing any of the online training during the madiority training session. <BR/><BR/>" +
                                        "As a volunteer, you will also need to have an updated Health form. <a href=\"{5}\"title=\"MyScouting.org\">Click Here</a><BR/><BR/>" +
                                        "Be prepared to enrich the lives of young cub scouts!<BR/>" +
                                        "Once again, Thank you for your support! <BR/><BR/>" +
