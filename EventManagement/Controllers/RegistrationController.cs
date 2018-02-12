@@ -725,7 +725,7 @@ namespace EventManagement.Controllers
                         "Dear {0}, <BR/>Congratulations!  Your scout's registration to {1} has been confirmed.  <BR/>" +
                         "Your confirmation number is: {2}. <BR/> Please make sure you have paid through the council web site using the following link:<BR/>" +
                         "  <a href=\"{3}\"title=\"User Email Confirm\">PAY HERE</a><BR/><BR/>" +
-                        " Your registration will not final until you have paid your camp fees. <BR/>" +
+                        " Your registration will not be final until you have paid your camp fees. <BR/>" +
                         " When paying your camp fees, you will need to confirm your child's T-shirt size.<BR/><BR/>" +
                         " On June 17th we will be conducting swim tests and check in (Time TBD). At check in you will need to turn in your scout’s BSA <a href=\"{4}\"title=\"BSA Health Form\">Health forms</a>, pick up t-shirts, meet the Den Leaders and take the BSA swim test. <BR/><BR/>" +
                         " We look forward to having a fun filled week with your scout, <BR/><BR/>" +
