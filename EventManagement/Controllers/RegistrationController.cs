@@ -815,7 +815,7 @@ namespace EventManagement.Controllers
                                        " Please use the following link to select your t-shirt sizes and quantities: <a href=\"{3}\"title=\"Select T-Shirt Sizes\">CLICK HERE</a><BR/><BR/>" +
                                        " Eventhough you have selected your T-shirt size when registering, please use the link to verify your size so you are sure to get the correct size shirt.<BR/><BR.>" +
                                        // "To prepare for camp there will be a mandatory training on May 20th 2017 from 8:00 am – 12:00 pm for all volunteers. Location TBD. <BR/<BR/>" +
-                                       "To prepare for camp there will be a mandatory training (TBD) for all volunteers. Location TBD. <BR/<BR/>" +
+                                       "To prepare for camp there will be a mandatory training on June 2nd from 8am until 12pm. for all volunteers. Location TBD. <BR/<BR/>" +
                                        "In addition to the training, you will need to log into <a href=\"{4}\"title=\"MyScouting.org\">my.scouting.org</a> and complete the following trainings online:<BR/>" +
                                        "Online Mandatory Training: <BR/>" +
                                        "Youth Protection <BR/>" +
