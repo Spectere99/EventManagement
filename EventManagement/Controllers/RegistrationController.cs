@@ -585,7 +585,7 @@ namespace EventManagement.Controllers
                         " -York District Day Scout Day Camp Team"
                         , user.Person.ParentPerson.FirstName, user.Event.Name, callbackUrl);
                 m.IsBodyHtml = true;
-                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer);
+                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer); //REMOVE PORT BEFORE PUBLISH!!!!!
                 smtp.UseDefaultCredentials = false;
                 smtp.Credentials = new System.Net.NetworkCredential(_SmtpAuthAccount, _SmtpAuthPassword);
 
@@ -665,7 +665,7 @@ namespace EventManagement.Controllers
                                        , user.Person.ParentPerson.ContactInfo.CellPhone
                                        , user.Size);
                 m.IsBodyHtml = true;
-                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer);
+                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer);  //REMOVE PORT BEFORE PUBLISH!!!!!
                 smtp.UseDefaultCredentials = false;
                 smtp.Credentials = new System.Net.NetworkCredential(_SmtpAuthAccount, _SmtpAuthPassword);
 
@@ -753,7 +753,7 @@ namespace EventManagement.Controllers
                         , user.Person.ParentPerson.ContactInfo.CellPhone
                         , user.Size);
                 m.IsBodyHtml = true;
-                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer);
+                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer); //REMOVE PORT BEFORE PUBLISH!!!!!
                 smtp.UseDefaultCredentials = false;
                 smtp.Credentials = new System.Net.NetworkCredential(_SmtpAuthAccount, _SmtpAuthPassword);
 
@@ -818,7 +818,7 @@ namespace EventManagement.Controllers
                                        "To prepare for camp there will be a mandatory training on June 2nd from 8am until 12pm. for all volunteers. Location TBD. <BR/<BR/>" +
                                        "In addition to the training, you will need to log into <a href=\"{4}\"title=\"MyScouting.org\">my.scouting.org</a> and complete the following trainings online:<BR/>" +
                                        "Online Mandatory Training: <BR/>" +
-                                       "Youth Protection <BR/>" +
+                                       "Youth Protection (Adult Volunteers only)<BR/>" +
                                        "Weather Hazards <BR/>" +
                                        "Safe Swim Defense <BR/><BR/>" +
                                        "To locate these trainings, go to Menu (upper left screen), My Dashboard, Training Center, and Other. Youth Protection training is under the YPT link instead of Training Center.<BR/><BR/>" +
@@ -847,7 +847,7 @@ namespace EventManagement.Controllers
                     , user.Person.ContactInfo.CellPhone
                     , user.Size);
                 m.IsBodyHtml = true;
-                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer);
+                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(_SmtpServer); //REMOVE PORT BEFORE PUBLISH!!!!!
                 smtp.UseDefaultCredentials = false;
                 smtp.Credentials = new System.Net.NetworkCredential(_SmtpAuthAccount, _SmtpAuthPassword);
 
