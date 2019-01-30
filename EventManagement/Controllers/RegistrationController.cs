@@ -727,8 +727,9 @@ namespace EventManagement.Controllers
                         "  <a href=\"{3}\"title=\"User Email Confirm\">PAY HERE</a><BR/><BR/>" +
                         " Your registration will not be final until you have paid your camp fees. <BR/>" +
                         " When paying your camp fees, you will need to confirm your child's T-shirt size.<BR/><BR/>" +
-                        " On June 17th we will be conducting swim tests and check in (Time TBD). At check in you will need to turn in your scout’s BSA <a href=\"{4}\"title=\"BSA Health Form\">Health forms</a>, pick up t-shirts, meet the Den Leaders and take the BSA swim test. <BR/><BR/>" +
-                        " We look forward to having a fun filled week with your scout, <BR/><BR/>" +
+                        // " On June 17th we will be conducting swim tests and check in (Time TBD). At check in you will need to turn in your scout’s BSA <a href=\"{4}\"title=\"BSA Health Form\">Health forms</a>, pick up t-shirts, meet the Den Leaders and take the BSA swim test. <BR/><BR/>" +
+                        " Dates and Times of the swim tests and check in will be sent in a separate email. Please make sure to download and fill out your scout’s BSA < a href =\"{4}\"title=\"BSA Health Form\">Health forms</a>. <BR/><BR/>" +
+                         " We look forward to having a fun filled week with your scout, <BR/><BR/>" +
                         " -York District Day Scout Day Camp Team <BR/><BR/>" +
                         "<HR/> DETAILS: <BR/>" +
                         "   <strong>Scout Name:</strong> {5} {6} {7}<BR/>" +
@@ -814,8 +815,8 @@ namespace EventManagement.Controllers
                                        "You will be contacted by the Camp coordinator with details on special training, and other instructions. <BR/>" +
                                        " Please use the following link to select your t-shirt sizes and quantities: <a href=\"{3}\"title=\"Select T-Shirt Sizes\">CLICK HERE</a><BR/><BR/>" +
                                        " Eventhough you have selected your T-shirt size when registering, please use the link to verify your size so you are sure to get the correct size shirt.<BR/><BR.>" +
-                                       // "To prepare for camp there will be a mandatory training on May 20th 2017 from 8:00 am – 12:00 pm for all volunteers. Location TBD. <BR/<BR/>" +
-                                       "To prepare for camp there will be a mandatory training on June 2nd from 8am until 12pm. for all volunteers. Location TBD. <BR/<BR/>" +
+                                       // "To prepare for camp there will be a mandatory training on June 2nd from 8am until 12pm. for all volunteers. Location TBD. <BR/<BR/>" +
+                                       "There will be a separate email sent with training information. This is required for all volunteers. <BR/<BR/>" +
                                        "In addition to the training, you will need to log into <a href=\"{4}\"title=\"MyScouting.org\">my.scouting.org</a> and complete the following trainings online:<BR/>" +
                                        "Online Mandatory Training: <BR/>" +
                                        "Youth Protection (Adult Volunteers only)<BR/>" +

@@ -386,11 +386,11 @@ namespace EventManagement.Controllers
 
                 personList.Add(person);
 
-                var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                if (userManager != null)
-                {
-                    userManager.AddToRole(person.UserId, model.PersonType == "2" ? "Leader" : "User");
-                }
+                //var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                //if (userManager != null)
+                //{
+                //    userManager.AddToRole(person.UserId, model.PersonType == "2" ? "Leader" : "User");
+                //}
                 
                 personReader.Save(personList);
 
